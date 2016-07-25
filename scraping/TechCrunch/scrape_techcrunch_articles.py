@@ -1,14 +1,18 @@
-from bs4 import BeautifulSoup
-from urllib2 import urlopen
 import sys
-import pprint
-import subprocess
+import json
+sys.path.append('../../')
+from scraping import common
 
-import signal
-def handler(signum, frame):
-    print "Function took too long ..."
-    raise Exception("Function timeout")
 
+def parse_swiftype_meta(soup, field, only_one=False):
+    """
+    Get metadata from tags in TechCrunch which are of the form
+    <meta class="swiftype" name="title" content="This is the title">
+    """
+    query_dict = {"class": "swiftype", "name": field}
+    if only_one:
+        return soup.find("meta", query_dict)["content"]
+    return [e["content"] for e in soup.find_all("meta", query_dict)]
 
 
 def get_webpage_links(page_no):
@@ -18,35 +22,48 @@ def get_webpage_links(page_no):
     <a href="link" class="read-more">
     """
     page_url = 'http://techcrunch.com/page/' + unicode(page_no) + '/'
-    html = urlopen(page_url).read()
-    soup = BeautifulSoup(html, "lxml")
+    soup = common.get_soup_from_url(page_url)
     readmores = soup.findAll("a", "read-more")
     links = [readmore["href"] for readmore in readmores]
     return links
 
+
+def extract_page_contents(page_url):
+    """
+    Extract article text and metadata from the techcrunch
+    article at page_url.
+    """
+    soup = common.get_soup_from_url(page_url)
+    page_data = {"link": page_url}
+
+    single_fields = ["title", "author", "excerpt", "timestamp"]
+    for field in single_fields:
+        page_data[field] = parse_swiftype_meta(soup, field, only_one=True)
+
+    multiple_fields = ["category", "tag"]
+    for field in multiple_fields:
+        page_data[field] = parse_swiftype_meta(soup, field)
+
+    p_tags_with_text = soup.find("div", "article-entry").find_all("p")
+    page_data["text"] = "\n".join([p.get_text() for p in p_tags_with_text])
+    return page_data
+
 if __name__ == "__main__":
-    """
-    categories = ['startups', 'mobile', 'gadget', 'enterprise', 'europe', 'asia', 'social']
-    for category in categories:
-        url = 'http://techcrunch.com/' + category
-    """
     data = {}
 
-    signal.signal(signal.SIGALRM, handler)
-
     MAX_PAGES = 7500
-    for page_no in range(MAX_PAGES):
+    DUMP_EVERY = 10
+    outfilename = 'techcrunch_scraped.json'
+    for page_no in range(1, MAX_PAGES):
         print 'Page no:', page_no, '. Getting links ...'
         links = get_webpage_links(page_no)
-
-        i = 0
-        for i in range(len(links)):
-            print links[i]
-            signal.alarm(60)
+        for link in links:
             try:
-                subprocess.call([sys.executable, 'scrape_techcrunch_articles_aux.py', links[i]])
-                #data[link] = get_article_info(link, r)
+                data[link] = extract_page_contents(link)
+            except KeyboardInterrupt:
+                raise
             except:
                 continue
-            #print data[link]
-        #pprint.pprint(data)
+        if page_no % DUMP_EVERY == 0:
+            with open(outfilename, 'w') as outfile:
+                json.dump(data, outfile)
