@@ -50,11 +50,9 @@ def extract_page_contents(page_url):
 
 if __name__ == "__main__":
     data = {}
+    args = common.parse_arguments()
 
-    MAX_PAGES = 7500
-    DUMP_EVERY = 10
-    outfilename = 'techcrunch_scraped.json'
-    for page_no in range(1, MAX_PAGES):
+    for page_no in range(args.START_PAGE, args.END_PAGE):
         print 'Page no:', page_no, '. Getting links ...'
         links = get_webpage_links(page_no)
         for link in links:
@@ -64,6 +62,6 @@ if __name__ == "__main__":
                 raise
             except:
                 continue
-        if page_no % DUMP_EVERY == 0:
-            with open(outfilename, 'w') as outfile:
+        if page_no % args.DUMP_EVERY == 0:
+            with open(args.OUTFILENAME, 'w') as outfile:
                 json.dump(data, outfile)
