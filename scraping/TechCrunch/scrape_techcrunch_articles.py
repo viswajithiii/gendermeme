@@ -52,16 +52,23 @@ if __name__ == "__main__":
     data = {}
     args = common.parse_arguments()
 
+    total_count = 0
+    failed_count = 0
     for page_no in range(args.START_PAGE, args.END_PAGE):
         print 'Page no:', page_no, '. Getting links ...'
         links = get_webpage_links(page_no)
+        total_count += len(links)
         for link in links:
             try:
                 data[link] = extract_page_contents(link)
             except KeyboardInterrupt:
                 raise
             except:
+                failed_count += 1
                 continue
         if page_no % args.DUMP_EVERY == 0:
+            print 'Total count:', total_count
+            print 'Failed count:', failed_count
+            print 'Dumping to file ...'
             with open(args.OUTFILENAME, 'w') as outfile:
                 json.dump(data, outfile)
