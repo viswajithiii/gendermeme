@@ -26,4 +26,19 @@ if __name__ == "__main__":
         print time.ctime(), "Loading data ..."
         tc_data = json.load(tc_f)
         print time.ctime(), "Loaded data ..."
-    print type(tc_data)
+
+    UNICODE_ASCII_MAP = {
+        0x2018: u'\'',
+        0x2019: u'\'',
+        0x201c: u'\"',
+        0x201d: u'\"'
+    }
+
+    for url, data in tc_data.iteritems():
+        print url, '\n', data
+        text_str = data['text'].translate(UNICODE_ASCII_MAP).encode('ascii')
+        ann = annotate_corenlp(text_str, annotators=['pos', 'lemma', 'parse',
+                                                     'depparse', 'ner',
+                                                     'coref', 'quote'])
+        print ann
+        break
