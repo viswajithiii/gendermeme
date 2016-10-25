@@ -6,7 +6,8 @@ import json
 import argparse
 import sys
 import time
-
+from copy import deepcopy
+import re
 
 def get_file_path():
     return os.path.dirname(os.path.realpath(__file__))
@@ -21,7 +22,12 @@ if __name__ == "__main__":
                         default=os.path.join(
                             get_file_path(),
                             '../data/techcrunch_everything.json'))
+    parser.add_argument('year', type=int)
+    parser.add_argument('port', type=int, help='The port of the CoreNLP server!')
     args = parser.parse_args()
+
+    # Test for whether URL is from this year
+    pattern = re.compile(r'.*techcrunch\.com/%d/.*' % (args.year))
     with open(args.path, 'r') as tc_f:
         print time.ctime(), "Loading data ..."
         tc_data = json.load(tc_f)
@@ -34,11 +40,25 @@ if __name__ == "__main__":
         0x201d: u'\"'
     }
 
+    PRINT_EVERY = 1
+    DUMP_EVERY = 5
+    i = 0
+    annotated_tc_data = {}
     for url, data in tc_data.iteritems():
-        print url, '\n', data
-        text_str = data['text'].translate(UNICODE_ASCII_MAP).encode('ascii')
+        if not pattern.match(url):
+            continue
+        annotated_tc_data[url] = deepcopy(data)
+        text_str = data['text'].translate(UNICODE_ASCII_MAP).encode('ascii', 'ignore')
         ann = annotate_corenlp(text_str, annotators=['pos', 'lemma', 'parse',
                                                      'depparse', 'ner',
-                                                     'coref', 'quote'])
-        print ann
-        break
+                                                     'dcoref', 'quote'],
+                               port=args.port)
+        annotated_tc_data[url]['corenlp'] = ann
+        i += 1
+        if i % PRINT_EVERY == 0:
+            print 'Article no', i, 'at', time.ctime()
+        if i % DUMP_EVERY == 0:
+            print 'Dumping ...'
+            with open('techcrunch_annotated_{}.json'.format(args.year), 'w') as out_f:
+                json.dump(annotated_tc_data, out_f)
+            print 'Dumped.'
