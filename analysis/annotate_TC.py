@@ -40,12 +40,20 @@ if __name__ == "__main__":
         0x201d: u'\"'
     }
 
-    PRINT_EVERY = 1
-    DUMP_EVERY = 5
+    PRINT_EVERY = 10
+    DUMP_EVERY = 1000
+    OUT_FN = 'techcrunch_annotated_{}.json'.format(args.year)
     i = 0
-    annotated_tc_data = {}
+    try:
+        with open(OUT_FN, 'r') as out_f:
+            annotated_tc_data = json.load(out_f)
+            print 'Loaded data with {} articles'.format(len(annotated_tc_data))
+    except IOError:
+        annotated_tc_data = {}
     for url, data in tc_data.iteritems():
         if not pattern.match(url):
+            continue
+        if url in annotated_tc_data:
             continue
         annotated_tc_data[url] = deepcopy(data)
         text_str = data['text'].translate(UNICODE_ASCII_MAP).encode('ascii', 'ignore')
@@ -62,3 +70,8 @@ if __name__ == "__main__":
             with open('techcrunch_annotated_{}.json'.format(args.year), 'w') as out_f:
                 json.dump(annotated_tc_data, out_f)
             print 'Dumped.'
+
+    print 'Done with all the articles. Now finally dumping ...'
+    with open('techcrunch_annotated_{}.json'.format(args.year), 'w') as out_f:
+        json.dump(annotated_tc_data, out_f)
+    print 'Dumped.'
