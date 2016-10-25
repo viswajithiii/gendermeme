@@ -3,3 +3,23 @@ gender = { u'ÉDOUARD': 'male', u'FRANÇOIS': 'male', u'LIAM': 'male', u'ALEXEY'
 gender.update({'YASHAD': 'male', 'HAJE': 'male', 'ROMAIN': 'male', 'TITO': 'male', 'FITZ' : 'male', 'SHRIRAM': 'male', 'SALIL': 'male', 'ABHIJIT': 'male', 'VIVEK': 'male', 'NITISH': 'male', 'VITALY' : 'male', 'DMITRY' : 'male', 'COURT': 'male', 'CHRYSTINE': 'female', 'DIETER': 'male', 'RAMPHIS' : 'male', 'PANKAJ': 'male', 'AJAY' : 'male', 'HASEEB' : 'male', 'ZACH': 'male', 'ANKIT' : 'male', 'SAMEER' : 'male', 'LAKSHMI': 'female', 'VIKRAM' : 'male', 'ROSHAN': 'male', 'ANEESH': 'male', 'SANJNA' : 'female', 'RAJ' : 'male', 'HEMANT' : 'male', 'KHALED' : 'male', 'ARJUNA' : 'male', 'GUIDO': 'male', 'ANDREY' : 'male', 'ASHWIN' : 'male', 'AMBIKA' : 'female', 'SANJAY' : 'male', 'SANJIT' : 'male', 'KIRTI' : 'female', 'AMITT' : 'male', 'DHARMESH' : 'male', 'SMITA' : 'female', 'CHRISTOFFER' : 'male', 'SAAR': 'male', 'GIDEON' : 'male', 'TARIKH' :'male', 'YUSUF': 'male', 'AVIV' : 'male', 'HANSON': 'male', 'AMAR': 'male', 'MALA': 'female', 'YONAH' :'male', 'EVALDO': 'male', 'SHANTANU': 'male', 'GRAEME' : 'male', 'SHAUNAK' : 'male', 'SANDEEP' : 'male', 'LUKAS' : 'male', 'CULLEN': 'male', 'AZIZ' : 'male', 'MATTIAS' : 'male', 'GAURAV' : 'male', 'KOWSIK' :'male', 'MAHENDRA' : 'male'})
 
 gender_special = {'KIM-MAI CUTLER': 'female', 'CHOON YAN': 'male' , 'AMIR-ESMAEIL BOZORGZADEH': 'male', 'ALEX WILHELM' : 'male', 'J. TREVOR HUGHES' : 'male', 'BENZI RONEN' : 'male', 'RO KHANNA' : 'male', 'SHIVON ZILIS' : 'female', 'CAT ZAKRZEWSKI' : 'female', 'ALEX SENSON' : 'male', 'ALEX CHRISS': 'male', 'MIN-SUNG SEAN KIM' : 'male', 'BUBBA MURARKA' : 'male', 'ALEX MOAZED' : 'male', 'FALON FATEMI' : 'female', 'VIK SINGH' : 'male', 'ZAF COELHO' : 'male', 'NIR EYAL' : 'male', 'ARIA HAGHIGHI' : 'male', 'GAL NACHUM' : 'male', 'ZOLTAN ISTVAN': 'male', 'YARDEN TADMOR' : 'male', 'DOC HUSTON': 'male', 'GEN\U00E9 TEARE': 'female', 'FILEMON SCHOFFER' : 'male', 'SHEEROY DESAI': 'male', 'ASH RUST': 'male', 'B\U00E9R\U00E9NICE MAGISTRETTI' : 'female', 'LIRAZ MARGALIT' :'female', 'YINGLIAN XIE' : 'female', 'ZEEV FARBMAN': 'male', 'IREN REZNIKOV' : 'female', 'OFER SCHREIBER' : 'male', 'YOAV LEITERSDORF': 'male', 'TRULS UNHOLT' : 'male', 'K. V. RAO': 'male', 'NIC DENHOLM' : 'female', 'PHILIPPE BOTTERI' : 'male', 'CAHLAN SHARP' : 'male', 'S. H. JUCHA' : 'male', 'MOOD ROWGHANI' : 'male', 'RUOCHEN HUANG' : 'male', 'SEPHI SHAPIRA' : 'male', 'ANSHU SHARMA': 'male', 'COURTLAND ALVES': 'male', 'MARCELLO MARI' : 'male', 'ITAY ROSENFELD': 'male', 'OPHIR TANZ' : 'male', 'YO KOGA' :'male', 'HILLEL FULD' : 'male', 'NIK MILANOVIC' : 'male', 'D.J. SHERRETS' : 'male', 'NOGAH SENECKY' : 'female', 'SHAN-LYN MA' : 'female', 'TISHIN DONKERSLEY': 'female', 'AURANGZEB DURRANI' : 'male', 'ELAD BENJAMIN' : 'male', 'NINO MARAKOVIC' : 'male', 'JARNO M. KOPONEN' : 'male', 'BEHNAM DAYANIM' : 'male','MAHBUBUL ALAM' : 'male', 'PARVIZ PARVIZI': 'male', 'ARI BRANDT' : 'male', 'MENNY BARZILAY' : 'male', 'MANI GANDHAM' : 'male', 'SHEJI HO' : 'male', 'MIKITA MIKADO' : 'male', 'NIKO BONATSOS': 'male', 'KIRAN BONDALAPATI' : 'male', 'NAV ATHWAL' : 'male', 'HAGAI TAL': 'male', 'BASTIAAN JANMAAT' : 'male', 'LINC GASKING': 'male', 'ZVI SCHREIBER' : 'male' , 'VASCO PEDRO' : 'male', 'DIOMEDES KASTANIS': 'male', 'MISCHA STEPHENS': 'male', 'ONESIMO FLORES' : 'male', 'ROUZ JAZAYERI': 'male', 'SHINTA W. DHANUWARDOYO' : 'female'}
+
+def get_gender(name, verbose=False):
+
+    first_name = name.split()[0].upper()
+    if first_name == 'DR.':
+        first_name = name.split()[1].upper()
+    found = gender.get(first_name, None)
+    if not found:
+        special_found = gender_special.get(name.upper(), None)
+        if special_found:
+            return special_found
+        if verbose:
+            print 'Gender not found:', name
+    if type(found) is tuple:
+        special_found = gender_special.get(name.upper(), None)
+        if special_found:
+            return special_found
+        if verbose:
+            print 'Ambiguous gender:', name, found
+    return found
