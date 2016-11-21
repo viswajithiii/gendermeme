@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     i = 0
     for url, data in tc_data.iteritems():
-        dt = datetime.strptime(data['timestamp'], '%Y-%m-%d %H:%M:%s')
+        dt = datetime.strptime(data['timestamp'], '%Y-%m-%d %H:%M:%S')
         if dt.year != args.year:
             continue
         if args.month > 0 and dt.month != args.month:
