@@ -46,7 +46,9 @@ if __name__ == "__main__":
     }
 
     PRINT_EVERY = 10
-    OUT_FN = 'techcrunch_annotated_{}_{}.tsv'.format(args.year, args.month)
+    OUT_FN = os.path.join(args.output_dir,
+                          'techcrunch_annotated_{}_{}.tsv'.format(
+                           args.year, args.month))
 
     '''
     We write to the TSV file in the format
@@ -79,7 +81,7 @@ if __name__ == "__main__":
                                                      'dcoref', 'quote'],
                                port=args.port)
         with open(OUT_FN, 'a') as out_f:
-            out_f.write('{}\t{}\t{}'.format(
+            out_f.write('{}\t{}\t{}\n'.format(
                 url, json.dumps(data), json.dumps(ann)))
         i += 1
         if i % PRINT_EVERY == 0:
