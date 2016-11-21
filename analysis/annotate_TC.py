@@ -6,8 +6,8 @@ import json
 import argparse
 import sys
 import time
-from copy import deepcopy
-import re
+from datetime import datetime
+
 
 def get_file_path():
     return os.path.dirname(os.path.realpath(__file__))
@@ -22,12 +22,17 @@ if __name__ == "__main__":
                         default=os.path.join(
                             get_file_path(),
                             '../data/techcrunch_everything.json'))
+    parser.add_argument('--output_dir',
+                        default=os.path.join(
+                            get_file_path(),
+                            '../annotated/'))
     parser.add_argument('year', type=int)
-    parser.add_argument('port', type=int, help='The port of the CoreNLP server!')
+    parser.add_argument('--month', type=int, default=0,
+                        help='Which month? 0 means all.')
+    parser.add_argument('port', type=int,
+                        help='The port of the CoreNLP server!')
     args = parser.parse_args()
 
-    # Test for whether URL is from this year
-    pattern = re.compile(r'.*techcrunch\.com/%d/.*' % (args.year))
     with open(args.path, 'r') as tc_f:
         print time.ctime(), "Loading data ..."
         tc_data = json.load(tc_f)
@@ -41,37 +46,41 @@ if __name__ == "__main__":
     }
 
     PRINT_EVERY = 10
-    DUMP_EVERY = 1000
-    OUT_FN = 'techcrunch_annotated_{}.json'.format(args.year)
-    i = 0
+    OUT_FN = 'techcrunch_annotated_{}_{}.tsv'.format(args.year, args.month)
+
+    '''
+    We write to the TSV file in the format
+    URL <tab> JSON loaded of article <tab> JSON of CoreNLP Annotation
+    (If we try to write the entire thing as one big JSON, it's just way
+    too slow.)
+    '''
+    loaded_urls = set()
     try:
         with open(OUT_FN, 'r') as out_f:
-            annotated_tc_data = json.load(out_f)
-            print 'Loaded data with {} articles'.format(len(annotated_tc_data))
+            for line in out_f:
+                loaded_urls.add(line.split('\t')[0])
+            print 'Loaded data with {} articles'.format(len(loaded_urls))
     except IOError:
-        annotated_tc_data = {}
+        pass
+
+    i = 0
     for url, data in tc_data.iteritems():
-        if not pattern.match(url):
+        dt = datetime.strptime(data['timestamp'], '%Y-%m-%d %H:%M:%s')
+        if dt.year != args.year:
             continue
-        if url in annotated_tc_data:
+        if args.month > 0 and dt.month != args.month:
             continue
-        annotated_tc_data[url] = deepcopy(data)
-        text_str = data['text'].translate(UNICODE_ASCII_MAP).encode('ascii', 'ignore')
+        if url in loaded_urls:
+            continue
+        text_str = data['text'].translate(UNICODE_ASCII_MAP).encode(
+            'ascii', 'ignore')
         ann = annotate_corenlp(text_str, annotators=['pos', 'lemma', 'parse',
                                                      'depparse', 'ner',
                                                      'dcoref', 'quote'],
                                port=args.port)
-        annotated_tc_data[url]['corenlp'] = ann
+        with open(OUT_FN, 'a') as out_f:
+            out_f.write('{}\t{}\t{}'.format(
+                url, json.dumps(data), json.dumps(ann)))
         i += 1
         if i % PRINT_EVERY == 0:
             print 'Article no', i, 'at', time.ctime()
-        if i % DUMP_EVERY == 0:
-            print 'Dumping ...'
-            with open('techcrunch_annotated_{}.json'.format(args.year), 'w') as out_f:
-                json.dump(annotated_tc_data, out_f)
-            print 'Dumped.'
-
-    print 'Done with all the articles. Now finally dumping ...'
-    with open('techcrunch_annotated_{}.json'.format(args.year), 'w') as out_f:
-        json.dump(annotated_tc_data, out_f)
-    print 'Dumped.'
