@@ -48,7 +48,7 @@ def get_people_mentioned(sentences):
                 ]
     """
 
-    people_mentioned = set()
+    people_mentioned = {}
 
     for sentence in sentences:
 
@@ -77,21 +77,30 @@ def get_people_mentioned(sentences):
                     # We see if this mention existed before.
                     # If it has any words in common with another mentioned name,
                     # then we keep only the largest of each mention.
-                    sp_cm = tuple(curr_mention.split())
-                    intersected = False
-                    to_remove = []
+                    split_cm = tuple(curr_mention.split())
+                    # We find if this entity already exists in our dict of
+                    # people mentioned. We find out whether we should overwrite
+                    # that element, or just add one to its tally (our policy
+                    # is to keep the longest mention only.)
+                    existing_elem = None
+                    overwrite = False
                     for pm in people_mentioned:
-                        if len(set(pm).intersection(set(sp_cm))) > 0:
-                            intersected = True
-                            if len(sp_cm) > len(pm):
-                                to_remove.append(pm)
-                    if not intersected:
-                        people_mentioned[sp_cm] = 1
+                        if pm == split_cm:
+                            existing_elem = pm
+                            break
+                        if len(set(pm).intersection(set(split_cm))) > 0:
+                            existing_elem = pm
+                            if len(split_cm) > len(pm):
+                                overwrite = True
+
+                    if existing_elem:
+                        if overwrite:
+                            people_mentioned[split_cm] = 1 + \
+                                people_mentioned.pop(pm)
+                        else:
+                            people_mentioned[pm] += 1
                     else:
-                        total = 1
-                        for elem in to_remove:
-                            total += people_mentioned.pop(elem)
-                        people_mentioned[sp_cm] = total
+                        people_mentioned[split_cm] = 1
                     curr_mention = ''
 
-    return people_mentioned
+    return {' '.join(key): value for key, value in people_mentioned.iteritems()}
