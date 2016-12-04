@@ -106,7 +106,7 @@ def get_gender_with_coref_chain(name, corefs):
     return gender, method
 
 
-def get_people_mentioned(sentences):
+def get_people_mentioned(sentences, corefs=None, include_gender=False):
     """
     Process the 'sentences' object returned by CoreNLP's annotation
     to get a set of people mentioned.
@@ -183,4 +183,9 @@ def get_people_mentioned(sentences):
                         people_mentioned[split_cm] = 1
                     curr_mention = ''
 
-    return {' '.join(key): value for key, value in people_mentioned.iteritems()}
+    people_mentioned = {' '.join(key): value for
+                        key, value in people_mentioned.iteritems()}
+    if include_gender:
+        people_mentioned = {k: (v, get_gender_with_coref_chain(k, corefs))
+                            for k, v in people_mentioned.iteritems()}
+    return people_mentioned
