@@ -4,7 +4,7 @@ from gender import gender, gender_special
 def get_gender(name, verbose=False):
     """
     Get the gender from a name.
-    Works with full names by extracting
+    Works with full names by extracting the first name out.
     """
 
     first_name = name.split()[0].upper()
@@ -24,6 +24,85 @@ def get_gender(name, verbose=False):
         if verbose:
             print 'Ambiguous gender:', name, found
     return found
+
+
+def get_gender_with_coref_chain(name, corefs):
+    """
+    Gets the gender of a full name that we've extracted from a body of text,
+    given the coref chain output from CoreNLP. The coref chain is a dictionary
+    where each key is an id, and the value is a list of mentions which CoreNLP
+    thinks are coreferent. For example:
+    u'35': [{u'animacy': u'ANIMATE',
+            u'endIndex': 11,
+            u'gender': u'FEMALE',
+            u'id': 35,
+            u'isRepresentativeMention': True,
+            u'number': u'SINGULAR',
+            u'position': [6, 2],
+            u'sentNum': 6,
+            u'startIndex': 9,
+            u'text': u'Amanda Bradford',
+            u'type': u'PROPER'},
+            {u'animacy': u'ANIMATE',
+            u'endIndex': 17,
+            u'gender': u'MALE',
+            u'id': 46,
+            u'isRepresentativeMention': False,
+            u'number': u'SINGULAR',
+            u'position': [7, 5],
+            u'sentNum': 7,
+            u'startIndex': 15,
+            u'text': u"Bradford's",
+            u'type': u'PROPER'},
+            {u'animacy': u'ANIMATE',
+            u'endIndex': 11,
+            u'gender': u'FEMALE',
+            u'id': 58,
+            u'isRepresentativeMention': False,
+            u'number': u'SINGULAR',
+            u'position': [8, 3],
+            u'sentNum': 8,
+            u'startIndex': 10,
+            u'text': u'she',
+            u'type': u'PRONOMINAL'},
+
+    As is evident, the 'gender' attribute CoreNLP supplies is completely
+    unreliable (it doesn't seem to use the coreference information at all).
+
+    We use coreference with a gendered pronoun as the gold standard for
+    determining gender.
+    TODO: Does not handle the case of conflicting information.
+    Else, we fall back on getting the gender based on the first name.
+
+
+    We return both the gender ('MALE', 'FEMALE' or None) and the method
+    ('COREF', 'NAME_ONLY' or None).
+    """
+
+    name_words = set(name.split())
+    for coref_chain in corefs.values():
+        chain_contains_name = False
+        for mention in coref_chain:
+            if mention['animacy'] == 'ANIMATE' and \
+                    len(set(mention['text'].split()).intersection(
+                        name_words)) > 0:
+                chain_contains_name = True
+                break
+
+        if not chain_contains_name:
+            continue
+
+        for mention in coref_chain:
+            if mention['type'] == 'PRONOMINAL' and mention['gender'] in [
+                    'MALE', 'FEMALE']:
+                return mention['gender'], 'COREF'
+
+    gender = get_gender(name)
+    if gender:
+        method = 'NAME_ONLY'
+    else:
+        method = None
+    return gender, method
 
 
 def get_people_mentioned(sentences):
