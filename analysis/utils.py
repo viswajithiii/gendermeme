@@ -6,19 +6,20 @@ def get_gender(name, verbose=False):
     Get the gender from a name.
     Works with full names by extracting the first name out.
     """
+    name = name.upper()
 
-    first_name = name.split()[0].upper()
+    first_name = name.split()[0]
     if first_name == 'DR.':
-        first_name = name.split()[1].upper()
+        first_name = name.split()[1]
     found = gender.get(first_name, None)
     if not found:
-        special_found = gender_special.get(name.upper(), None)
+        special_found = gender_special.get(name, None)
         if special_found:
             return special_found
         if verbose:
             print 'Gender not found:', name
     if type(found) is tuple:
-        special_found = gender_special.get(name.upper(), None)
+        special_found = gender_special.get(name, None)
         if special_found:
             return special_found
         if verbose:
