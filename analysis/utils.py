@@ -1,3 +1,4 @@
+from collections import defaultdict
 from gender import gender, gender_special
 
 
@@ -106,6 +107,40 @@ def get_gender_with_coref_chain(name, corefs):
     return gender, method
 
 
+def get_sources(people_mentioned, sentences, corefs):
+
+    people_to_quotes = {p: [] for p in people_mentioned}
+
+    part_to_full_name = _build_index_with_part_names(people_mentioned)
+
+    corefs_to_people = {}
+    mention_to_coref_chain = {}
+
+    for coref_id, coref_chain in corefs.iteritems():
+        for mention in coref_chain:
+            mention_to_coref_chain[int(mention['id'])] = coref_id
+            full_name = None
+            if mention['text'] in people_mentioned:
+                full_name = mention['text']
+            elif mention['text'] in part_to_full_name:
+                if len(part_to_full_name) == 1:
+                    full_name = part_to_full_name[mention['text']][0]
+
+            if full_name:
+                corefs_to_people[coref_id] = full_name
+
+    for sentence in sentences:
+        for token in sentence['tokens']:
+            if token['speaker'] != 'PER0':
+                speaker_id = int(token['speaker'])
+                root_coref_id = mention_to_coref_chain[speaker_id]
+                if root_coref_id in corefs_to_people:
+                    people_to_quotes[corefs_to_people[root_coref_id]].append(
+                        token)
+
+    return people_to_quotes
+
+
 def get_people_mentioned(sentences, corefs=None, include_gender=False):
     """
     Process the 'sentences' object returned by CoreNLP's annotation
@@ -154,33 +189,7 @@ def get_people_mentioned(sentences, corefs=None, include_gender=False):
                 # the set of people mentioned.
 
                 if len(curr_mention) > 0:
-                    # We see if this mention existed before.
-                    # If it has any words in common with another mentioned name,
-                    # then we keep only the largest of each mention.
-                    split_cm = tuple(curr_mention.split())
-                    # We find if this entity already exists in our dict of
-                    # people mentioned. We find out whether we should overwrite
-                    # that element, or just add one to its tally (our policy
-                    # is to keep the longest mention only.)
-                    existing_elem = None
-                    overwrite = False
-                    for pm in people_mentioned:
-                        if pm == split_cm:
-                            existing_elem = pm
-                            break
-                        if len(set(pm).intersection(set(split_cm))) > 0:
-                            existing_elem = pm
-                            if len(split_cm) > len(pm):
-                                overwrite = True
-
-                    if existing_elem:
-                        if overwrite:
-                            people_mentioned[split_cm] = 1 + \
-                                people_mentioned.pop(pm)
-                        else:
-                            people_mentioned[pm] += 1
-                    else:
-                        people_mentioned[split_cm] = 1
+                    _add_mention_to_dict(curr_mention, people_mentioned)
                     curr_mention = ''
 
     people_mentioned = {' '.join(key): value for
@@ -189,3 +198,52 @@ def get_people_mentioned(sentences, corefs=None, include_gender=False):
         people_mentioned = {k: (v, get_gender_with_coref_chain(k, corefs))
                             for k, v in people_mentioned.iteritems()}
     return people_mentioned
+
+
+def _build_index_with_part_names(full_names):
+    """
+    Given a list, set or dict with full_names, (say ['Viswajith Venugopal',
+    'Poorna Kumar']), return a dict which goes from each part of the name to
+    the full names that contain it ('Viswajith' -> ['Viswajith Venugopal']) etc.
+    """
+
+    index_dict = defaultdict(set)
+    for full_name in full_names:
+        for part_name in full_name.split():
+            index_dict[part_name].add(full_name)
+
+    return index_dict
+
+
+def _add_mention_to_dict(mention, people_mentioned):
+    """
+    Helps the get_people_mentioned function by adding this mention to the
+    dictionary. Sees if the mention already existed. If it is a sub/super-string
+    of another mention, then we fold the two together to keep the largest
+    mention.
+    """
+
+    sp_mention = tuple(mention.split())
+    # We find if this entity already exists in our dict of
+    # people mentioned. We find out whether we should overwrite
+    # that element, or just add one to its tally (our policy
+    # is to keep the longest mention only.)
+    existing_elem = None
+    overwrite = False
+    for pm in people_mentioned:
+        if pm == sp_mention:
+            existing_elem = pm
+            break
+        if len(set(pm).intersection(set(sp_mention))) > 0:
+            existing_elem = pm
+            if len(sp_mention) > len(pm):
+                overwrite = True
+
+    if existing_elem:
+        if overwrite:
+            people_mentioned[sp_mention] = 1 + \
+                people_mentioned.pop(pm)
+        else:
+            people_mentioned[pm] += 1
+    else:
+        people_mentioned[sp_mention] = 1
