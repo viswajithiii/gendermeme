@@ -131,7 +131,7 @@ def get_sources(people_mentioned, sentences, corefs):
 
     for sentence in sentences:
         for token in sentence['tokens']:
-            if token['speaker'] != 'PER0':
+            if token.get('speaker', '').isdigit():
                 speaker_id = int(token['speaker'])
                 root_coref_id = mention_to_coref_chain[speaker_id]
                 if root_coref_id in corefs_to_people:
