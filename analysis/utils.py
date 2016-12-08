@@ -124,7 +124,7 @@ def get_sources(people_mentioned, sentences, corefs):
                 full_name = mention['text']
             elif mention['text'] in part_to_full_name:
                 if len(part_to_full_name) == 1:
-                    full_name = part_to_full_name[mention['text']][0]
+                    full_name = next(iter(part_to_full_name[mention['text']]))
 
             if full_name:
                 corefs_to_people[coref_id] = full_name
