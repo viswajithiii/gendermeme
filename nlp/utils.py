@@ -15,6 +15,15 @@ def annotate_corenlp(text, annotators=['pos'], output_format='json', port=9000):
         http://stanfordnlp.github.io/CoreNLP/annotators.html. You just need to
         put the property name from that table into this list. (Ex: 'pos', 'ner')
     """
+    if type(text) is unicode:
+        UNICODE_ASCII_MAP = {
+            0x2018: u'\'',
+            0x2019: u'\'',
+            0x201c: u'\"',
+            0x201d: u'\"'
+        }
+        text = text.translate(UNICODE_ASCII_MAP).encode(
+            'ascii', 'ignore')
 
     nlp = StanfordCoreNLP('http://localhost:{}'.format(port))
     return nlp.annotate(text, properties={
