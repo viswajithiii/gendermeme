@@ -1,7 +1,7 @@
 ---
 layout: page
 mathjax: true
-permalink: /tech/
+permalink: /techblog/
 ---
 
 Tech blog stuff.
