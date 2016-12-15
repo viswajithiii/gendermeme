@@ -1,7 +1,7 @@
 ---
 layout: page
 mathjax: true
-permalink: /techcrunch/
+permalink: /tech/
 ---
 
-TechCrunch stuff.
+Tech blog stuff.
