@@ -42,9 +42,50 @@
         </div>
         <div class="row">
             <div class="col-md-9">
-                {% if article_info %} <h4> Here are the people mentioned, and the number of words they say: </h4> {% endif %}
-                <div class="row"> {{ mentions }} </div>
-                <div class="row"> {{ num_quotes }} </div>
+                {% if article_info %}
+                <h4> Here are some details about the people mentioned in this text:</h4>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Number of times mentioned (by name)</th>
+                        <th>Gender</th>
+                        <th>How we guessed their gender</th>
+                        <th> Adjectives associated with them </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for pm in people_mentioned_info %}
+                    <tr>
+                        {% for elem in pm%}
+                        <td>{{ elem }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                <h4> These are the people who correspond to sources: </h4>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Why we think they're a source</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for s_info in sources_info %}
+                    <tr>
+                        {% for elem in s_info %}
+                        <td>{{ elem }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+                {% endif %}
             </div>
         </div>
     <div>
