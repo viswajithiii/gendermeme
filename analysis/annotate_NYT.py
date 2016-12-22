@@ -119,8 +119,10 @@ def extract_article_data(article_id, filename, all_pages):
 
     xml_root = ET.parse(filename).getroot()
 
-    page_number = int(xml_root.find('./head/meta[@name="print_page_number"]')
-                      .attrib['content'])
+    page_number_node = xml_root.find('./head/meta[@name="print_page_number"]')
+    if page_number_node is None:
+        return None
+    page_number = int(page_number_node.attrib['content'])
 
     # Return None if we want only first page articles, and this article is not
     # a first page article.
@@ -153,6 +155,8 @@ def extract_article_data(article_id, filename, all_pages):
 
     # Remove the lead paragraph from the article text
     # by stripping off everything up to the first '\n'
+    if not 'text' in curr_art_data:
+        return None  # Nothing to annotate for articles without text
     if curr_art_data['text'].startswith('LEAD'):
         curr_art_data['text'] = curr_art_data['text'][
             curr_art_data['text'].index('\n') + 1:]
@@ -210,7 +214,7 @@ if __name__ == "__main__":
             if not file_.endswith('xml'):
                 continue
 
-            curr_art_id = '{}_{}_{}'.format(year_str, month_str,
+            curr_art_id = '{}_{}_{}_{}'.format(year_str, month_str, curr_day,
                                             file_.split('.')[0])
             if curr_art_id in loaded_article_ids:
                 continue
