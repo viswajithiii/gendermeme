@@ -68,7 +68,6 @@ def extract_article_data(article_id, filename, all_pages):
         'online_organizations': A list of organizations (7.38%)
         (THE ABOVE THREE ARE TAGGED ALGORITHMICALLY BUT VERIFIED MANUALLY
          AND ONLY START APPEARING FROM 2000-2001)
-
     }
     NOTE: Not all these things exist for all articles. If it doesn't, the dict
     just won't have that key. The percentages in the above format denote what
