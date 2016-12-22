@@ -212,6 +212,8 @@ if __name__ == "__main__":
 
             curr_art_id = '{}_{}_{}'.format(year_str, month_str,
                                             file_.split('.')[0])
+            if curr_art_id in loaded_article_ids:
+                continue
             curr_art_data = extract_article_data(curr_art_id,
                                                  os.path.join(root, file_),
                                                  args.all_pages)
