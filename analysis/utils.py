@@ -1,6 +1,20 @@
 from collections import defaultdict
 from gender import gender, gender_special
+from pprint import pprint
 
+VERBOSE = True
+
+HONORIFICS = {
+    'Mr': 'MALE',
+    'Ms': 'FEMALE',
+    'Mrs': 'FEMALE',
+    'Sir': 'MALE',
+    'Dr': None,
+    'Dr.': None,
+    'Mr.': 'MALE',
+    'Mrs.': 'FEMALE',
+    'Ms.': 'FEMALE'
+}
 
 def get_gender(name, verbose=False):
     """
@@ -27,8 +41,8 @@ def get_gender(name, verbose=False):
             print 'Ambiguous gender:', name, found
     return found
 
-
-def get_gender_with_coref_chain(name, corefs):
+                
+def get_gender_with_context(name, corefs, honorifics):
     """
     Gets the gender of a full name that we've extracted from a body of text,
     given the coref chain output from CoreNLP. The coref chain is a dictionary
@@ -71,17 +85,27 @@ def get_gender_with_coref_chain(name, corefs):
     As is evident, the 'gender' attribute CoreNLP supplies is completely
     unreliable (it doesn't seem to use the coreference information at all).
 
-    We use coreference with a gendered pronoun as the gold standard for
-    determining gender.
+    
+    If we have an honorific, that's great, because it's perfect information
+    about the gender.
+    If not, we use coreference with a gendered pronoun as the preferred approach
+    for determining gender.
     TODO: Does not handle the case of conflicting information.
     Else, we fall back on getting the gender based on the first name.
 
 
     We return both the gender ('MALE', 'FEMALE' or None) and the method
-    ('COREF', 'NAME_ONLY' or None).
+    ('HONORIFIC', 'COREF', 'NAME_ONLY' or None).
     """
 
     name_words = set(name.split())
+
+    for honorific, names in honorifics.iteritems():
+        for h_name in names:
+            if len(set(h_name.split()).intersection(name_words)) > 0:
+                if HONORIFICS[honorific] is not None:  # Because this can be None
+                    return HONORIFICS[honorific], 'HONORIFIC'
+
     for coref_chain in corefs.values():
         chain_contains_name = False
         for mention in coref_chain:
@@ -121,7 +145,7 @@ def identify_sources(people, sentences=None, corefs=None,
     computed them already.
     """
     SPEAKING_LEMMAS = {'say', 'tell', 'speak', 'ask', 'mention', 'suggest',
-                       'claim', 'question'}
+                       'claim', 'question', 'tweet'}
 
     assert (sentences is not None and corefs is not None) or (
         people_to_quotes is not None and people_to_verbs is not None)
@@ -175,19 +199,34 @@ def get_quotes(people_mentioned, sentences, corefs):
         for mention in coref_chain:
             mention_to_coref_chain[int(mention['id'])] = coref_id
             full_name = None
-            if mention['text'] in people_mentioned:
-                full_name = mention['text']
-            elif mention['text'] in part_to_full_name:
+
+            text = mention['text']
+            for honorific in HONORIFICS:
+                if text.startswith(honorific):
+                    text = ' '.join(text.split()[1:])
+
+            if text.endswith("'s"):
+                text = text[:-2]
+
+            if text in people_mentioned:
+                full_name = text
+            elif text in part_to_full_name:
                 if len(part_to_full_name) == 1:
-                    full_name = next(iter(part_to_full_name[mention['text']]))
+                    full_name = next(iter(part_to_full_name[text]))
 
             if full_name:
                 corefs_to_people[coref_id] = full_name
+
+    if VERBOSE:
+        pprint(corefs)
 
     for sentence in sentences:
         for token in sentence['tokens']:
             if token.get('speaker', '').isdigit():
                 speaker_id = int(token['speaker'])
+                if VERBOSE:
+                    print 'FOUND QUOTE'
+                    print speaker_id
                 root_coref_id = mention_to_coref_chain[speaker_id]
                 if root_coref_id in corefs_to_people:
                     people_to_quotes[corefs_to_people[root_coref_id]].append(
@@ -346,7 +385,9 @@ def get_people_mentioned(sentences, corefs=None, include_gender=False):
     people_mentioned = {' '.join(key): value for
                         key, value in people_mentioned.iteritems()}
     if include_gender:
-        people_mentioned = {k: (v, get_gender_with_coref_chain(k, corefs))
+        honorifics = _get_honorifics(sentences)
+        people_mentioned = {k: (v, get_gender_with_context(k, corefs,
+                                                           honorifics))
                             for k, v in people_mentioned.iteritems()}
     return people_mentioned
 
@@ -414,7 +455,7 @@ def _build_index_with_part_names(full_names):
     """
     Given a list, set or dict with full_names, (say ['Viswajith Venugopal',
     'Poorna Kumar']), return a dict which goes from each part of the name to
-    the full names that contain it ('Viswajith' -> ['Viswajith Venugopal']) etc.
+    the full names that contain it ('Viswajith' -> ['Viswajith Venugopal']) etc
     """
 
     index_dict = defaultdict(set)
@@ -428,7 +469,7 @@ def _build_index_with_part_names(full_names):
 def _add_mention_to_dict(mention, people_mentioned):
     """
     Helps the get_people_mentioned function by adding this mention to the
-    dictionary. Sees if the mention already existed. If it is a sub/super-string
+    dictionary. Sees if the mention already existed. If it's a sub/super-string
     of another mention, then we fold the two together to keep the largest
     mention.
     """
@@ -458,3 +499,48 @@ def _add_mention_to_dict(mention, people_mentioned):
             people_mentioned[existing_elem] += 1
     else:
         people_mentioned[sp_mention] = 1
+
+
+def _get_honorifics(sentences):
+    '''
+    Extract gender cues from annotated sentences: Mrs., Ms., Mr.
+    For each of these gender cues, we have a list of associated names.
+    For example, if our content was: 'Mr. Barack Obama was the President. His wife Mrs. 
+    Michelle was the First Lady. Their daughter Ms. Sasha is in high school. Mr.
+    Biden is the Vice President.', then dict_mr_mrs_to_people should be:
+    {'Mr.': set(['Barack Obama', 'Biden']),
+    'Mrs.': set(['Michelle']),
+    'Ms.': set(['Sasha'])}
+    '''
+
+    honorifics = {h: set() for h in HONORIFICS}
+
+    for sentence in sentences:
+        tokens = sentence['tokens']        
+        for token_i, token in enumerate(tokens):
+            if token_i == 0:
+                person_name = ''
+                saveAs = '' #saveAs is a flag of sorts: tells you whether to be on the lookout for a name
+            if token['originalText'] in ['Mr.', 'Mrs.', 'Ms.']:
+                '''
+                After seeing a gender cue ('Mr.'/'Mrs.'/'Ms.'), get ready to:
+                1. store a person's name (which would logically follow this token
+                as person_name (initialized to an empty string).
+                2. save the gender cue we have just seen as saveAs.
+                '''
+                saveAs = token['originalText'] 
+                person_name = ''
+                continue
+            if saveAs != '': 
+                if token['ner'] == 'PERSON':
+                    if person_name == '':
+                        person_name = token['originalText']
+                    else:
+                        person_name += ' ' + token['originalText']
+                else:
+                    if person_name != '':
+                        honorifics[saveAs].add(person_name)
+                        person_name = ''
+                    saveAs = ''
+    return honorifics 
+

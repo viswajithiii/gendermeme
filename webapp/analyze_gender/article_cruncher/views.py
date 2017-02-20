@@ -27,6 +27,8 @@ def index(request):
                     method = "From first name"
                 elif method == "COREF":
                     method = "Using coreference with gendered pronoun"
+                elif method == "HONORIFIC":
+                    method = "Using Mr./Ms."
             people_mentioned_info.append((person, count, gender, method,
                                           ', '.join(a[0] for a in
                                                     adj_info[person])))
