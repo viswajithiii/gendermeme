@@ -158,8 +158,13 @@ def extract_article_data(article_id, filename, all_pages):
     if not 'text' in curr_art_data:
         return None  # Nothing to annotate for articles without text
     if curr_art_data['text'].startswith('LEAD'):
-        curr_art_data['text'] = curr_art_data['text'][
-            curr_art_data['text'].index('\n') + 1:]
+        try:
+            lead_end = curr_art_data['text'].index('\n')
+            curr_art_data['text'] = curr_art_data['text'][
+                lead_end + 1:]
+        except ValueError:
+             pass
+    curr_art_data['text'] = curr_art_data['text'].replace("''", '"')
 
     return curr_art_data
 

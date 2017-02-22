@@ -2,7 +2,7 @@ year=$1
 startmonth=$2
 if [ "$3" == "D" ]
 then
-  path=/dfs/scratch0/viswa/gendermeme/NYT_temp/
+  path=/dfs/scratch0/viswa/NYT_temp/
 else
   path=/lfs/madmax6/0/viswa/LDC2008T19_The-New-York-Times-Annotated-Corpus/data/data2/
 fi
