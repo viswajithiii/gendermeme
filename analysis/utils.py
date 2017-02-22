@@ -2,7 +2,7 @@ from collections import defaultdict
 from gender import gender, gender_special
 from pprint import pprint
 
-VERBOSE = True
+VERBOSE = False
 
 HONORIFICS = {
     'Mr': 'MALE',
