@@ -6,17 +6,19 @@ from utils import get_people_mentioned, get_quotes, get_associated_verbs, \
     identify_sources, get_associated_adjectives
 
 
-def get_article_info(article_text, verbose=False):
+def get_article_info(article_text, ann=None, verbose=False):
     """
     Helper function that applies our techniques on a given piece of text,
     first annotating it with CoreNLP then doing other stuff.
 
     Primarily used by the web app right now.
     """
-    ann = nlp_utils.annotate_corenlp(article_text,
-                                     annotators=['pos', 'lemma', 'ner', 'parse',
-                                                 'depparse', 'dcoref', 'quote',
-                                                 'openie'])
+    if ann is None:
+        ann = nlp_utils.annotate_corenlp(
+                article_text,
+                annotators=['pos', 'lemma', 'ner', 'parse',
+                            'depparse', 'dcoref', 'quote',
+                            'openie'])
 
     sentences, corefs = ann['sentences'], ann['corefs']
     if verbose:
