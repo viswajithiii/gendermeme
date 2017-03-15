@@ -25,6 +25,7 @@ def extract_article_data(filename):
     line 5 onwards: text
     """
 
+    print filename
     with open(filename, 'r') as f:
         lines = f.readlines()
 
