@@ -373,11 +373,79 @@ def get_associated_verbs(people, sentences, corefs):
     return people_to_verbs
 
 
-def get_people_mentioned(sentences, corefs=None, include_gender=False):
+def which_people_are_companies(people, sentences, corefs):
+
+    companies = set()
+    COMPOUND_INDICATORS = ['executive', 'employee', 'attorney', 'chairman',
+                           'executives', 'employees', 'attorneys',
+                           'CEO', 'CTO', 'CXO']
+    POSS_INDICATORS = ['CEO', 'CTO', 'CXO']
+
+    people_to_ment_locs = _get_locations_of_mentions(people, sentences,
+                                                     corefs)
+
+    ment_locs_to_people = {}
+    for person, ment_locs in people_to_ment_locs.iteritems():
+        for ment_loc in ment_locs:
+            ment_locs_to_people[ment_loc] = person
+
+    for i, sentence in enumerate(sentences):
+
+        curr_sent_idx = i + 1  # Since CoreNLP uses 1-based indexing
+        deps = sentence['collapsed-ccprocessed-dependencies']
+
+        for dep in deps:
+            curr_loc = (curr_sent_idx, dep['dependent'])
+            if curr_loc not in ment_locs_to_people:
+                continue
+
+            curr_person = ment_locs_to_people[curr_loc]
+
+            if dep['dep'] == 'compound':
+                governor = dep['governorGloss']
+                if governor in COMPOUND_INDICATORS:
+                    companies.add(curr_person)
+
+            if 'poss' in dep['dep']:
+                governor = dep['governorGloss']
+                if governor in POSS_INDICATORS:
+                    companies.add(curr_person)
+
+    # Coreference with it
+    for name in people:
+        if name in companies:
+            continue
+
+        name_words = name.split()
+        for coref_chain in corefs.values():
+            chain_contains_name = False
+            for mention in coref_chain:
+                if mention['animacy'] == 'ANIMATE' and \
+                        len(set(mention['text'].split()).intersection(
+                            name_words)) > 0:
+                    chain_contains_name = True
+                    break
+
+            if not chain_contains_name:
+                continue
+
+            for mention in coref_chain:
+                if mention['type'] == 'PRONOMINAL' and \
+                        mention['animacy'] == 'INANIMATE' and \
+                        mention['number'] == 'SINGULAR':
+                    companies.add(name)
+
+    return list(companies)
+
+
+def get_people_mentioned(sentences, corefs=None, include_gender=False,
+                         exclude_companies=True):
     """
     Process the 'sentences' object returned by CoreNLP's annotation
     to get a set of people mentioned.
     It is a list of dictionaries -- one per sentence.
+    If exclude_companies is True, then run our heuristics to
+        get rid of company names.
     The key we're most concerned about in the dictionary is the tokens one,
     which contains elements like this for each token in the text.
     u'tokens': [{u'after': u'',
@@ -427,6 +495,13 @@ def get_people_mentioned(sentences, corefs=None, include_gender=False):
 
     people_mentioned = {' '.join(key): value for
                         key, value in people_mentioned.iteritems()}
+
+    if exclude_companies:
+        companies = which_people_are_companies(people_mentioned,
+                                               sentences, corefs)
+        for company in companies:
+            del people_mentioned[company]
+
     if include_gender:
         honorifics = _get_honorifics(sentences)
         people_mentioned = {k: (v, get_gender_with_context(k, corefs,
