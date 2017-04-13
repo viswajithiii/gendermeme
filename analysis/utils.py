@@ -584,6 +584,44 @@ def _build_index_with_part_names(full_names):
     return index_dict
 
 
+def _add_mention_to_dict_v2(mention, people_mentioned):
+    """
+    Helps the get_people_mentioned function by adding this mention to the
+    dictionary. Sees if the mention already existed. If it's a sub/super-string
+    of another mention, then we fold the two together to keep the largest
+    mention.
+
+    v2: Better disambiguation when multiple people share same component of name
+    """
+
+    sp_mention = tuple(mention.split())
+    # We find if this entity already exists in our dict of
+    # people mentioned. We find out whether we should overwrite
+    # that element, or just add one to its tally (our policy
+    # is to keep the longest mention only.)
+    existing_elem = []
+    overwrite = False
+    for pm in people_mentioned:
+        pm_join = ' '.join(pm)
+        if mention in pm_join:
+            if type(people_mentioned[pm]) is not list:
+                existing_elem.append(pm) # could be one or more matches
+        '''
+        if len(set(pm).intersection(set(sp_mention))) > 0:
+            existing_elem = pm
+            if len(sp_mention) > len(pm):
+                overwrite = True
+            break
+        '''
+    # If the name has been seen only in part before. 
+    # Example: The name is Bond. James Bond.
+    if existing_elem == []:
+        people_mentioned[sp_mention] = 1
+    if len(existing_elem) == 1:
+        people_mentioned[existing_elem[0]] += 1
+    elif len(existing_elem) > 1:
+        people_mentioned[sp_mention] = ["Ambiguous"] + existing_elem
+
 def _add_mention_to_dict(mention, people_mentioned):
     """
     Helps the get_people_mentioned function by adding this mention to the
