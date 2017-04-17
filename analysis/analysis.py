@@ -3,7 +3,7 @@ from pprint import pprint
 sys.path.append('../')
 from nlp import utils as nlp_utils
 from utils import get_people_mentioned, get_quotes, get_associated_verbs, \
-    identify_sources, get_associated_adjectives
+    identify_sources, get_associated_adjectives, get_people_mentioned_new
 
 
 def get_article_info(article_text, ann=None, verbose=False):
@@ -24,6 +24,9 @@ def get_article_info(article_text, ann=None, verbose=False):
     if verbose:
         pprint(sentences)
         pprint(corefs)
+
+    people_mentioned = get_people_mentioned_new(sentences, corefs)
+    return people_mentioned, None, None, None, None
     people_mentioned = get_people_mentioned(sentences, corefs,
                                             include_gender=True)
     quotes = get_quotes(people_mentioned, sentences, corefs)

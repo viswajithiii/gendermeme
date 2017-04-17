@@ -464,6 +464,7 @@ def get_people_mentioned(sentences, corefs=None, include_gender=False,
     """
 
     people_mentioned = {}
+    honorifics = _get_honorifics(sentences)
 
     for sentence in sentences:
 
@@ -508,6 +509,26 @@ def get_people_mentioned(sentences, corefs=None, include_gender=False,
                                                            honorifics))
                             for k, v in people_mentioned.iteritems()}
     return people_mentioned
+
+
+def get_people_mentioned_new(sentences, corefs):
+    """
+
+    """
+    mentions_dictionary = {}
+    for sent_i, sentence in enumerate(sentences):
+        tokens = sentence['tokens']
+        pprint(tokens)
+        continue
+        for token in tokens:       
+            if token['ner'] == 'PERSON':
+                if len(current_mention) > 0:
+                    current_mention += ' '
+                else:
+                    start_pos = (sent_i, token['index'])
+                current_mention += token['originalText']
+
+
 
 
 # PRIVATE UTILITY FUNCTIONS FOLLOW
@@ -681,7 +702,7 @@ def _get_honorifics(sentences):
                 # saveAs is a flag of sorts: tells you whether
                 # to be on the lookout for a name
                 saveAs = ''
-            if token['originalText'] in ['Mr.', 'Mrs.', 'Ms.']:
+            if token['originalText'] in HONORIFICS:
                 '''
                 After seeing a gender cue ('Mr.'/'Mrs.'/'Ms.'), get ready to:
                 1. store a person's name (which would logically follow this
