@@ -524,6 +524,27 @@ def get_people_mentioned_new(sentences, corefs):
     """
     print 'COREFS BELOW'
     pprint(corefs)
+    #EXTRACT COREFERENCE INFORMATION:
+    mention_to_corefs_dict = {}
+    for coref_chain in corefs.values():
+        store = True
+        curr_mention_info = defaultdict(int)
+        for mention_dict in coref_chain:
+            if mention_dict['animacy'] != 'ANIMATE':
+                store = False
+                break
+            if mention_dict['number'] != 'SINGULAR':
+                store = False
+                break
+            if mention_dict['type'] == 'PRONOMINAL':
+                gender = mention_dict['gender']
+                curr_mention_info[gender] += 1
+            if mention_dict['isRepresentativeMention']:
+                if mention_dict['text'] not in mention_to_corefs_dict:
+                    mention_to_corefs_dict[mention_dict[text]] = []
+        if store:
+            mentions_to_corefs_dict[mention_dict[text]].append(curr_mention_gender_dict)
+
     mentions_dictionary = {}
     for sent_i, sentence in enumerate(sentences):
         tokens = sentence['tokens']
@@ -534,11 +555,11 @@ def get_people_mentioned_new(sentences, corefs):
                 if len(current_mention) > 0:
                     current_mention += ' '
                 else:
-                    start_pos = (sent_i, token['index'])
+                    start_pos = (sent_i + 1, token['index'])
                 current_mention += token['originalText']
             else:
                 if len(current_mention) > 0:
-                    key = (current_mention, start_pos[0], start_pos[1])
+                    key = (start_pos[0], start_pos[1])
                     mentions_dictionary[key] = \
                             {'mention': current_mention,
                             'mention_num': len(mentions_dictionary)}
@@ -547,7 +568,7 @@ def get_people_mentioned_new(sentences, corefs):
                         if preceding_word in HONORIFICS:
                             mentions_dictionary[key]['hon_gen'] = \
                                     HONORIFICS[preceding_word] 
-
+            
                             
 
 
