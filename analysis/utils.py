@@ -16,6 +16,13 @@ HONORIFICS = {
     'Ms.': 'FEMALE'
 }
 
+RELATIVES = {
+    'Wife',
+    'Husband',
+    'Daughter',
+    'Son'
+}
+
 
 def get_gender(name, verbose=False):
     """
@@ -515,11 +522,13 @@ def get_people_mentioned_new(sentences, corefs):
     """
 
     """
+    print 'COREFS BELOW'
+    pprint(corefs)
     mentions_dictionary = {}
     for sent_i, sentence in enumerate(sentences):
         tokens = sentence['tokens']
         pprint(tokens)
-        continue
+        current_mention = ''
         for token in tokens:       
             if token['ner'] == 'PERSON':
                 if len(current_mention) > 0:
@@ -527,6 +536,19 @@ def get_people_mentioned_new(sentences, corefs):
                 else:
                     start_pos = (sent_i, token['index'])
                 current_mention += token['originalText']
+            else:
+                if len(current_mention) > 0:
+                    key = (current_mention, start_pos[0], start_pos[1])
+                    mentions_dictionary[key] = \
+                            {'mention': current_mention,
+                            'mention_num': len(mentions_dictionary)}
+                    if key[2] > 1: 
+                        preceding_word = tokens[key[2]-1]['originalText']
+                        if preceding_word in HONORIFICS:
+                            mentions_dictionary[key]['hon_gen'] = \
+                                    HONORIFICS[preceding_word] 
+
+                            
 
 
 
