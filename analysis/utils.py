@@ -522,9 +522,9 @@ def get_people_mentioned_new(sentences, corefs):
     """
 
     """
-    print 'COREFS BELOW'
-    pprint(corefs)
+    #print 'COREFS BELOW'
     #EXTRACT COREFERENCE INFORMATION:
+    '''
     mention_to_corefs_dict = {}
     for coref_chain in corefs.values():
         store = True
@@ -544,11 +544,17 @@ def get_people_mentioned_new(sentences, corefs):
                     mention_to_corefs_dict[mention_dict[text]] = []
         if store:
             mentions_to_corefs_dict[mention_dict[text]].append(curr_mention_gender_dict)
+    '''
 
     mentions_dictionary = {}
+    # We've assumed that all sentences end with full stops. 
+    # If this assumption breaks, we might be in trouble: notice that we flush the 
+    # current mention at the end of every sentence, and if a full stop is removed
+    # between two sentences that both start with mentions, for example, then we 
+    # don't distinguish between the fact that they're in different sentences.
+
     for sent_i, sentence in enumerate(sentences):
         tokens = sentence['tokens']
-        pprint(tokens)
         current_mention = ''
         for token in tokens:       
             if token['ner'] == 'PERSON':
@@ -557,22 +563,67 @@ def get_people_mentioned_new(sentences, corefs):
                 else:
                     start_pos = (sent_i + 1, token['index'])
                 current_mention += token['originalText']
+                curr_pos = token['index']
             else:
                 if len(current_mention) > 0:
-                    key = (start_pos[0], start_pos[1])
+                    key = (start_pos[0], start_pos[1], curr_pos)
                     mentions_dictionary[key] = \
-                            {'mention': current_mention,
-                            'mention_num': len(mentions_dictionary)}
-                    if key[2] > 1: 
-                        preceding_word = tokens[key[2]-1]['originalText']
+                            {'text': current_mention,
+                            'mention_num': 1 + len(mentions_dictionary)}
+                    if key[1] > 1: 
+                        preceding_word = tokens[key[1]-2]['originalText']
                         if preceding_word in HONORIFICS:
-                            mentions_dictionary[key]['hon_gen'] = \
-                                    HONORIFICS[preceding_word] 
-            
-                            
-
-
-
+                            mentions_dictionary[key]['hon_gender'] = \
+                                                    HONORIFICS[preceding_word] 
+                            mentions_dictionary[key]['hon'] = preceding_word
+                current_mention = ""
+    #COREFERENCE-BASED GENDER EXTRACTION
+    print "COREFERENCE CHAINS"
+    pprint(corefs)
+    for coref_chain in corefs.itervalues():
+        mentions_pos = []
+        male_pronoun_count = 0
+        female_pronoun_count = 0
+        it_pronoun_count = 0
+        for mention_dict in coref_chain:
+            pos = (mention_dict['sentNum'],
+                   mention_dict['startIndex'],
+                   mention_dict['endIndex'] - 1)
+            # If pos matches one of our mentions
+            if pos in mentions_dictionary: 
+                mentions_pos.append(pos)     
+            # Otherwise, if pos contains one of our mentions        
+            elif mention_dict['number'] == 'SINGULAR' and \
+                mention_dict['animacy'] == 'ANIMATE' and \
+                mention_dict['type'] == 'PROPER':
+                for (sent_num, start_index, end_index) in \
+                        mentions_dictionary:
+                    if sent_num == pos[0]:
+                        if start_index >= pos[1] and \
+                            end_index <= pos[2]:
+                            mentions_pos.append((sent_num, start_index, end_index))    
+            if mention_dict['type'] == 'PRONOMINAL':
+                if mention_dict['gender'] == 'MALE':
+                    male_pronoun_count += 1
+                if mention_dict['gender'] == 'FEMALE':
+                    female_pronoun_count += 1
+                if mention_dict['animacy'] == 'INANIMATE' and \
+                    mention_dict['number'] == 'SINGULAR':
+                    it_pronoun_count += 1
+        if len(mentions_pos) > 0:
+            for pos_i, pos in enumerate(mentions_pos):
+                if 'coref_gender' in mentions_dictionary[pos]:
+                    print "THIS MENTION IS IN TWO COREFERENCE CHAINS"
+                    print pos
+                mentions_dictionary[pos]['coref_gender'] = \
+                            {"male": male_pronoun_count,
+                             "female": female_pronoun_count,
+                             "non-living": it_pronoun_count}
+                mentions_dictionary[pos]['coreferent_mentions'] = \
+                    mentions_pos[:pos_i] + mentions_pos[pos_i + 1:]
+    pprint(mentions_dictionary)        
+    
+        
 
 # PRIVATE UTILITY FUNCTIONS FOLLOW
 
