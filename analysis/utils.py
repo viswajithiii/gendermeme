@@ -522,37 +522,12 @@ def get_people_mentioned_new(sentences, corefs):
     """
 
     """
-    #print 'COREFS BELOW'
-    #EXTRACT COREFERENCE INFORMATION:
-    '''
-    mention_to_corefs_dict = {}
-    for coref_chain in corefs.values():
-        store = True
-        curr_mention_info = defaultdict(int)
-        for mention_dict in coref_chain:
-            if mention_dict['animacy'] != 'ANIMATE':
-                store = False
-                break
-            if mention_dict['number'] != 'SINGULAR':
-                store = False
-                break
-            if mention_dict['type'] == 'PRONOMINAL':
-                gender = mention_dict['gender']
-                curr_mention_info[gender] += 1
-            if mention_dict['isRepresentativeMention']:
-                if mention_dict['text'] not in mention_to_corefs_dict:
-                    mention_to_corefs_dict[mention_dict[text]] = []
-        if store:
-            mentions_to_corefs_dict[mention_dict[text]].append(curr_mention_gender_dict)
-    '''
-
     mentions_dictionary = {}
     # We've assumed that all sentences end with full stops. 
     # If this assumption breaks, we might be in trouble: notice that we flush the 
     # current mention at the end of every sentence, and if a full stop is removed
     # between two sentences that both start with mentions, for example, then we 
     # don't distinguish between the fact that they're in different sentences.
-
     for sent_i, sentence in enumerate(sentences):
         tokens = sentence['tokens']
         current_mention = ''
@@ -577,9 +552,49 @@ def get_people_mentioned_new(sentences, corefs):
                                                     HONORIFICS[preceding_word] 
                             mentions_dictionary[key]['hon'] = preceding_word
                 current_mention = ""
+
+    # Add coreference information 
+    add_corefs_info(mentions_dictionary, corefs) 
+    
+    #Add consensus gender
+    add_consensus_gender(mentions_dictionary)
+
+    # Add a flag: Is this the first time we are seeing this name, and is this a single name?
+    add_flag_last_name_to_be_inferred(mentions_dictionary)
+
+    disjoint_sets_of_mentions = {}
+    for key in sorted(mentions_dictionary):
+        new_mention = mentions_dictionary[key]
+        new_mention_text = new_mention['text']
+        intersection_idx = []
+        for idx, set_of_mentions in disjoint_sets_of_mentions.iteritems():
+            for key_m in set_of_mentions:
+                mention_text = mentions_dictionary[key_m]['text']
+                # Determine whether the new mention is a subset of an old mention.
+                subset = is_mention_subset(new_mention_text, mention_text)
+                if subset: 
+                    intersection_idx.append(idx)
+                    break
+        if len(intersection_idx) == 0:
+            idx = len(disjoint_sets_of_mentions)
+            disjoint_sets_of_mentions[idx] = set(key)
+        if new_mention.get('hon_gender', None) or new_mention.get()
+        elif len(intersection_idx) == 1:
+            #Check that the gender matches.
+            set_of_mentions = \
+                disjoint_sets_of_mentions[intersection_idx[0]]
+            for key_m in set_of_mentions:
+                
+                
+                       
+        
+               # CHECK IF IT IS A SUBSET OF MORE THAN ONE DISJOINT SET.
+                # ALSO CHECK GENDER> 
+          
+def add_corefs_info(mentions_dictionary, corefs):
     #COREFERENCE-BASED GENDER EXTRACTION
-    print "COREFERENCE CHAINS"
-    pprint(corefs)
+    #print "COREFERENCE CHAINS"
+    #pprint(corefs)
     for coref_chain in corefs.itervalues():
         mentions_pos = []
         male_pronoun_count = 0
@@ -616,15 +631,99 @@ def get_people_mentioned_new(sentences, corefs):
                     print "THIS MENTION IS IN TWO COREFERENCE CHAINS"
                     print pos
                 mentions_dictionary[pos]['coref_gender'] = \
-                            {"male": male_pronoun_count,
-                             "female": female_pronoun_count,
-                             "non-living": it_pronoun_count}
+                            {"MALE": male_pronoun_count,
+                             "FEMALE": female_pronoun_count,
+                             "NON-LIVING": it_pronoun_count}
                 mentions_dictionary[pos]['coreferent_mentions'] = \
                     mentions_pos[:pos_i] + mentions_pos[pos_i + 1:]
-    pprint(mentions_dictionary)        
-    
-        
 
+def add_consensus_gender(mentions_dictionary):
+    high_conf_thres_coref = 3
+    for mention in mentions_dictionary.values():
+        hon_gender = None
+        coref_gender = None
+        num_nonzero_coref_counts = 0
+        if mention.get('hon_gender', None):
+            hon_gender = mention['hon_gender']
+        if mention.get('coref_gender', None):
+            # get (gender, count) as a list of tuples.
+            coref_counts = \
+                       sorted(mention['coref_gender'].items(), \
+                       key = lambda tup: tup[1], \
+                       reverse = True)
+            # find number of nonzero gender counts
+            num_nonzero_coref_counts = \
+                len([tup[1] for tup in coref_counts \
+                        if tup[1] != 0])
+            coref_gender = coref_counts[0][0]
+            coref_gender_count = coref_counts[0][1]
+        if hon_gender:
+            mention['consensus_gender'] = (hon_gender, 
+                                           'high_conf',
+                                           'hon')
+        elif coref_gender and num_nonzero_coref_counts == 1:
+            if coref_gender_count >= high_conf_thres_coref:
+                mention['consensus_gender'] = (coref_gender, 
+                                               'high_conf', 
+                                               'coref')
+            elif coref_gender_count < low_conf_thres_coref:    
+                mention['consensus_gender'] = (coref_gender,
+                                               'med_conf',  
+                                                'coref')  
+        elif coref_gender and num_nonzero_coref_counts > 1:
+            mention['consensus_gender'] = (coref_gender, 
+                                           'low_conf',
+                                           'coref')    
+        if num_nonzero_conf_counts > 1:
+            mention['coref_gender_conflict'] = True
+        # Haven't included name-based gender detection here
+        # because that would ideally only be necessitated in
+        # a later step (if no gender is found during merging)
+        # in this step, it is likely to fail a lot
+        # because many people could be referred to by
+        # surname.
+
+def add_flag_last_name_to_be_inferred(mentions_dictionary):                
+    # Add a flag: Is this the first time we are seeing this name, and is this a single name?
+    # If yes, we are on the alert for a person who is related to another person, and whose last
+    # name is to be inferred from the text.
+    # For example, in the sentence "President Barack Obama and his wife Michelle spoke at the 
+    # gathering," we have that Michelle's last name is to be inferred from her relationship
+    # with her husband. Then, a "Ms. Obama" in the text refers to Michelle, but this connection
+    # is not made explicit.
+    # This is, of course, just a rough heuristic. There are cases (e.g. Lorde) where a person
+    # is referred to exclusively by just one name.
+    set_of_mentions = set()   
+    for key in sorted(mentions_dictionary):
+        mention = mentions_dictionary[key]['text'] 
+        if len(mention.split()) == 1:
+            first_time = True
+            for el in set_of_mentions:
+                if mention in el:
+                    first_time = False 
+            if first_time:
+                mentions_dictionary[key]['flag_last_name_to_infer'] = True
+        set_of_mentions.add(mention)
+
+def is_mention_subset(small_mention_text, large_mention_text):  
+    '''Check if the smaller mention is a "subset" of the larger mention.
+    We define "subset" in a very specific way:
+    1. Mathematical subset:
+       Example: Barack is a subset of Barack Obama, John Kelly is a subset of John Kelly Smith,
+       Kelly Smith is a subset of John Kelly Smith, etc. And, Barack is a subset of Barack.
+    2. The smaller string is equal to the larger string minus the words in the middle. 
+       Example: John Smith is a subset of John Jackson Smith.
+    '''
+    small_mention_tokens = small_mention_text.split()
+    large_mention_tokens = large_mention_text.split()
+    if small_mention_text in large_mention_text:
+        return True
+    elif len(large_mention_tokens) > 2:
+        if small_mention_tokens == \
+        (large_mention_tokens[0] + large_mention_tokens[-1]):
+            return True
+    return False
+        
 # PRIVATE UTILITY FUNCTIONS FOLLOW
 
 def _get_locations_of_mentions(people, sentences, corefs):
