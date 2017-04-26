@@ -571,19 +571,67 @@ def get_people_mentioned_new(sentences, corefs):
             for key_m in set_of_mentions:
                 mention_text = mentions_dictionary[key_m]['text']
                 # Determine whether the new mention is a subset of an old mention.
-                subset = is_mention_subset(new_mention_text, mention_text)
-                if subset: 
+                if is_mention_subset(new_mention_text, mention_text):
                     intersection_idx.append(idx)
                     break
         if len(intersection_idx) == 0:
             idx = len(disjoint_sets_of_mentions)
-            disjoint_sets_of_mentions[idx] = set(key)
-        if new_mention.get('hon_gender', None) or new_mention.get()
-        elif len(intersection_idx) == 1:
-            #Check that the gender matches.
+            disjoint_sets_of_mentions[idx] = set([key])
+            continue
+        # If there is an intersection, we merge the new mention into the 
+        # intersectiong set.
+        # FIXME: Most newsrooms have style guidelines that refer to a person
+        # by their full name when they first appear in the text.    
+        # Subsequently, they are referred to by last name alone.
+        # Ideally, if everyone followed this convention, we could only 
+        # consider last-name overlaps (ie, if Smith would overlap with
+        # Jane Smith, which would appear first).
+        # However, Jane Smith could later on be referred to in a quotation
+        # as Jane, and we would miss this. Also, if they style guideline 
+        # were not followed, and instead Jane Smith were later referred to 
+        # as Jane, we would miss this.
+        # So, we consider any kind of overlap as a sign of life.
+        # This opens the door to potential mistakes:
+        # Example: "Barack and Sasha Obama took a weeklong vacation. Jim Smith 
+        # and his wife Sasha wisely stayed away." --> We would incorrectly classify
+        # Sasha Obama and Jim Smith's wife Sasha as the same person.
+        if len(intersection_idx) == 1:
             set_of_mentions = \
                 disjoint_sets_of_mentions[intersection_idx[0]]
-            for key_m in set_of_mentions:
+            gender_mismatch = \
+                is_gender_mismatched(new_mention,
+                                     set_of_mentions,
+                                     mentions_dictionary)
+            if not gender_mismatch:
+                set_of_mentions.add(key)
+            if gender_mismatch:
+                idx = len(disjoint_sets_of_mentions)
+                disjoint_sets_of_mentions[idx] = set([key])
+             
+def is_gender_mismatched(new_mention,
+                         set_of_mentions, 
+                         mentions_dictionary):
+    new_mention_gender = new_mention.get('consensus_gender', None)
+    if not new_mention_gender:
+        return True
+    conf_keys = {'high_conf': 2,
+                 'med_conf': 1,
+                 'low_conf': 0}
+    row = conf_keys[new_mention_gender[1]] 
+    agree_counts_matrix = [[0, 0, 0] for _ in range(3)]
+    disagree_counts_matrix = [[0, 0, 0] for _ in range(3)]
+    gender_mismatch_count = 0
+    
+    # Check that the gender matches.    
+    for key_m in set_of_mentions:
+        curr_mention = mentions_dictionary[key_m]
+        curr_mention_gender = \
+            curr_mention.get('consensus_gender', None):
+        if curr_mention_gender[0] == new_mention_gender[0]:
+            
+
+             
+                
                 
                 
                        
@@ -666,7 +714,7 @@ def add_consensus_gender(mentions_dictionary):
                 mention['consensus_gender'] = (coref_gender, 
                                                'high_conf', 
                                                'coref')
-            elif coref_gender_count < low_conf_thres_coref:    
+            elif coref_gender_count < high_conf_thres_coref:    
                 mention['consensus_gender'] = (coref_gender,
                                                'med_conf',  
                                                 'coref')  
@@ -679,20 +727,22 @@ def add_consensus_gender(mentions_dictionary):
         # Haven't included name-based gender detection here
         # because that would ideally only be necessitated in
         # a later step (if no gender is found during merging)
-        # in this step, it is likely to fail a lot
+        # In this step, it is likely to fail a lot
         # because many people could be referred to by
         # surname.
 
 def add_flag_last_name_to_be_inferred(mentions_dictionary):                
-    # Add a flag: Is this the first time we are seeing this name, and is this a single name?
-    # If yes, we are on the alert for a person who is related to another person, and whose last
-    # name is to be inferred from the text.
-    # For example, in the sentence "President Barack Obama and his wife Michelle spoke at the 
-    # gathering," we have that Michelle's last name is to be inferred from her relationship
-    # with her husband. Then, a "Ms. Obama" in the text refers to Michelle, but this connection
-    # is not made explicit.
-    # This is, of course, just a rough heuristic. There are cases (e.g. Lorde) where a person
-    # is referred to exclusively by just one name.
+    """
+    Add a flag: Is this the first time we are seeing this name, and is this a single name?
+    If yes, we are on the alert for a person who is related to another person, and whose last
+    name is to be inferred from the text.
+    For example, in the sentence "President Barack Obama and his wife Michelle spoke at the 
+    gathering," we have that Michelle's last name is to be inferred from her relationship
+    with her husband. Then, a "Ms. Obama" in the text refers to Michelle, but this connection
+    is not made explicit.
+    This is, of course, just a rough heuristic. There are cases (e.g. Lorde) where a person
+    is referred to exclusively by just one name.
+    """
     set_of_mentions = set()   
     for key in sorted(mentions_dictionary):
         mention = mentions_dictionary[key]['text'] 
@@ -706,14 +756,15 @@ def add_flag_last_name_to_be_inferred(mentions_dictionary):
         set_of_mentions.add(mention)
 
 def is_mention_subset(small_mention_text, large_mention_text):  
-    '''Check if the smaller mention is a "subset" of the larger mention.
+    """
+    Check if the smaller mention is a "subset" of the larger mention.
     We define "subset" in a very specific way:
-    1. Mathematical subset:
+    1. Subsequence:
        Example: Barack is a subset of Barack Obama, John Kelly is a subset of John Kelly Smith,
        Kelly Smith is a subset of John Kelly Smith, etc. And, Barack is a subset of Barack.
     2. The smaller string is equal to the larger string minus the words in the middle. 
        Example: John Smith is a subset of John Jackson Smith.
-    '''
+    """
     small_mention_tokens = small_mention_text.split()
     large_mention_tokens = large_mention_text.split()
     if small_mention_text in large_mention_text:
