@@ -598,17 +598,18 @@ def get_people_mentioned_new(sentences, corefs):
         if len(intersection_idx) == 1:
             set_of_mentions = \
                 disjoint_sets_of_mentions[intersection_idx[0]]
-            gender_mismatch = \
-                is_gender_mismatched(new_mention,
+            gender_match = \
+                is_gender_matched(new_mention,
                                      set_of_mentions,
                                      mentions_dictionary)
-            if not gender_mismatch:
+            if gender_match:
                 set_of_mentions.add(key)
-            if gender_mismatch:
+            if not gender_match:
                 idx = len(disjoint_sets_of_mentions)
                 disjoint_sets_of_mentions[idx] = set([key])
+        # CHECK IF IT IS A SUBSET OF MORE THAN ONE DISJOINT SET.
              
-def is_gender_mismatched(new_mention,
+def is_gender_matched(new_mention,
                          set_of_mentions, 
                          mentions_dictionary):
     new_mention_gender = new_mention.get('consensus_gender', None)
@@ -620,24 +621,23 @@ def is_gender_mismatched(new_mention,
     row = conf_keys[new_mention_gender[1]] 
     agree_counts_matrix = [[0, 0, 0] for _ in range(3)]
     disagree_counts_matrix = [[0, 0, 0] for _ in range(3)]
-    gender_mismatch_count = 0
     
     # Check that the gender matches.    
     for key_m in set_of_mentions:
         curr_mention = mentions_dictionary[key_m]
         curr_mention_gender = \
-            curr_mention.get('consensus_gender', None):
+            curr_mention.get('consensus_gender', None)
+        if not curr_mention_gender:
+            continue
+        col = conf_keys[new_mention_gender[1]]
         if curr_mention_gender[0] == new_mention_gender[0]:
-            
-
-             
-                
-                
-                
-                       
-        
-               # CHECK IF IT IS A SUBSET OF MORE THAN ONE DISJOINT SET.
-                # ALSO CHECK GENDER> 
+            agree_counts_matrix[row][col] += 1
+        else:
+            disagree_counts_matrix[row][col] += 1
+    if sum(disagree_counts) > 0:
+        return False
+    else:
+        return True        
           
 def add_corefs_info(mentions_dictionary, corefs):
     #COREFERENCE-BASED GENDER EXTRACTION
