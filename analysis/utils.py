@@ -565,13 +565,17 @@ def get_people_mentioned_new(sentences, corefs):
     # and is this a single name?
     add_flag_last_name_to_be_inferred(mentions_dictionary)
 
-    disjoint_set_of_mentions = merge_mentions(mentions_dictionary)
+    disjoint_sets_of_mentions, id_to_info, mention_key_to_id = \
+        merge_mentions(mentions_dictionary)
 
-    print 'MENTIONS DICTIONARY'
+    print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
-    print 'DISJOINT SET OF MENTIONS BELOW YOYO'
+    print 'DISJOINT SET OF MENTIONS:'
     pprint(disjoint_sets_of_mentions)
-    
+    print 'ID TO INFO:'
+    pprint(id_to_info)
+
+
 def is_gender_matched(new_mention, set_of_mentions,
                       mentions_dictionary):
     new_mention_gender = new_mention.get('consensus_gender', None)
@@ -662,31 +666,31 @@ def add_consensus_gender(mentions_dictionary):
             # get (gender, count) as a list of tuples.
             coref_counts = \
                        sorted(mention['coref_gender'].items(),
-                       key = lambda tup: tup[1], \
-                       reverse = True)
+                              key=lambda tup: tup[1],
+                              reverse=True)
             # find number of nonzero gender counts
             num_nonzero_coref_counts = \
-                len([tup[1] for tup in coref_counts \
-                        if tup[1] != 0])
+                len([tup[1] for tup in coref_counts
+                     if tup[1] != 0])
             coref_gender = coref_counts[0][0]
             coref_gender_count = coref_counts[0][1]
         if hon_gender:
-            mention['consensus_gender'] = (hon_gender, 
+            mention['consensus_gender'] = (hon_gender,
                                            'high_conf',
                                            'hon')
         elif coref_gender and num_nonzero_coref_counts == 1:
             if coref_gender_count >= high_conf_thres_coref:
-                mention['consensus_gender'] = (coref_gender, 
-                                               'high_conf', 
-                                               'coref')
-            elif coref_gender_count < high_conf_thres_coref:    
                 mention['consensus_gender'] = (coref_gender,
-                                               'med_conf',  
-                                                'coref')  
+                                               'high_conf',
+                                               'coref')
+            elif coref_gender_count < high_conf_thres_coref:
+                mention['consensus_gender'] = (coref_gender,
+                                               'med_conf',
+                                               'coref')
         elif coref_gender and num_nonzero_coref_counts > 1:
-            mention['consensus_gender'] = (coref_gender, 
+            mention['consensus_gender'] = (coref_gender,
                                            'low_conf',
-                                           'coref')    
+                                           'coref')
         if num_nonzero_conf_counts > 1:
             mention['coref_gender_conflict'] = True
         # Haven't included name-based gender detection here
@@ -696,29 +700,32 @@ def add_consensus_gender(mentions_dictionary):
         # because many people could be referred to by
         # surname.
 
-def add_flag_last_name_to_be_inferred(mentions_dictionary):                
+
+def add_flag_last_name_to_be_inferred(mentions_dictionary):
     """
-    Add a flag: Is this the first time we are seeing this name, and is this a single name?
-    If yes, we are on the alert for a person who is related to another person, and whose last
-    name is to be inferred from the text.
-    For example, in the sentence "President Barack Obama and his wife Michelle spoke at the 
-    gathering," we have that Michelle's last name is to be inferred from her relationship
-    with her husband. Then, a "Ms. Obama" in the text refers to Michelle, but this connection
-    is not made explicit.
-    This is, of course, just a rough heuristic. There are cases (e.g. Lorde) where a person
-    is referred to exclusively by just one name.
+    Add a flag: Is this the first time we are seeing this name,
+    and is this a single name?
+    If yes, we are on the alert for a person who is related to another person,
+    and whose last name is to be inferred from the text.
+    For example, in the sentence "President Barack Obama and his wife Michelle
+    spoke at the gathering," we have that Michelle's last name is to be
+    inferred from her relationship with her husband. Then, a "Ms. Obama" in the
+    text refers to Michelle, but this connection is not made explicit.
+    This is, of course, just a rough heuristic. There are cases (e.g. Lorde)
+    where a person is referred to exclusively by just one name.
     """
-    set_of_mentions = set()   
+    set_of_mentions = set()
     for key in sorted(mentions_dictionary):
-        mention = mentions_dictionary[key]['text'] 
+        mention = mentions_dictionary[key]['text']
         if len(mention.split()) == 1:
             first_time = True
             for el in set_of_mentions:
                 if mention in el:
-                    first_time = False 
+                    first_time = False
             if first_time:
                 mentions_dictionary[key]['flag_last_name_to_infer'] = True
         set_of_mentions.add(mention)
+
 
 def merge_mentions(mentions_dictionary):
     disjoint_sets_of_mentions = {}
@@ -766,17 +773,56 @@ def merge_mentions(mentions_dictionary):
             idx = len(disjoint_sets_of_mentions)
             disjoint_sets_of_mentions[idx] = set([key])
         # CHECK IF IT IS A SUBSET OF MORE THAN ONE DISJOINT SET.
-    
-    return id_to_set_of_mentions, id_to_name
 
-def is_mention_subset(small_mention_text, large_mention_text):  
+    id_to_info = {}
+    mention_key_to_id = {}
+    for _id, set_of_mentions in disjoint_sets_of_mentions.iteritems():
+        longest_mention = ''
+        set_gender = None
+        for key in set_of_mentions:
+            mention_key_to_id[key] = _id
+            mention = mentions_dictionary[key]
+            if len(mention['text']) > len(longest_mention):
+                longest_mention = mention['text']
+
+            curr_gender = mention.get('consensus_gender', None)
+            if curr_gender:
+                curr_gender = curr_gender[0]
+                # If this is the first entry with a gender
+                if not set_gender:
+                    set_gender = curr_gender
+
+                # If a previous entry had a gender,
+                # we check if they match.
+                else:
+                    if curr_gender != set_gender:
+                        # TODO: We need to look at the number of
+                        # low confidence and high confidence mentions
+                        # for each gender, and conclude about which gender
+                        # the entity referred to by the set of mentions is.
+                        # This is a temporary workaround where we're marking
+                        # the gender as UNKNOWN if there is any conflict at all
+                        # Of course, our current code ensures no conflict ...
+                        set_gender = 'UNKNOWN'
+
+        id_to_info[_id] = {'name': longest_mention,
+                           'gender': set_gender,
+                           'count': len(set_of_mentions)}
+
+    return disjoint_sets_of_mentions, id_to_info, mention_key_to_id
+
+
+def is_mention_subset(small_mention_text, large_mention_text):
     """
     Check if the smaller mention is a "subset" of the larger mention.
     We define "subset" in a very specific way:
     1. Subsequence:
-       Example: Barack is a subset of Barack Obama, John Kelly is a subset of John Kelly Smith,
-       Kelly Smith is a subset of John Kelly Smith, etc. And, Barack is a subset of Barack.
-    2. The smaller string is equal to the larger string minus the words in the middle. 
+       Example: Barack is a subset of Barack Obama,
+                John Kelly is a subset of John Kelly Smith,
+                Kelly Smith is a subset of John Kelly Smith, etc.
+                And, Barack is a subset of Barack.
+    2. The smaller string is equal to the larger string minus the words in the
+        middle.
        Example: John Smith is a subset of John Jackson Smith.
     """
     small_mention_tokens = small_mention_text.split()
@@ -785,11 +831,12 @@ def is_mention_subset(small_mention_text, large_mention_text):
         return True
     elif len(large_mention_tokens) > 2:
         if small_mention_tokens == \
-        (large_mention_tokens[0] + large_mention_tokens[-1]):
+                (large_mention_tokens[0] + large_mention_tokens[-1]):
             return True
     return False
-        
+
 # PRIVATE UTILITY FUNCTIONS FOLLOW
+
 
 def _get_locations_of_mentions(people, sentences, corefs):
     """
@@ -862,44 +909,6 @@ def _build_index_with_part_names(full_names):
 
     return index_dict
 
-
-def _add_mention_to_dict_v2(mention, people_mentioned):
-    """
-    Helps the get_people_mentioned function by adding this mention to the
-    dictionary. Sees if the mention already existed. If it's a sub/super-string
-    of another mention, then we fold the two together to keep the largest
-    mention.
-
-    v2: Better disambiguation when multiple people share same component of name
-    """
-
-    sp_mention = tuple(mention.split())
-    # We find if this entity already exists in our dict of
-    # people mentioned. We find out whether we should overwrite
-    # that element, or just add one to its tally (our policy
-    # is to keep the longest mention only.)
-    existing_elem = []
-    overwrite = False
-    for pm in people_mentioned:
-        pm_join = ' '.join(pm)
-        if mention in pm_join:
-            if type(people_mentioned[pm]) is not list:
-                existing_elem.append(pm) # could be one or more matches
-        '''
-        if len(set(pm).intersection(set(sp_mention))) > 0:
-            existing_elem = pm
-            if len(sp_mention) > len(pm):
-                overwrite = True
-            break
-        '''
-    # If the name has been seen only in part before. 
-    # Example: The name is Bond. James Bond.
-    if existing_elem == []:
-        people_mentioned[sp_mention] = 1
-    if len(existing_elem) == 1:
-        people_mentioned[existing_elem[0]] += 1
-    elif len(existing_elem) > 1:
-        people_mentioned[sp_mention] = ["Ambiguous"] + existing_elem
 
 def _add_mention_to_dict(mention, people_mentioned):
     """
