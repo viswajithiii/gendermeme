@@ -524,15 +524,16 @@ def get_people_mentioned_new(sentences, corefs):
 
     """
     mentions_dictionary = {}
-    # We've assumed that all sentences end with full stops. 
-    # If this assumption breaks, we might be in trouble: notice that we flush the 
-    # current mention at the end of every sentence, and if a full stop is removed
-    # between two sentences that both start with mentions, for example, then we 
-    # don't distinguish between the fact that they're in different sentences.
+    # We've assumed that all sentences end with full stops.
+    # If this assumption breaks, we might be in trouble: notice that we flush
+    # the current mention at the end of every sentence, and if a full stop is
+    # removed between two sentences that both start with mentions, for example,
+    # then we  don't distinguish between the fact that they're in
+    # different sentences.
     for sent_i, sentence in enumerate(sentences):
         tokens = sentence['tokens']
         current_mention = ''
-        for token in tokens:       
+        for token in tokens:
             if token['ner'] == 'PERSON':
                 if len(current_mention) > 0:
                     current_mention += ' '
@@ -544,23 +545,24 @@ def get_people_mentioned_new(sentences, corefs):
                 if len(current_mention) > 0:
                     key = (start_pos[0], start_pos[1], curr_pos)
                     mentions_dictionary[key] = \
-                            {'text': current_mention,
-                            'mention_num': 1 + len(mentions_dictionary)}
-                    if key[1] > 1: 
+                        {'text': current_mention,
+                         'mention_num': 1 + len(mentions_dictionary)}
+                    if key[1] > 1:
                         preceding_word = tokens[key[1]-2]['originalText']
                         if preceding_word in HONORIFICS:
                             mentions_dictionary[key]['hon_gender'] = \
-                                                    HONORIFICS[preceding_word] 
+                                                    HONORIFICS[preceding_word]
                             mentions_dictionary[key]['hon'] = preceding_word
                 current_mention = ""
 
-    # Add coreference information 
-    add_corefs_info(mentions_dictionary, corefs) 
-    
-    #Add consensus gender
+    # Add coreference information
+    add_corefs_info(mentions_dictionary, corefs)
+
+    # Add consensus gender
     add_consensus_gender(mentions_dictionary)
 
-    # Add a flag: Is this the first time we are seeing this name, and is this a single name?
+    # Add a flag: Is this the first time we are seeing this name,
+    # and is this a single name?
     add_flag_last_name_to_be_inferred(mentions_dictionary)
 
     disjoint_sets_of_mentions = {}
@@ -571,35 +573,36 @@ def get_people_mentioned_new(sentences, corefs):
         for idx, set_of_mentions in disjoint_sets_of_mentions.iteritems():
             for key_m in set_of_mentions:
                 mention_text = mentions_dictionary[key_m]['text']
-                # Determine whether the new mention is a subset of an old mention.
+                # Determine whether the new mention is a subset of
+                # an old mention.
                 if is_mention_subset(new_mention_text, mention_text):
                     intersection_idx.append(idx)
                     break
-        # If there is an intersection, we merge the new mention into the 
+        # If there is an intersection, we merge the new mention into the
         # intersectiong set.
         # FIXME: Most newsrooms have style guidelines that refer to a person
-        # by their full name when they first appear in the text.    
+        # by their full name when they first appear in the text.
         # Subsequently, they are referred to by last name alone.
-        # Ideally, if everyone followed this convention, we could only 
+        # Ideally, if everyone followed this convention, we could only
         # consider last-name overlaps (ie, if Smith would overlap with
         # Jane Smith, which would appear first).
         # However, Jane Smith could later on be referred to in a quotation
-        # as Jane, and we would miss this. Also, if they style guideline 
-        # were not followed, and instead Jane Smith were later referred to 
+        # as Jane, and we would miss this. Also, if they style guideline
+        # were not followed, and instead Jane Smith were later referred to
         # as Jane, we would miss this.
         # So, we consider any kind of overlap as a sign of life.
         # This opens the door to potential mistakes:
-        # Example: "Barack and Sasha Obama took a weeklong vacation. Jim Smith 
-        # and his wife Sasha wisely stayed away." --> We would incorrectly classify
-        # Sasha Obama and Jim Smith's wife Sasha as the same person.
+        # Example: "Barack and Sasha Obama took a weeklong vacation. Jim Smith
+        # and his wife Sasha wisely stayed away." --> We would incorrectly
+        # classify Sasha Obama and Jim Smith's wife Sasha as the same person.
         gender_match = False
         for idx in intersection_idx:
             set_of_mentions = \
                 disjoint_sets_of_mentions[idx]
             gender_match = \
                 is_gender_matched(new_mention,
-                                     set_of_mentions,
-                                     mentions_dictionary)
+                                  set_of_mentions,
+                                  mentions_dictionary)
             if gender_match:
                 set_of_mentions.add(key)
                 break
@@ -612,13 +615,10 @@ def get_people_mentioned_new(sentences, corefs):
     pprint(mentions_dictionary)
     print 'DISJOINT SET OF MENTIONS BELOW YOYO'
     pprint(disjoint_sets_of_mentions)
-    
-    
 
-             
-def is_gender_matched(new_mention,
-                         set_of_mentions, 
-                         mentions_dictionary):
+
+def is_gender_matched(new_mention, set_of_mentions,
+                      mentions_dictionary):
     new_mention_gender = new_mention.get('consensus_gender', None)
     if not new_mention_gender:
         return True
@@ -627,8 +627,8 @@ def is_gender_matched(new_mention,
                  'low_conf': 0}
     agree_counts_matrix = np.zeros((3, 3))
     disagree_counts_matrix = np.zeros((3, 3))
-    row = conf_keys[new_mention_gender[1]] 
-    # Check that the gender matches.    
+    row = conf_keys[new_mention_gender[1]]
+    # Check that the gender matches.
     for key_m in set_of_mentions:
         curr_mention = mentions_dictionary[key_m]
         curr_mention_gender = \
@@ -643,12 +643,14 @@ def is_gender_matched(new_mention,
     if np.sum(disagree_counts_matrix) > 0:
         return False
     else:
-        return True        
-          
+        return True
+
+
 def add_corefs_info(mentions_dictionary, corefs):
-    #COREFERENCE-BASED GENDER EXTRACTION
-    #print "COREFERENCE CHAINS"
-    #pprint(corefs)
+
+    # COREFERENCE-BASED GENDER EXTRACTION
+    # print "COREFERENCE CHAINS"
+    # pprint(corefs)
     for coref_chain in corefs.itervalues():
         mentions_pos = []
         male_pronoun_count = 0
@@ -659,25 +661,26 @@ def add_corefs_info(mentions_dictionary, corefs):
                    mention_dict['startIndex'],
                    mention_dict['endIndex'] - 1)
             # If pos matches one of our mentions
-            if pos in mentions_dictionary: 
-                mentions_pos.append(pos)     
-            # Otherwise, if pos contains one of our mentions        
+            if pos in mentions_dictionary:
+                mentions_pos.append(pos)
+            # Otherwise, if pos contains one of our mentions
             elif mention_dict['number'] == 'SINGULAR' and \
-                mention_dict['animacy'] == 'ANIMATE' and \
-                mention_dict['type'] == 'PROPER':
+                    mention_dict['animacy'] == 'ANIMATE' and \
+                    mention_dict['type'] == 'PROPER':
                 for (sent_num, start_index, end_index) in \
                         mentions_dictionary:
                     if sent_num == pos[0]:
                         if start_index >= pos[1] and \
-                            end_index <= pos[2]:
-                            mentions_pos.append((sent_num, start_index, end_index))    
+                                end_index <= pos[2]:
+                            mentions_pos.append(
+                                    (sent_num, start_index, end_index))
             if mention_dict['type'] == 'PRONOMINAL':
                 if mention_dict['gender'] == 'MALE':
                     male_pronoun_count += 1
                 if mention_dict['gender'] == 'FEMALE':
                     female_pronoun_count += 1
                 if mention_dict['animacy'] == 'INANIMATE' and \
-                    mention_dict['number'] == 'SINGULAR':
+                        mention_dict['number'] == 'SINGULAR':
                     it_pronoun_count += 1
         if len(mentions_pos) > 0:
             for pos_i, pos in enumerate(mentions_pos):
@@ -685,11 +688,12 @@ def add_corefs_info(mentions_dictionary, corefs):
                     print "THIS MENTION IS IN TWO COREFERENCE CHAINS"
                     print pos
                 mentions_dictionary[pos]['coref_gender'] = \
-                            {"MALE": male_pronoun_count,
-                             "FEMALE": female_pronoun_count,
-                             "NON-LIVING": it_pronoun_count}
+                    {"MALE": male_pronoun_count,
+                     "FEMALE": female_pronoun_count,
+                     "NON-LIVING": it_pronoun_count}
                 mentions_dictionary[pos]['coreferent_mentions'] = \
                     mentions_pos[:pos_i] + mentions_pos[pos_i + 1:]
+
 
 def add_consensus_gender(mentions_dictionary):
     high_conf_thres_coref = 3
@@ -702,7 +706,7 @@ def add_consensus_gender(mentions_dictionary):
         if mention.get('coref_gender', None):
             # get (gender, count) as a list of tuples.
             coref_counts = \
-                       sorted(mention['coref_gender'].items(), \
+                       sorted(mention['coref_gender'].items(),
                        key = lambda tup: tup[1], \
                        reverse = True)
             # find number of nonzero gender counts
