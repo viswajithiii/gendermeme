@@ -585,62 +585,6 @@ def get_people_mentioned_new(sentences, corefs):
     pprint(corefs)
     return id_to_info
 
-
-def add_quotes(sentences, corefs, mentions_dictionary,
-               mention_key_to_id, id_to_info):
-
-    for entity_id in id_to_info:
-        id_to_info[entity_id]['quotes'] = []
-
-    coref_mention_id_to_entity_id = {}
-    for mention_key, mention_dict in mentions_dictionary.iteritems():
-        coref_mention_id = mention_dict.get('coref_mention_id', None)
-        if coref_mention_id:
-            coref_mention_id_to_entity_id[coref_mention_id] = \
-                    mention_key_to_id[mention_key]
-
-    for sentence in sentences:
-        for token in sentence['tokens']:
-            if token.get('speaker', '').isdigit():
-                speaker_id = int(token['speaker'])
-                if VERBOSE:
-                    print 'FOUND QUOTE'
-                    print speaker_id
-                if speaker_id in coref_mention_id_to_entity_id:
-                    entity_id = coref_mention_id_to_entity_id[speaker_id]
-
-                id_to_info[entity_id]['quotes'].append(token)
-
-
-def is_gender_matched(new_mention, set_of_mentions,
-                      mentions_dictionary):
-    new_mention_gender = new_mention.get('consensus_gender', None)
-    if not new_mention_gender:
-        return True
-    conf_keys = {'high_conf': 2,
-                 'med_conf': 1,
-                 'low_conf': 0}
-    agree_counts_matrix = np.zeros((3, 3))
-    disagree_counts_matrix = np.zeros((3, 3))
-    row = conf_keys[new_mention_gender[1]]
-    # Check that the gender matches.
-    for key_m in set_of_mentions:
-        curr_mention = mentions_dictionary[key_m]
-        curr_mention_gender = \
-            curr_mention.get('consensus_gender', None)
-        if not curr_mention_gender:
-            continue
-        col = conf_keys[new_mention_gender[1]]
-        if curr_mention_gender[0] == new_mention_gender[0]:
-            agree_counts_matrix[row][col] += 1
-        else:
-            disagree_counts_matrix[row][col] += 1
-    if np.sum(disagree_counts_matrix) > 0:
-        return False
-    else:
-        return True
-
-
 def add_corefs_info(mentions_dictionary, corefs):
 
     # COREFERENCE-BASED GENDER EXTRACTION
@@ -854,6 +798,33 @@ def merge_mentions(mentions_dictionary):
 
     return disjoint_sets_of_mentions, id_to_info, mention_key_to_id
 
+def is_gender_matched(new_mention, set_of_mentions,
+                      mentions_dictionary):
+    new_mention_gender = new_mention.get('consensus_gender', None)
+    if not new_mention_gender:
+        return True
+    conf_keys = {'high_conf': 2,
+                 'med_conf': 1,
+                 'low_conf': 0}
+    agree_counts_matrix = np.zeros((3, 3))
+    disagree_counts_matrix = np.zeros((3, 3))
+    row = conf_keys[new_mention_gender[1]]
+    # Check that the gender matches.
+    for key_m in set_of_mentions:
+        curr_mention = mentions_dictionary[key_m]
+        curr_mention_gender = \
+            curr_mention.get('consensus_gender', None)
+        if not curr_mention_gender:
+            continue
+        col = conf_keys[new_mention_gender[1]]
+        if curr_mention_gender[0] == new_mention_gender[0]:
+            agree_counts_matrix[row][col] += 1
+        else:
+            disagree_counts_matrix[row][col] += 1
+    if np.sum(disagree_counts_matrix) > 0:
+        return False
+    else:
+        return True
 
 def is_mention_subset(small_mention_text, large_mention_text):
     """
@@ -877,6 +848,91 @@ def is_mention_subset(small_mention_text, large_mention_text):
                 (large_mention_tokens[0] + large_mention_tokens[-1]):
             return True
     return False
+
+def add_quotes(sentences, corefs, mentions_dictionary,
+               mention_key_to_id, id_to_info):
+
+    for entity_id in id_to_info:
+        id_to_info[entity_id]['quotes'] = []
+
+    coref_mention_id_to_entity_id = {}
+    for mention_key, mention_dict in mentions_dictionary.iteritems():
+        coref_mention_id = mention_dict.get('coref_mention_id', None)
+        if coref_mention_id:
+            coref_mention_id_to_entity_id[coref_mention_id] = \
+                    mention_key_to_id[mention_key]
+
+    unmatched_speakers_quotes = {}
+    for sentence in sentences:
+        for token in sentence['tokens']:
+            if token.get('speaker', '').isdigit():
+                speaker_id = int(token['speaker'])
+                if VERBOSE:
+                    print 'FOUND QUOTE'
+                    print speaker_id
+                if speaker_id in coref_mention_id_to_entity_id:
+                    entity_id = coref_mention_id_to_entity_id[speaker_id]
+                    id_to_info[entity_id]['quotes'].append(token)
+                else:
+                    if speaker_id not in unmatched_speakers_quotes:
+                        unmatched_speakers_quotes[speaker_id] = [token]
+                    else:
+                        unmatched_speakers_quotes[speaker_id].append(token)
+    
+    # Try to match the unmatched speakers to known entities.
+    
+    # First, match each mention in a coreference chain to the key of the coreference 
+    # chain. This gives us an easy way to go back and forth between mentions and the 
+    # coreference chain that they are in.
+    
+    coref_chain_mention_id_to_key = {}   
+    for coref_id, coref_chain in corefs.iteritems():
+        for mention_dict in coref_chain:
+            coref_chain_mention_id_to_key[mention_dict['id']] = coref_id
+    
+    # For every unmatched speaker, find the coreference chain.
+    
+    for unmatched_speaker, curr_quotes in unmatched_speakers_quotes.iteritems():
+        coref_chain_key = coref_chain_mention_id_to_key[unmatched_speaker]
+        coref_chain = corefs[coref_chain_key]
+        # Currently only care if the speaker is singular.
+        speaker_mention_dict = [el for el in coref_chain \
+                                    if el['id'] == unmatched_speaker][0]
+        if speaker_mention_dict['gender'] == 'NEUTRAL':
+            speaker_gender = 'NON-LIVING'
+        elif speaker_mention_dict['gender'] == 'UNKNOWN':
+            speaker_gender = None
+        else:
+            speaker_gender = speaker_mention_dict['gender']
+        speaker_text = speaker_mention_dict['text']
+        possible_entities = {} #Dict of ids to (count, gender)
+        for mention_dict in coref_chain:
+            if mention_dict == speaker_mention_dict: 
+                continue
+            if mention_dict['id'] in coref_mention_id_to_entity_id:
+                entity_id = coref_mention_id_to_entity_id[mention_dict['id']]
+                entity_gender = id_to_info['entity_id']['gender']
+                if speaker_gender and entity_gender != speaker_gender:
+                    continue
+                if entity_id in possible_entities:
+                    possible_entities[entity_id][0] += 1
+                else:
+                    possible_entities[entity_id] = (1, entity_gender)
+        if len(possible_entities) == 1:
+            # Go with the only speaker in the list
+            for entity_id in possible_entities:
+                id_to_info[entity_id]['quotes'].extend(curr_quotes)
+        else:
+            # More than one possible speaker: either take the speaker with the higher
+            # score, or mention both with some uncertainty (the latter is better). 
+            for entity_id in possible_entities:
+                id_to_info[entity_id]['quotes'].extend([(q, 'UNCERTAIN') for q in curr_quotes])
+            
+             
+            
+            
+         
+
 
 # PRIVATE UTILITY FUNCTIONS FOLLOW
 
@@ -986,7 +1042,6 @@ def _add_mention_to_dict(mention, people_mentioned):
             people_mentioned[existing_elem] += 1
     else:
         people_mentioned[sp_mention] = 1
-
 
 def _get_honorifics(sentences):
     '''
