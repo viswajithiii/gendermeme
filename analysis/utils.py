@@ -565,58 +565,13 @@ def get_people_mentioned_new(sentences, corefs):
     # and is this a single name?
     add_flag_last_name_to_be_inferred(mentions_dictionary)
 
-    disjoint_sets_of_mentions = {}
-    for key in sorted(mentions_dictionary):
-        new_mention = mentions_dictionary[key]
-        new_mention_text = new_mention['text']
-        intersection_idx = []
-        for idx, set_of_mentions in disjoint_sets_of_mentions.iteritems():
-            for key_m in set_of_mentions:
-                mention_text = mentions_dictionary[key_m]['text']
-                # Determine whether the new mention is a subset of
-                # an old mention.
-                if is_mention_subset(new_mention_text, mention_text):
-                    intersection_idx.append(idx)
-                    break
-        # If there is an intersection, we merge the new mention into the
-        # intersectiong set.
-        # FIXME: Most newsrooms have style guidelines that refer to a person
-        # by their full name when they first appear in the text.
-        # Subsequently, they are referred to by last name alone.
-        # Ideally, if everyone followed this convention, we could only
-        # consider last-name overlaps (ie, if Smith would overlap with
-        # Jane Smith, which would appear first).
-        # However, Jane Smith could later on be referred to in a quotation
-        # as Jane, and we would miss this. Also, if they style guideline
-        # were not followed, and instead Jane Smith were later referred to
-        # as Jane, we would miss this.
-        # So, we consider any kind of overlap as a sign of life.
-        # This opens the door to potential mistakes:
-        # Example: "Barack and Sasha Obama took a weeklong vacation. Jim Smith
-        # and his wife Sasha wisely stayed away." --> We would incorrectly
-        # classify Sasha Obama and Jim Smith's wife Sasha as the same person.
-        gender_match = False
-        for idx in intersection_idx:
-            set_of_mentions = \
-                disjoint_sets_of_mentions[idx]
-            gender_match = \
-                is_gender_matched(new_mention,
-                                  set_of_mentions,
-                                  mentions_dictionary)
-            if gender_match:
-                set_of_mentions.add(key)
-                break
-        if not gender_match:
-            idx = len(disjoint_sets_of_mentions)
-            disjoint_sets_of_mentions[idx] = set([key])
-        # CHECK IF IT IS A SUBSET OF MORE THAN ONE DISJOINT SET.
+    disjoint_set_of_mentions = merge_mentions(mentions_dictionary)
 
     print 'MENTIONS DICTIONARY'
     pprint(mentions_dictionary)
     print 'DISJOINT SET OF MENTIONS BELOW YOYO'
     pprint(disjoint_sets_of_mentions)
-
-
+    
 def is_gender_matched(new_mention, set_of_mentions,
                       mentions_dictionary):
     new_mention_gender = new_mention.get('consensus_gender', None)
@@ -764,6 +719,55 @@ def add_flag_last_name_to_be_inferred(mentions_dictionary):
             if first_time:
                 mentions_dictionary[key]['flag_last_name_to_infer'] = True
         set_of_mentions.add(mention)
+
+def merge_mentions(mentions_dictionary):
+    disjoint_sets_of_mentions = {}
+    for key in sorted(mentions_dictionary):
+        new_mention = mentions_dictionary[key]
+        new_mention_text = new_mention['text']
+        intersection_idx = []
+        for idx, set_of_mentions in disjoint_sets_of_mentions.iteritems():
+            for key_m in set_of_mentions:
+                mention_text = mentions_dictionary[key_m]['text']
+                # Determine whether the new mention is a subset of
+                # an old mention.
+                if is_mention_subset(new_mention_text, mention_text):
+                    intersection_idx.append(idx)
+                    break
+        # If there is an intersection, we merge the new mention into the
+        # intersectiong set.
+        # FIXME: Most newsrooms have style guidelines that refer to a person
+        # by their full name when they first appear in the text.
+        # Subsequently, they are referred to by last name alone.
+        # Ideally, if everyone followed this convention, we could only
+        # consider last-name overlaps (ie, if Smith would overlap with
+        # Jane Smith, which would appear first).
+        # However, Jane Smith could later on be referred to in a quotation
+        # as Jane, and we would miss this. Also, if they style guideline
+        # were not followed, and instead Jane Smith were later referred to
+        # as Jane, we would miss this.
+        # So, we consider any kind of overlap as a sign of life.
+        # This opens the door to potential mistakes:
+        # Example: "Barack and Sasha Obama took a weeklong vacation. Jim Smith
+        # and his wife Sasha wisely stayed away." --> We would incorrectly
+        # classify Sasha Obama and Jim Smith's wife Sasha as the same person.
+        gender_match = False
+        for idx in intersection_idx:
+            set_of_mentions = \
+                disjoint_sets_of_mentions[idx]
+            gender_match = \
+                is_gender_matched(new_mention,
+                                  set_of_mentions,
+                                  mentions_dictionary)
+            if gender_match:
+                set_of_mentions.add(key)
+                break
+        if not gender_match:
+            idx = len(disjoint_sets_of_mentions)
+            disjoint_sets_of_mentions[idx] = set([key])
+        # CHECK IF IT IS A SUBSET OF MORE THAN ONE DISJOINT SET.
+    
+    return id_to_set_of_mentions, id_to_name
 
 def is_mention_subset(small_mention_text, large_mention_text):  
     """
