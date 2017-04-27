@@ -580,9 +580,10 @@ def get_people_mentioned_new(sentences, corefs):
     '''
     print 'SENTENCES'
     pprint([s['tokens'] for s in sentences])
+    '''
     print 'COREFS'
     pprint(corefs)
-    '''
+    return id_to_info
 
 
 def add_quotes(sentences, corefs, mentions_dictionary,

@@ -186,8 +186,7 @@ def dump_error(corenlp_fn, manual_path, output):
                     continue
 
             # Load Automated
-            people_mentioned, quotes, verbs, sources, adjectives = \
-                get_article_info(art_data['text'], ann=ann)
+            people_mentioned = get_article_info(art_data['text'], ann=ann)
 
             for name in manual_ann:
                 to_print = {'art_id': art_id, 'url': art_data['url'],

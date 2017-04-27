@@ -26,7 +26,9 @@ def get_article_info(article_text, ann=None, verbose=False):
         pprint(corefs)
 
     people_mentioned = get_people_mentioned_new(sentences, corefs)
-    return people_mentioned, None, None, None, None
+    return people_mentioned
+
+    '''
     people_mentioned = get_people_mentioned(sentences, corefs,
                                             include_gender=True)
     quotes = get_quotes(people_mentioned, sentences, corefs)
@@ -35,3 +37,4 @@ def get_article_info(article_text, ann=None, verbose=False):
                                people_to_verbs=verbs)
     adjectives = get_associated_adjectives(people_mentioned, sentences, corefs)
     return people_mentioned, quotes, verbs, sources, adjectives
+    '''
