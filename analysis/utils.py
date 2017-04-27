@@ -1,6 +1,7 @@
 from collections import defaultdict
 from gender import gender, gender_special
 from pprint import pprint
+import numpy as np
 
 VERBOSE = False
 
@@ -574,10 +575,6 @@ def get_people_mentioned_new(sentences, corefs):
                 if is_mention_subset(new_mention_text, mention_text):
                     intersection_idx.append(idx)
                     break
-        if len(intersection_idx) == 0:
-            idx = len(disjoint_sets_of_mentions)
-            disjoint_sets_of_mentions[idx] = set([key])
-            continue
         # If there is an intersection, we merge the new mention into the 
         # intersectiong set.
         # FIXME: Most newsrooms have style guidelines that refer to a person
@@ -595,19 +592,29 @@ def get_people_mentioned_new(sentences, corefs):
         # Example: "Barack and Sasha Obama took a weeklong vacation. Jim Smith 
         # and his wife Sasha wisely stayed away." --> We would incorrectly classify
         # Sasha Obama and Jim Smith's wife Sasha as the same person.
-        if len(intersection_idx) == 1:
+        gender_match = False
+        for idx in intersection_idx:
             set_of_mentions = \
-                disjoint_sets_of_mentions[intersection_idx[0]]
+                disjoint_sets_of_mentions[idx]
             gender_match = \
                 is_gender_matched(new_mention,
                                      set_of_mentions,
                                      mentions_dictionary)
             if gender_match:
                 set_of_mentions.add(key)
-            if not gender_match:
-                idx = len(disjoint_sets_of_mentions)
-                disjoint_sets_of_mentions[idx] = set([key])
+                break
+        if not gender_match:
+            idx = len(disjoint_sets_of_mentions)
+            disjoint_sets_of_mentions[idx] = set([key])
         # CHECK IF IT IS A SUBSET OF MORE THAN ONE DISJOINT SET.
+
+    print 'MENTIONS DICTIONARY'
+    pprint(mentions_dictionary)
+    print 'DISJOINT SET OF MENTIONS BELOW YOYO'
+    pprint(disjoint_sets_of_mentions)
+    
+    
+
              
 def is_gender_matched(new_mention,
                          set_of_mentions, 
@@ -618,10 +625,9 @@ def is_gender_matched(new_mention,
     conf_keys = {'high_conf': 2,
                  'med_conf': 1,
                  'low_conf': 0}
+    agree_counts_matrix = np.zeros((3, 3))
+    disagree_counts_matrix = np.zeros((3, 3))
     row = conf_keys[new_mention_gender[1]] 
-    agree_counts_matrix = [[0, 0, 0] for _ in range(3)]
-    disagree_counts_matrix = [[0, 0, 0] for _ in range(3)]
-    
     # Check that the gender matches.    
     for key_m in set_of_mentions:
         curr_mention = mentions_dictionary[key_m]
@@ -634,7 +640,7 @@ def is_gender_matched(new_mention,
             agree_counts_matrix[row][col] += 1
         else:
             disagree_counts_matrix[row][col] += 1
-    if sum(disagree_counts) > 0:
+    if np.sum(disagree_counts_matrix) > 0:
         return False
     else:
         return True        
@@ -690,7 +696,7 @@ def add_consensus_gender(mentions_dictionary):
     for mention in mentions_dictionary.values():
         hon_gender = None
         coref_gender = None
-        num_nonzero_coref_counts = 0
+        num_nonzero_conf_counts = 0
         if mention.get('hon_gender', None):
             hon_gender = mention['hon_gender']
         if mention.get('coref_gender', None):
