@@ -568,12 +568,47 @@ def get_people_mentioned_new(sentences, corefs):
     disjoint_sets_of_mentions, id_to_info, mention_key_to_id = \
         merge_mentions(mentions_dictionary)
 
+    add_quotes(sentences, corefs, mentions_dictionary, mention_key_to_id,
+               id_to_info)
+
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
     print 'DISJOINT SET OF MENTIONS:'
     pprint(disjoint_sets_of_mentions)
     print 'ID TO INFO:'
     pprint(id_to_info)
+    '''
+    print 'SENTENCES'
+    pprint([s['tokens'] for s in sentences])
+    print 'COREFS'
+    pprint(corefs)
+    '''
+
+
+def add_quotes(sentences, corefs, mentions_dictionary,
+               mention_key_to_id, id_to_info):
+
+    for entity_id in id_to_info:
+        id_to_info[entity_id]['quotes'] = []
+
+    coref_mention_id_to_entity_id = {}
+    for mention_key, mention_dict in mentions_dictionary.iteritems():
+        coref_mention_id = mention_dict.get('coref_mention_id', None)
+        if coref_mention_id:
+            coref_mention_id_to_entity_id[coref_mention_id] = \
+                    mention_key_to_id[mention_key]
+
+    for sentence in sentences:
+        for token in sentence['tokens']:
+            if token.get('speaker', '').isdigit():
+                speaker_id = int(token['speaker'])
+                if VERBOSE:
+                    print 'FOUND QUOTE'
+                    print speaker_id
+                if speaker_id in coref_mention_id_to_entity_id:
+                    entity_id = coref_mention_id_to_entity_id[speaker_id]
+
+                id_to_info[entity_id]['quotes'].append(token)
 
 
 def is_gender_matched(new_mention, set_of_mentions,
@@ -610,7 +645,7 @@ def add_corefs_info(mentions_dictionary, corefs):
     # COREFERENCE-BASED GENDER EXTRACTION
     # print "COREFERENCE CHAINS"
     # pprint(corefs)
-    for coref_chain in corefs.itervalues():
+    for coref_chain_id, coref_chain in corefs.iteritems():
         mentions_pos = []
         male_pronoun_count = 0
         female_pronoun_count = 0
@@ -622,6 +657,9 @@ def add_corefs_info(mentions_dictionary, corefs):
             # If pos matches one of our mentions
             if pos in mentions_dictionary:
                 mentions_pos.append(pos)
+                mentions_dictionary[pos]['coref_mention_id'] = \
+                    mention_dict['id']
+
             # Otherwise, if pos contains one of our mentions
             elif mention_dict['number'] == 'SINGULAR' and \
                     mention_dict['animacy'] == 'ANIMATE' and \
@@ -633,6 +671,11 @@ def add_corefs_info(mentions_dictionary, corefs):
                                 end_index <= pos[2]:
                             mentions_pos.append(
                                     (sent_num, start_index, end_index))
+                            mentions_dictionary[
+                                    (sent_num, start_index, end_index)][
+                                    'coref_mention_id'] =\
+                                mention_dict['id']
+
             if mention_dict['type'] == 'PRONOMINAL':
                 if mention_dict['gender'] == 'MALE':
                     male_pronoun_count += 1
@@ -772,7 +815,6 @@ def merge_mentions(mentions_dictionary):
         if not gender_match:
             idx = len(disjoint_sets_of_mentions)
             disjoint_sets_of_mentions[idx] = set([key])
-        # CHECK IF IT IS A SUBSET OF MORE THAN ONE DISJOINT SET.
 
     id_to_info = {}
     mention_key_to_id = {}
