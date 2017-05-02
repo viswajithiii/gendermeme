@@ -5,6 +5,7 @@ a directory with manual annotations
 import argparse
 import os
 import json
+import time
 from analysis import get_article_info
 
 
@@ -233,7 +234,9 @@ def dump_error(corenlp_fn, manual_path, output):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('outputsuffix')
+    parser.add_argument('outputsuffix', nargs='?',
+                        default='_'.join(
+                            time.ctime().replace(':', '_').split()))
 
     parser.add_argument(
             '--manual-path',
