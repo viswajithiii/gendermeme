@@ -1,0 +1,44 @@
+art_id	name	where	m_gender	a_gender	m_count	a_count	m_quotes	a_quotes
+a001	Rebekah Mercer	manual_only							
+a001	Charles G. Koch	manual_only							
+a001	Robert Mercer	both	male	female	8	9	0	0	
+a001	Alexander Nix	both	male	male	12	15	63	86	
+a001	Brent Seaborn	both	male	male	1	1	35	73	
+a001	Alexander Polonsky	manual_only							
+a001	Mark Laity	both	male	male	1	1	8	9	
+a001	David Magerman	manual_only							
+a001	Rick Tyler	both	male	male	2	2	24	27	
+a001	David H. Koch	both	male	male	1	2	0	59	
+a001	Brad Parscale	both	male	male	1	1	0	0	
+a001	Donald J. Trump	both	male	male	15	24	0	0	
+a001	Matt Oczkowski	both	male	male	1	1	17	21	
+a001	Alexander Tayler	manual_only							
+a001	Stephen K. Bannon	both	male	male	11	11	0	0	
+a001	A Joint Chiefs spokesman (anonymous source)	manual_only							
+a001	Ted Cruz	both	male	male	4	8	0	0	
+a001	Rebekah	auto_only							
+a001	Tayler	auto_only							
+a001	Bob	auto_only							
+a001	Charles G.	auto_only							
+a002	Kerri Kupec	both	female	female	1	1	44	0	
+a002	S. Kyle Duncan	manual_only							
+a002	Trump	both	male	male	5	1	0	0	
+a002	Joshua A. Block	manual_only							
+a002	Sarah Warbelow	both	female	female	1	1	26	28	
+a002	Gavin Grimm	both	male	male	8	1	0	0	
+a002	Obama	manual_only							
+a003	Elon Musk	manual_only							
+a003	Jeff Bezos	manual_only							
+a003	Henry Hertzfeld	both	male	male	1	1	25	30	
+a003	John Glenn	both	male	male	1	1	0	0	
+a003	Rodolphe Belmer	both	male	None	1	1	30	33	
+a003	Carissa Bryce Christensen	both	female	female	2	2	40	44	
+a003	Musk	auto_only							
+a004	Dean Boyd	both	male	male	1	1	13	14	
+a004	Edward J. Snowden	both	male	male	2	2	0	0	
+a004	Beau Woods	both	male	male	1	1	41	14	
+a004	Chelsea Manning	both	female	female	1	1	0	0	
+a004	Ben Wizner	both	male	male	2	2	36	42	
+a004	James Lewis	both	male	male	3	3	19	20	
+a004	Robert M. Chesney	both	male	male	2	2	29	35	
+a004	Python	auto_only							
