@@ -39,15 +39,17 @@ def get_gender(name, verbose=False):
     if not found:
         special_found = gender_special.get(name, None)
         if special_found:
-            return special_found
+            return special_found.upper()
         if verbose:
             print 'Gender not found:', name
     if type(found) is tuple:
         special_found = gender_special.get(name, None)
         if special_found:
-            return special_found
+            return special_found.upper()
         if verbose:
             print 'Ambiguous gender:', name, found
+    elif type(found) is str:
+        found = found.upper()
     return found
 
 
@@ -571,19 +573,21 @@ def get_people_mentioned_new(sentences, corefs):
     add_quotes(sentences, corefs, mentions_dictionary, mention_key_to_id,
                id_to_info)
 
+    '''
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
     print 'DISJOINT SET OF MENTIONS:'
     pprint(disjoint_sets_of_mentions)
     print 'ID TO INFO:'
     pprint(id_to_info)
-    '''
     print 'SENTENCES'
     pprint([s['tokens'] for s in sentences])
-    '''
     print 'COREFS'
     pprint(corefs)
+    pprint(id_to_info)
+    '''
     return id_to_info
+
 
 def add_corefs_info(mentions_dictionary, corefs):
 
@@ -792,11 +796,15 @@ def merge_mentions(mentions_dictionary):
                         # Of course, our current code ensures no conflict ...
                         set_gender = 'UNKNOWN'
 
+        if set_gender is None:
+            set_gender = get_gender(longest_mention)
+
         id_to_info[_id] = {'name': longest_mention,
                            'gender': set_gender,
                            'count': len(set_of_mentions)}
 
     return disjoint_sets_of_mentions, id_to_info, mention_key_to_id
+
 
 def is_gender_matched(new_mention, set_of_mentions,
                       mentions_dictionary):
@@ -826,6 +834,7 @@ def is_gender_matched(new_mention, set_of_mentions,
     else:
         return True
 
+
 def is_mention_subset(small_mention_text, large_mention_text):
     """
     Check if the smaller mention is a "subset" of the larger mention.
@@ -848,6 +857,7 @@ def is_mention_subset(small_mention_text, large_mention_text):
                 (large_mention_tokens[0] + large_mention_tokens[-1]):
             return True
     return False
+
 
 def add_quotes(sentences, corefs, mentions_dictionary,
                mention_key_to_id, id_to_info):
@@ -878,44 +888,47 @@ def add_quotes(sentences, corefs, mentions_dictionary,
                         unmatched_speakers_quotes[speaker_id] = [token]
                     else:
                         unmatched_speakers_quotes[speaker_id].append(token)
-    
+
     # Try to match the unmatched speakers to known entities.
-    
-    # First, match each mention in a coreference chain to the key of the coreference 
-    # chain. This gives us an easy way to go back and forth between mentions and the 
-    # coreference chain that they are in.
-    
-    coref_chain_mention_id_to_key = {}   
+
+    # First, match each mention in a coreference chain to the key of the
+    # coreference chain. This gives us an easy way to go back and forth
+    # between mentions and the coreference chain that they are in.
+
+    coref_chain_mention_id_to_key = {}
     for coref_id, coref_chain in corefs.iteritems():
         for mention_dict in coref_chain:
             coref_chain_mention_id_to_key[mention_dict['id']] = coref_id
-    
+
     # For every unmatched speaker, find the coreference chain.
-    
-    for unmatched_speaker, curr_quotes in unmatched_speakers_quotes.iteritems():
+
+    for unmatched_speaker, curr_quotes in \
+            unmatched_speakers_quotes.iteritems():
         coref_chain_key = coref_chain_mention_id_to_key[unmatched_speaker]
         coref_chain = corefs[coref_chain_key]
         # Currently only care if the speaker is singular.
-        speaker_mention_dict = [el for el in coref_chain \
-                                    if el['id'] == unmatched_speaker][0]
+        speaker_mention_dict = [el for el in coref_chain
+                                if el['id'] == unmatched_speaker][0]
         if speaker_mention_dict['gender'] == 'NEUTRAL':
             speaker_gender = 'NON-LIVING'
         elif speaker_mention_dict['gender'] == 'UNKNOWN':
             speaker_gender = None
         else:
             speaker_gender = speaker_mention_dict['gender']
-        speaker_text = speaker_mention_dict['text']
-        possible_entities = {} #Dict of ids to (count, gender)
+
+        possible_entities = {}  # Dict of ids to (count, gender)
         for mention_dict in coref_chain:
-            if mention_dict == speaker_mention_dict: 
+            if mention_dict == speaker_mention_dict:
                 continue
             if mention_dict['id'] in coref_mention_id_to_entity_id:
                 entity_id = coref_mention_id_to_entity_id[mention_dict['id']]
-                entity_gender = id_to_info['entity_id']['gender']
+                entity_gender = id_to_info[entity_id]['gender']
                 if speaker_gender and entity_gender != speaker_gender:
                     continue
                 if entity_id in possible_entities:
-                    possible_entities[entity_id][0] += 1
+                    possible_entities[entity_id] = (
+                            possible_entities[entity_id][0] + 1,
+                            possible_entities[entity_id][1])
                 else:
                     possible_entities[entity_id] = (1, entity_gender)
         if len(possible_entities) == 1:
@@ -923,15 +936,12 @@ def add_quotes(sentences, corefs, mentions_dictionary,
             for entity_id in possible_entities:
                 id_to_info[entity_id]['quotes'].extend(curr_quotes)
         else:
-            # More than one possible speaker: either take the speaker with the higher
-            # score, or mention both with some uncertainty (the latter is better). 
+            # More than one possible speaker: either take the speaker with
+            # the higher score, or mention both with some uncertainty
+            # (the latter is better).
             for entity_id in possible_entities:
-                id_to_info[entity_id]['quotes'].extend([(q, 'UNCERTAIN') for q in curr_quotes])
-            
-             
-            
-            
-         
+                id_to_info[entity_id]['quotes'].extend(
+                        [(q, 'UNCERTAIN') for q in curr_quotes])
 
 
 # PRIVATE UTILITY FUNCTIONS FOLLOW
@@ -1042,6 +1052,7 @@ def _add_mention_to_dict(mention, people_mentioned):
             people_mentioned[existing_elem] += 1
     else:
         people_mentioned[sp_mention] = 1
+
 
 def _get_honorifics(sentences):
     '''

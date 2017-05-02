@@ -25,8 +25,16 @@ def get_article_info(article_text, ann=None, verbose=False):
         pprint(sentences)
         pprint(corefs)
 
-    people_mentioned = get_people_mentioned_new(sentences, corefs)
-    return people_mentioned
+    id_to_info = get_people_mentioned_new(sentences, corefs)
+
+    people_mentioned = {}
+    quotes = {}
+    for _id, info_dict in id_to_info.iteritems():
+        people_mentioned[info_dict['name']] = \
+                (info_dict['count'], (info_dict['gender'], None))
+        quotes[info_dict['name']] = info_dict['quotes']
+
+    return people_mentioned, quotes, None, None, None
 
     '''
     people_mentioned = get_people_mentioned(sentences, corefs,

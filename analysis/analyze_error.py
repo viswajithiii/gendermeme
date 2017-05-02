@@ -186,21 +186,26 @@ def dump_error(corenlp_fn, manual_path, output):
                     continue
 
             # Load Automated
-            people_mentioned = get_article_info(art_data['text'], ann=ann)
+            people_mentioned, quotes, verbs, sources, adjectives = \
+                get_article_info(art_data['text'], ann=ann)
 
             for name in manual_ann:
                 to_print = {'art_id': art_id, 'url': art_data['url'],
                             'name': name}
+                m_gender, m_count, m_quotes = manual_ann[name]
                 if name in people_mentioned:
                     to_print['where'] = 'both'
                     a_count, (a_gender, _) = people_mentioned[name]
-                    m_gender, m_count, m_quotes = manual_ann[name]
                     a_quotes = len(quotes[name])
                     m_count = 0 if len(m_count) == 0 else int(m_count)
                     m_quotes = 0 if len(m_quotes) == 0 else int(m_quotes)
                     to_print['m_gender'] = m_gender.lower()
-                    to_print['a_gender'] = \
-                        a_gender.lower() if a_gender else None
+                    if type(a_gender) is str:
+                        to_print['a_gender'] = a_gender.lower()
+                    elif type(a_gender) is tuple:
+                        to_print['a_gender'] = a_gender[0].lower()
+                    else:
+                        to_print['a_gender'] = None
                     to_print['m_count'] = m_count
                     to_print['a_count'] = a_count
                     to_print['m_quotes'] = m_quotes
@@ -208,6 +213,7 @@ def dump_error(corenlp_fn, manual_path, output):
 
                 else:
                     to_print['where'] = 'manual_only'
+                    to_print['m_gender'] = m_gender
 
                 with open(output, 'a') as output_f:
                     for key in KEYS:
@@ -227,6 +233,8 @@ def dump_error(corenlp_fn, manual_path, output):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument('outputsuffix')
+
     parser.add_argument(
             '--manual-path',
             default='/Users/viswa/Desktop/Box Sync/Gendermeme/Annotations')
@@ -234,12 +242,11 @@ if __name__ == "__main__":
             '--corenlp-ann',
             default=os.path.join(get_file_path(),
                                  '../annotated/manual/ann.tsv'))
-    parser.add_argument(
-            '--output',
-            default=os.path.join(get_file_path(),
-                                 '../annotated/manual/ann_dump.tsv'))
 
     args = parser.parse_args()
+    output_path = os.path.join(get_file_path(),
+                               '../annotated/manual/ann_dump_{}.tsv'.format(
+                                   args.outputsuffix))
 
     # analyze_error(args.corenlp_ann, args.manual_path, 'v')
-    dump_error(args.corenlp_ann, args.manual_path, args.output)
+    dump_error(args.corenlp_ann, args.manual_path, output_path)
