@@ -574,6 +574,7 @@ def get_people_mentioned_new(sentences, corefs):
                id_to_info)
 
     '''
+    print 'BLAH'
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
     print 'DISJOINT SET OF MENTIONS:'
