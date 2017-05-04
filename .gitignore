@@ -90,3 +90,5 @@ ENV/
 
 # Vim swp files
 *.swp
+
+*.DS_Store

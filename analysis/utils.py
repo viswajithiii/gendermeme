@@ -1,5 +1,6 @@
 from collections import defaultdict
-from gender import gender, gender_special
+from gender_babynames import gender
+from gender import gender_special
 from pprint import pprint
 import numpy as np
 
@@ -30,11 +31,13 @@ def get_gender(name, verbose=False):
     Get the gender from a name.
     Works with full names by extracting the first name out.
     """
+    print 'Called with', name
     name = name.upper()
 
     first_name = name.split()[0]
     if first_name == 'DR.':
         first_name = name.split()[1]
+    print first_name
     found = gender.get(first_name, None)
     if not found:
         special_found = gender_special.get(name, None)
@@ -574,7 +577,6 @@ def get_people_mentioned_new(sentences, corefs):
                id_to_info)
 
     '''
-    print 'BLAH'
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
     print 'DISJOINT SET OF MENTIONS:'

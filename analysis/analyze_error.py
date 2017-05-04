@@ -224,8 +224,17 @@ def dump_error(corenlp_fn, manual_path, output):
             for name in people_mentioned:
                 if name in manual_ann:
                     continue
+                a_count, (a_gender, _) = people_mentioned[name]
+                if type(a_gender) is str:
+                    a_gender = a_gender.lower()
+                elif type(a_gender) is tuple:
+                    a_gender = a_gender[0].lower()
+                else:
+                    a_gender = None
+
                 to_print = {'art_id': art_id, 'url': art_data['url'],
-                            'name': name, 'where': 'auto_only'}
+                            'name': name, 'where': 'auto_only',
+                            'a_gender': a_gender, 'a_count': a_count}
                 with open(output, 'a') as output_f:
                     for key in KEYS:
                         output_f.write('{}\t'.format(to_print.get(key, '')))
