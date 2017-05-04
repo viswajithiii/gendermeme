@@ -573,14 +573,13 @@ def get_people_mentioned_new(sentences, corefs):
     add_quotes(sentences, corefs, mentions_dictionary, mention_key_to_id,
                id_to_info)
 
-    '''
-    print 'BLAH'
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
     print 'DISJOINT SET OF MENTIONS:'
     pprint(disjoint_sets_of_mentions)
     print 'ID TO INFO:'
     pprint(id_to_info)
+    '''
     print 'SENTENCES'
     pprint([s['tokens'] for s in sentences])
     print 'COREFS'
