@@ -31,13 +31,11 @@ def get_gender(name, verbose=False):
     Get the gender from a name.
     Works with full names by extracting the first name out.
     """
-    print 'Called with', name
     name = name.upper()
 
     first_name = name.split()[0]
     if first_name == 'DR.':
         first_name = name.split()[1]
-    print first_name
     found = gender.get(first_name, None)
     if not found:
         special_found = gender_special.get(name, None)
@@ -568,7 +566,7 @@ def get_people_mentioned_new(sentences, corefs):
 
     # Add a flag: Is this the first time we are seeing this name,
     # and is this a single name?
-    add_flag_last_name_to_be_inferred(mentions_dictionary)
+    add_flag_last_name_to_be_inferred(mentions_dictionary, sentences)
 
     disjoint_sets_of_mentions, id_to_info, mention_key_to_id = \
         merge_mentions(mentions_dictionary)
@@ -576,9 +574,9 @@ def get_people_mentioned_new(sentences, corefs):
     add_quotes(sentences, corefs, mentions_dictionary, mention_key_to_id,
                id_to_info)
 
-    '''
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
+    '''
     print 'DISJOINT SET OF MENTIONS:'
     pprint(disjoint_sets_of_mentions)
     print 'ID TO INFO:'
@@ -696,7 +694,45 @@ def add_consensus_gender(mentions_dictionary):
         # surname.
 
 
-def add_flag_last_name_to_be_inferred(mentions_dictionary):
+def detect_relationships(mentions_dictionary, key_to_detect, sentences):
+
+    sent_idx, start_pos, end_pos = key_to_detect
+    curr_sentence = sentences[sent_idx - 1]
+    dep_parse = curr_sentence['collapsed-ccprocessed-dependencies']
+
+    other_mentions_in_sentence = [key for key in mentions_dictionary if
+                                  key[0] == sent_idx]
+
+    related_mention_info = None
+
+    # Trying to detect John and Jane Smith
+    if start_pos == end_pos:
+
+        # This is the next token because start_pos is 1-based
+        if curr_sentence['tokens'][start_pos]['lemma'] == 'and':
+            is_subject = False
+            for dep in dep_parse:
+                if dep['dependent'] == start_pos:
+                    if dep['dep'] == 'nsubj':
+                        is_subject = True
+                        break
+
+            if is_subject:
+                mention_after_and = None
+                for key in other_mentions_in_sentence:
+                    if key[1] == end_pos + 2:
+                        mention_after_and = key
+                        break
+
+                if mention_after_and is not None:
+                    related_mention_info = {
+                        'key': mention_after_and,
+                        'rel': 'and_surname_sharing'
+                    }
+    return related_mention_info
+
+
+def add_flag_last_name_to_be_inferred(mentions_dictionary, sentences):
     """
     Add a flag: Is this the first time we are seeing this name,
     and is this a single name?
@@ -721,6 +757,19 @@ def add_flag_last_name_to_be_inferred(mentions_dictionary):
                 mentions_dictionary[key]['flag_last_name_to_infer'] = True
         set_of_mentions.add(mention)
 
+    for key in sorted(mentions_dictionary):
+        if not mentions_dictionary[key].get('flag_last_name_to_infer'):
+            continue
+
+        related_mention_info = detect_relationships(
+            mentions_dictionary, key, sentences)
+
+        if related_mention_info is not None:
+            related_mention = mentions_dictionary[related_mention_info['key']]
+            if related_mention_info['rel'] == 'and_surname_sharing':
+                mentions_dictionary[key]['potential_surname'] = \
+                        related_mention['text'].split()[-1]
+
 
 def merge_mentions(mentions_dictionary):
     disjoint_sets_of_mentions = {}
@@ -736,6 +785,24 @@ def merge_mentions(mentions_dictionary):
                 if is_mention_subset(new_mention_text, mention_text):
                     intersection_idx.append(idx)
                     break
+
+        # This is for potential (ie, inferred) surnames
+        potential_intersection_idx = []
+        for idx, set_of_mentions in disjoint_sets_of_mentions.iteritems():
+            if idx in intersection_idx:
+                continue
+            for key_m in set_of_mentions:
+                mention_m = mentions_dictionary[key_m]
+                if 'potential_surname' not in mention_m:
+                    continue
+                mention_text = '{} {}'.format(
+                        mention_m['text'], mention_m['potential_surname'])
+                # Determine whether the new mention is a subset of
+                # an old mention.
+                if is_mention_subset(new_mention_text, mention_text):
+                    potential_intersection_idx.append(idx)
+                    break
+
         # If there is an intersection, we merge the new mention into the
         # intersectiong set.
         # FIXME: Most newsrooms have style guidelines that refer to a person
@@ -757,13 +824,26 @@ def merge_mentions(mentions_dictionary):
         for idx in intersection_idx:
             set_of_mentions = \
                 disjoint_sets_of_mentions[idx]
-            gender_match = \
-                is_gender_matched(new_mention,
-                                  set_of_mentions,
-                                  mentions_dictionary)
+            if is_gender_matched(new_mention,
+                                 set_of_mentions,
+                                 mentions_dictionary):
+                gender_match = True
             if gender_match:
                 set_of_mentions.add(key)
                 break
+
+        if not gender_match:
+            for idx in potential_intersection_idx:
+                set_of_mentions = \
+                    disjoint_sets_of_mentions[idx]
+                if is_gender_matched(new_mention,
+                                     set_of_mentions,
+                                     mentions_dictionary):
+                    gender_match = True
+                if gender_match:
+                    set_of_mentions.add(key)
+                    break
+
         if not gender_match:
             idx = len(disjoint_sets_of_mentions)
             disjoint_sets_of_mentions[idx] = set([key])
@@ -776,8 +856,11 @@ def merge_mentions(mentions_dictionary):
         for key in set_of_mentions:
             mention_key_to_id[key] = _id
             mention = mentions_dictionary[key]
-            if len(mention['text']) > len(longest_mention):
-                longest_mention = mention['text']
+            text = mention['text']
+            if 'potential_surname' in mention:
+                text += ' {}'.format(mention['potential_surname'])
+            if len(text) > len(longest_mention):
+                longest_mention = text
 
             curr_gender = mention.get('consensus_gender', None)
             if curr_gender:

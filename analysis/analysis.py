@@ -34,15 +34,13 @@ def get_article_info(article_text, ann=None, verbose=False):
                 (info_dict['count'], (info_dict['gender'], None))
         quotes[info_dict['name']] = info_dict['quotes']
 
-    return people_mentioned, quotes, None, None, None
+    # return people_mentioned, quotes, None, None, None
 
-    '''
-    people_mentioned = get_people_mentioned(sentences, corefs,
-                                            include_gender=True)
-    quotes = get_quotes(people_mentioned, sentences, corefs)
+    # people_mentioned = get_people_mentioned(sentences, corefs,
+    #                                         include_gender=True)
+    # quotes = get_quotes(people_mentioned, sentences, corefs)
     verbs = get_associated_verbs(people_mentioned, sentences, corefs)
     sources = identify_sources(people_mentioned, people_to_quotes=quotes,
                                people_to_verbs=verbs)
     adjectives = get_associated_adjectives(people_mentioned, sentences, corefs)
     return people_mentioned, quotes, verbs, sources, adjectives
-    '''
