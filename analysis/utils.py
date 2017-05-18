@@ -30,6 +30,12 @@ RELATIONSHIP_WORDS = {
     'father',
 }
 
+CONF_KEYS = {
+    'high_conf': 2,
+    'med_conf': 1,
+    'low_conf': 0
+}
+
 
 def get_gender(name, verbose=False):
     """
@@ -629,13 +635,14 @@ def add_corefs_info(mentions_dictionary, corefs):
                     mention_dict['type'] == 'PROPER':
                 # prospective_keys collects the keys in mentions_dictionary
                 # which are located inside pos.
-                # Note that there can be more than one key! 
+                # Note that there can be more than one key!
                 # For example:
-                # The mention text in mention_dict (in the coref chain) could be
+                # The mention text in mention_dict (in the coref chain)
+                # could be
                 # "David Magerman, a Renaissance research scientist
-                # who was recently suspended after criticizing his boss's 
+                # who was recently suspended after criticizing his boss's
                 # support for Mr. Trump".
-                # In this case, two mentions in mentions_dictionary 
+                # In this case, two mentions in mentions_dictionary
                 # ('David Magerman' and 'Mr. Trump') have keys which indicate
                 # that they lie within this (coref chain's) mention's text.
                 # So, we extract both the keys, and store them in a
@@ -647,20 +654,21 @@ def add_corefs_info(mentions_dictionary, corefs):
                         if start_index >= pos[1] and \
                                 end_index <= pos[2]:
                             prospective_keys.append((sent_num, start_index,
-                                                  end_index))
-                # We now select the most appropriate mention from prospective_keys
-                # in order to map the current mention_dict mention to a key in 
-                # mentions_dictionary
-                # Currently, we pick the key in mentions 
-                # dictionary which corresponds to 
+                                                     end_index))
+                # We now select the most appropriate mention
+                # from prospective_keys in order to map the current
+                # mention_dict mention to a key in mentions_dictionary
+                # Currently, we pick the key in mentions
+                # dictionary which corresponds to
                 # the first mention in the coref chain's mention_dict text.
                 # For example, if the coref chain's mention_dict's text is:
-                # "David Magerman, who <blah blah> Mr. Trump", we select 
-                # David Magerman, as being the person who this mention is really
-                # referring to.
-                # Since the keys in prospective_list consist of 
-                # sentence numbers followed by start and end positions, merely 
-                # sorting prospective_keys should give us the first mention first.
+                # "David Magerman, who <blah blah> Mr. Trump", we select
+                # David Magerman, as being the person who this mention
+                # is really referring to.
+                # Since the keys in prospective_list consist of
+                # sentence numbers followed by start and end positions, merely
+                # sorting prospective_keys should give us the first
+                # mention first.
                 if len(prospective_keys) > 0:
                     curr_ment_dict_key = min(prospective_keys)
 
@@ -986,6 +994,14 @@ def merge_mentions(mentions_dictionary):
     for _id, set_of_mentions in disjoint_sets_of_mentions.iteritems():
         longest_mention = ''
         set_gender = None
+
+        # The method that we used to obtain the gender
+        # (This is used only for display in the web app)
+        # For now, we pick the method which has the highest
+        # associated confidence.
+        set_gender_method = None
+        highest_conf = -float("inf")
+
         for key in set_of_mentions:
             mention_key_to_id[key] = _id
             mention = mentions_dictionary[key]
@@ -995,12 +1011,16 @@ def merge_mentions(mentions_dictionary):
             if len(text) > len(longest_mention):
                 longest_mention = text
 
-            curr_gender = mention.get('consensus_gender', None)
-            if curr_gender:
-                curr_gender = curr_gender[0]
+            curr_gender_tup = mention.get('consensus_gender', None)
+            if curr_gender_tup:
+                curr_gender = curr_gender_tup[0]
+                curr_method = curr_gender_tup[2]
+                curr_conf = CONF_KEYS[curr_gender_tup[1]]
                 # If this is the first entry with a gender
                 if not set_gender:
                     set_gender = curr_gender
+                    set_gender_method = curr_method
+                    highest_conf = curr_conf
 
                 # If a previous entry had a gender,
                 # we check if they match.
@@ -1015,11 +1035,18 @@ def merge_mentions(mentions_dictionary):
                         # Of course, our current code ensures no conflict ...
                         set_gender = 'UNKNOWN'
 
+                    else:
+                        if curr_conf > highest_conf:
+                            highest_conf = curr_conf
+                            set_gender_method = curr_method
+
         if set_gender is None:
             set_gender = get_gender(longest_mention)
+            set_gender_method = 'name_only'
 
         id_to_info[_id] = {'name': longest_mention,
                            'gender': set_gender,
+                           'gender_method': set_gender_method,
                            'count': len(set_of_mentions)}
 
     return disjoint_sets_of_mentions, id_to_info, mention_key_to_id
@@ -1030,12 +1057,9 @@ def is_gender_matched(new_mention, set_of_mentions,
     new_mention_gender = new_mention.get('consensus_gender', None)
     if not new_mention_gender:
         return True
-    conf_keys = {'high_conf': 2,
-                 'med_conf': 1,
-                 'low_conf': 0}
     agree_counts_matrix = np.zeros((3, 3))
     disagree_counts_matrix = np.zeros((3, 3))
-    row = conf_keys[new_mention_gender[1]]
+    row = CONF_KEYS[new_mention_gender[1]]
     # Check that the gender matches.
     for key_m in set_of_mentions:
         curr_mention = mentions_dictionary[key_m]
@@ -1043,7 +1067,7 @@ def is_gender_matched(new_mention, set_of_mentions,
             curr_mention.get('consensus_gender', None)
         if not curr_mention_gender:
             continue
-        col = conf_keys[new_mention_gender[1]]
+        col = CONF_KEYS[new_mention_gender[1]]
         if curr_mention_gender[0] == new_mention_gender[0]:
             agree_counts_matrix[row][col] += 1
         else:

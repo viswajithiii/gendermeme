@@ -30,8 +30,16 @@ def get_article_info(article_text, ann=None, verbose=False):
     people_mentioned = {}
     quotes = {}
     for _id, info_dict in id_to_info.iteritems():
+        method_name_map = {
+            None: None,
+            'hon': 'HONORIFIC',
+            'coref': 'COREF',
+            'name_only': 'NAME_ONLY'
+        }
+        method = method_name_map[info_dict['gender_method']]
         people_mentioned[info_dict['name']] = \
-                (info_dict['count'], (info_dict['gender'], None))
+            (info_dict['count'], (info_dict['gender'],
+                                  method))
         quotes[info_dict['name']] = info_dict['quotes']
 
     # return people_mentioned, quotes, None, None, None
