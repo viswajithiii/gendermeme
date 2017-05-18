@@ -47,7 +47,7 @@ for (i in 1:nrow(babynames.summary)){
   } else {
     gender = paste0("('", majority, "', '", minority, "')")
   }
-  write(paste0("u'", name.upper(), "': ", gender, ","), fileGender, append = TRUE)
+  write(paste0("u'", toupper(name), "': ", gender, ","), fileGender, append = TRUE)
   if (i %% 500 == 0) {
     print(paste0("Iteration:", i))
   }
