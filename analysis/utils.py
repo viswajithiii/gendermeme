@@ -1,8 +1,9 @@
-from collections import defaultdict
+from collections import defaultdict, Counter
 from gender_babynames import gender
 from gender import gender_special
 from pprint import pprint
 import numpy as np
+import string
 
 VERBOSE = False
 
@@ -18,11 +19,15 @@ HONORIFICS = {
     'Ms.': 'FEMALE'
 }
 
-RELATIVES = {
-    'Wife',
-    'Husband',
-    'Daughter',
-    'Son'
+RELATIONSHIP_WORDS = {
+    'wife',
+    'husband',
+    'daughter',
+    'son',
+    'brother',
+    'sister',
+    'mother',
+    'father',
 }
 
 
@@ -566,7 +571,7 @@ def get_people_mentioned_new(sentences, corefs):
 
     # Add a flag: Is this the first time we are seeing this name,
     # and is this a single name?
-    add_flag_last_name_to_be_inferred(mentions_dictionary, sentences)
+    add_flag_last_name_to_be_inferred(mentions_dictionary, sentences, corefs)
 
     disjoint_sets_of_mentions, id_to_info, mention_key_to_id = \
         merge_mentions(mentions_dictionary)
@@ -576,15 +581,16 @@ def get_people_mentioned_new(sentences, corefs):
 
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
+    print 'COREFS'
+    pprint(corefs)
     '''
+    pprint(sentences[0])
     print 'DISJOINT SET OF MENTIONS:'
     pprint(disjoint_sets_of_mentions)
     print 'ID TO INFO:'
     pprint(id_to_info)
     print 'SENTENCES'
     pprint([s['tokens'] for s in sentences])
-    print 'COREFS'
-    pprint(corefs)
     pprint(id_to_info)
     '''
     return id_to_info
@@ -604,11 +610,14 @@ def add_corefs_info(mentions_dictionary, corefs):
             pos = (mention_dict['sentNum'],
                    mention_dict['startIndex'],
                    mention_dict['endIndex'] - 1)
+
+            # The key in mentions_dictionary which corresponds
+            # to this particular mention_dict, if any.
+            curr_ment_dict_key = None
+
             # If pos matches one of our mentions
             if pos in mentions_dictionary:
-                mentions_pos.append(pos)
-                mentions_dictionary[pos]['coref_mention_id'] = \
-                    mention_dict['id']
+                curr_ment_dict_key = pos
 
             # Otherwise, if pos contains one of our mentions
             elif mention_dict['number'] == 'SINGULAR' and \
@@ -619,12 +628,16 @@ def add_corefs_info(mentions_dictionary, corefs):
                     if sent_num == pos[0]:
                         if start_index >= pos[1] and \
                                 end_index <= pos[2]:
-                            mentions_pos.append(
-                                    (sent_num, start_index, end_index))
-                            mentions_dictionary[
-                                    (sent_num, start_index, end_index)][
-                                    'coref_mention_id'] =\
-                                mention_dict['id']
+                            curr_ment_dict_key = (sent_num, start_index,
+                                                  end_index)
+
+            if curr_ment_dict_key is not None:
+                mentions_pos.append(curr_ment_dict_key)
+                curr_ment_dict_val = mentions_dictionary[curr_ment_dict_key]
+                if 'coref_mention_ids' not in curr_ment_dict_val:
+                    curr_ment_dict_val['coref_mention_ids'] = []
+                curr_ment_dict_val['coref_mention_ids'].append(
+                    mention_dict['id'])
 
             if mention_dict['type'] == 'PRONOMINAL':
                 if mention_dict['gender'] == 'MALE':
@@ -634,17 +647,22 @@ def add_corefs_info(mentions_dictionary, corefs):
                 if mention_dict['animacy'] == 'INANIMATE' and \
                         mention_dict['number'] == 'SINGULAR':
                     it_pronoun_count += 1
+
         if len(mentions_pos) > 0:
+            curr_pronoun_count_dict = Counter({
+                "MALE": male_pronoun_count,
+                "FEMALE": female_pronoun_count,
+                "NON-LIVING": it_pronoun_count
+            })
             for pos_i, pos in enumerate(mentions_pos):
-                if 'coref_gender' in mentions_dictionary[pos]:
-                    print "THIS MENTION IS IN TWO COREFERENCE CHAINS"
-                    print pos
-                mentions_dictionary[pos]['coref_gender'] = \
-                    {"MALE": male_pronoun_count,
-                     "FEMALE": female_pronoun_count,
-                     "NON-LIVING": it_pronoun_count}
-                mentions_dictionary[pos]['coreferent_mentions'] = \
-                    mentions_pos[:pos_i] + mentions_pos[pos_i + 1:]
+                if 'coref_gender' not in mentions_dictionary[pos]:
+                    mentions_dictionary[pos]['coref_gender'] = Counter({})
+                mentions_dictionary[pos]['coref_gender'] += \
+                    curr_pronoun_count_dict
+                if 'coreferent_mentions' not in mentions_dictionary[pos]:
+                    mentions_dictionary[pos]['coreferent_mentions'] = []
+                mentions_dictionary[pos]['coreferent_mentions'].extend(
+                    mentions_pos[:pos_i] + mentions_pos[pos_i + 1:])
 
 
 def add_consensus_gender(mentions_dictionary):
@@ -694,7 +712,8 @@ def add_consensus_gender(mentions_dictionary):
         # surname.
 
 
-def detect_relationships(mentions_dictionary, key_to_detect, sentences):
+def detect_relationships(mentions_dictionary, key_to_detect, sentences,
+                         corefs):
 
     sent_idx, start_pos, end_pos = key_to_detect
     curr_sentence = sentences[sent_idx - 1]
@@ -729,10 +748,81 @@ def detect_relationships(mentions_dictionary, key_to_detect, sentences):
                         'key': mention_after_and,
                         'rel': 'and_surname_sharing'
                     }
+
+    if related_mention_info:
+        return related_mention_info
+
+    # Detecting possessives!
+    if start_pos == end_pos:
+
+        # prev_token_idx is 0-based
+        prev_token_idx = start_pos - 2
+        tokens = curr_sentence['tokens']
+        while tokens[prev_token_idx]['lemma'] in string.punctuation:
+            prev_token_idx -= 1
+
+        prev_lemma = tokens[prev_token_idx]['lemma']
+        if prev_lemma in RELATIONSHIP_WORDS:
+
+            possessor_idxs = []
+            for dep in dep_parse:
+                if dep['dep'] == 'nmod:poss':
+                    # The possession link could be
+                    # either 'his' -> 'Michelle' or
+                    # 'his' -> 'wife' or
+                    # 'Obama' -> 'Michelle' or
+                    # 'Obama' -> 'wife'
+                    # (The first item is the dependent
+                    # and the second is the governor)
+                    gov_idx = dep['governor']
+
+                    if gov_idx == start_pos:
+                        possessor_idxs.append(dep['dependent'])
+                    # Since prev_token_idx is 0-based
+                    elif gov_idx == prev_token_idx + 1:
+                        possessor_idxs.append(dep['dependent'])
+
+            if len(possessor_idxs) > 1:
+                print 'TWO POSSESSORS OF THIS PERSON!'
+
+            if len(possessor_idxs) == 1:
+                possessor_idx = possessor_idxs[0]
+                possessor_mention = None
+                for key in other_mentions_in_sentence:
+                    if key[1] <= possessor_idx <= key[2]:
+                        possessor_mention = key
+                        break
+
+                if possessor_mention is None:
+                    candidate_mentions =  \
+                        _get_mentions_coreferent_with_word(
+                            mentions_dictionary, corefs, sent_idx,
+                            possessor_idx)
+
+                    if len(candidate_mentions) > 1:
+                        candidate_mentions = \
+                            [cm for cm in candidate_mentions if
+                             len(mentions_dictionary[cm]['text'].split()) > 1]
+
+                    if len(candidate_mentions) > 1:
+                        print 'TOO MANY CANDIDATES SURNAMES'
+
+                    # FIXME: Should do something different if multiple
+                    # surnames
+                    if len(candidate_mentions) >= 1:
+                        possessor_mention = candidate_mentions[0]
+
+                if possessor_mention:
+                    related_mention_info = {
+                        'key': possessor_mention,
+                        'rel': prev_lemma
+                    }
+
     return related_mention_info
 
 
-def add_flag_last_name_to_be_inferred(mentions_dictionary, sentences):
+def add_flag_last_name_to_be_inferred(mentions_dictionary, sentences,
+                                      corefs):
     """
     Add a flag: Is this the first time we are seeing this name,
     and is this a single name?
@@ -748,6 +838,7 @@ def add_flag_last_name_to_be_inferred(mentions_dictionary, sentences):
     set_of_mentions = set()
     for key in sorted(mentions_dictionary):
         mention = mentions_dictionary[key]['text']
+        print mentions_dictionary[key]
         if len(mention.split()) == 1:
             first_time = True
             for el in set_of_mentions:
@@ -762,11 +853,15 @@ def add_flag_last_name_to_be_inferred(mentions_dictionary, sentences):
             continue
 
         related_mention_info = detect_relationships(
-            mentions_dictionary, key, sentences)
+            mentions_dictionary, key, sentences, corefs)
+        print key, related_mention_info
 
         if related_mention_info is not None:
             related_mention = mentions_dictionary[related_mention_info['key']]
             if related_mention_info['rel'] == 'and_surname_sharing':
+                mentions_dictionary[key]['potential_surname'] = \
+                        related_mention['text'].split()[-1]
+            elif related_mention_info['rel'] in RELATIONSHIP_WORDS:
                 mentions_dictionary[key]['potential_surname'] = \
                         related_mention['text'].split()[-1]
 
@@ -1031,6 +1126,52 @@ def add_quotes(sentences, corefs, mentions_dictionary,
 
 
 # PRIVATE UTILITY FUNCTIONS FOLLOW
+
+
+def _get_mentions_coreferent_with_word(mentions_dictionary, corefs,
+                                       word_sent_idx, word_idx):
+    """
+    Given a particular word (which is identified by its
+    sentence number and its word number, both 1-based,
+    so as to match the numbering in corefs),
+    returns the list of mentions from mentions_dictionary it
+    is coreferent with, if any.
+
+    Assumes that every entry in mentions_dictionary has the
+    'coref_mention_ids' field populated with a list of coref
+    mention ids.
+
+    NOTE: Only matches the word if the entry in corefs contains
+    exactly the word -- the idea is, if the word is 'his', then it won't
+    match a phrase containing 'his', like 'his mother'.
+    """
+
+    keys_of_coreferent_mentions = set()
+
+    coref_id_to_mention_key = {}
+    for key, mentions_dict in mentions_dictionary.iteritems():
+        coref_ids_of_mention = mentions_dict.get('coref_mention_ids', [])
+        for coref_id in coref_ids_of_mention:
+            coref_id_to_mention_key[coref_id] = key
+
+    for coref_id, coref_chain in corefs.iteritems():
+        chain_contains_word = False
+        for coref_mention_dict in coref_chain:
+            if coref_mention_dict['sentNum'] == word_sent_idx:
+                if coref_mention_dict['startIndex'] == word_idx:
+                    if coref_mention_dict['endIndex'] == word_idx + 1:
+                        chain_contains_word = True
+                        break
+
+        if chain_contains_word:
+            ids_in_chain = [coref_mention_dict['id'] for coref_mention_dict
+                            in coref_chain]
+            for _id in ids_in_chain:
+                if _id in coref_id_to_mention_key:
+                    keys_of_coreferent_mentions.add(
+                        coref_id_to_mention_key[_id])
+
+    return list(keys_of_coreferent_mentions)
 
 
 def _get_locations_of_mentions(people, sentences, corefs):
