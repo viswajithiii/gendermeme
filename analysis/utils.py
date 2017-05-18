@@ -579,11 +579,15 @@ def get_people_mentioned_new(sentences, corefs):
     add_quotes(sentences, corefs, mentions_dictionary, mention_key_to_id,
                id_to_info)
 
+    '''
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
+    print 'Mention key to id'
+    pprint(mention_key_to_id)
+    print 'Id to info'
+    pprint(id_to_info)
     print 'COREFS'
     pprint(corefs)
-    '''
     pprint(sentences[0])
     print 'DISJOINT SET OF MENTIONS:'
     pprint(disjoint_sets_of_mentions)
@@ -619,17 +623,46 @@ def add_corefs_info(mentions_dictionary, corefs):
             if pos in mentions_dictionary:
                 curr_ment_dict_key = pos
 
-            # Otherwise, if pos contains one of our mentions
+            # Otherwise, if pos contains one or more of our mentions
             elif mention_dict['number'] == 'SINGULAR' and \
                     mention_dict['animacy'] == 'ANIMATE' and \
                     mention_dict['type'] == 'PROPER':
+                # prospective_keys collects the keys in mentions_dictionary
+                # which are located inside pos.
+                # Note that there can be more than one key! 
+                # For example:
+                # The mention text in mention_dict (in the coref chain) could be
+                # "David Magerman, a Renaissance research scientist
+                # who was recently suspended after criticizing his boss's 
+                # support for Mr. Trump".
+                # In this case, two mentions in mentions_dictionary 
+                # ('David Magerman' and 'Mr. Trump') have keys which indicate
+                # that they lie within this (coref chain's) mention's text.
+                # So, we extract both the keys, and store them in a
+                # list called prospective_keys.
+                prospective_keys = []
                 for (sent_num, start_index, end_index) in \
                         mentions_dictionary:
                     if sent_num == pos[0]:
                         if start_index >= pos[1] and \
                                 end_index <= pos[2]:
-                            curr_ment_dict_key = (sent_num, start_index,
-                                                  end_index)
+                            prospective_keys.append((sent_num, start_index,
+                                                  end_index))
+                # We now select the most appropriate mention from prospective_keys
+                # in order to map the current mention_dict mention to a key in 
+                # mentions_dictionary
+                # Currently, we pick the key in mentions 
+                # dictionary which corresponds to 
+                # the first mention in the coref chain's mention_dict text.
+                # For example, if the coref chain's mention_dict's text is:
+                # "David Magerman, who <blah blah> Mr. Trump", we select 
+                # David Magerman, as being the person who this mention is really
+                # referring to.
+                # Since the keys in prospective_list consist of 
+                # sentence numbers followed by start and end positions, merely 
+                # sorting prospective_keys should give us the first mention first.
+                if len(prospective_keys) > 0:
+                    curr_ment_dict_key = min(prospective_keys)
 
             if curr_ment_dict_key is not None:
                 mentions_pos.append(curr_ment_dict_key)
@@ -725,29 +758,32 @@ def detect_relationships(mentions_dictionary, key_to_detect, sentences,
     related_mention_info = None
 
     # Trying to detect John and Jane Smith
+
+    # We only want to do this if it's a single name (i.e, the John)
+    # This is currently redundant since flag_last_name_to_infer
+    # does take this into account, but kept this here in case
+    # we change that function.
     if start_pos == end_pos:
 
-        # This is the next token because start_pos is 1-based
+        # Check if the next word is 'and'
+        # Note that the index for start_pos is 1-based, so
+        # we don't need to add 1 to get the element of tokens
+        # that is after start_pos.
         if curr_sentence['tokens'][start_pos]['lemma'] == 'and':
-            is_subject = False
-            for dep in dep_parse:
-                if dep['dependent'] == start_pos:
-                    if dep['dep'] == 'nsubj':
-                        is_subject = True
-                        break
 
-            if is_subject:
-                mention_after_and = None
-                for key in other_mentions_in_sentence:
-                    if key[1] == end_pos + 2:
-                        mention_after_and = key
-                        break
+            # The next word is 'and'. Now, we need to check if
+            # the words right after is one of our mentions.
+            mention_after_and = None
+            for key in other_mentions_in_sentence:
+                if key[1] == end_pos + 2:
+                    mention_after_and = key
+                    break
 
-                if mention_after_and is not None:
-                    related_mention_info = {
-                        'key': mention_after_and,
-                        'rel': 'and_surname_sharing'
-                    }
+            if mention_after_and is not None:
+                related_mention_info = {
+                    'key': mention_after_and,
+                    'rel': 'and_surname_sharing'
+                }
 
     if related_mention_info:
         return related_mention_info
@@ -761,7 +797,11 @@ def detect_relationships(mentions_dictionary, key_to_detect, sentences,
         while tokens[prev_token_idx]['lemma'] in string.punctuation:
             prev_token_idx -= 1
 
-        prev_lemma = tokens[prev_token_idx]['lemma']
+        if prev_token_idx < 0:
+            prev_lemma = None
+        else:
+            prev_lemma = tokens[prev_token_idx]['lemma']
+
         if prev_lemma in RELATIONSHIP_WORDS:
 
             possessor_idxs = []
@@ -838,7 +878,6 @@ def add_flag_last_name_to_be_inferred(mentions_dictionary, sentences,
     set_of_mentions = set()
     for key in sorted(mentions_dictionary):
         mention = mentions_dictionary[key]['text']
-        print mentions_dictionary[key]
         if len(mention.split()) == 1:
             first_time = True
             for el in set_of_mentions:
@@ -854,7 +893,6 @@ def add_flag_last_name_to_be_inferred(mentions_dictionary, sentences,
 
         related_mention_info = detect_relationships(
             mentions_dictionary, key, sentences, corefs)
-        print key, related_mention_info
 
         if related_mention_info is not None:
             related_mention = mentions_dictionary[related_mention_info['key']]
@@ -1048,8 +1086,8 @@ def add_quotes(sentences, corefs, mentions_dictionary,
 
     coref_mention_id_to_entity_id = {}
     for mention_key, mention_dict in mentions_dictionary.iteritems():
-        coref_mention_id = mention_dict.get('coref_mention_id', None)
-        if coref_mention_id:
+        coref_mention_ids = mention_dict.get('coref_mention_ids', [])
+        for coref_mention_id in coref_mention_ids:
             coref_mention_id_to_entity_id[coref_mention_id] = \
                     mention_key_to_id[mention_key]
 
