@@ -836,6 +836,145 @@ error_data &lt;-
 </tbody>
 </table>
 <p>Note that this is a slightly strange, and over-optimistic, metric. We are isolating only those people that WERE identified as people, and among those, finding the recall for gender. However, some male and female people fall out of the pipeline at the person-detection stage, so the above recall numbers are slightly inflated. Let’s correct for this.</p>
+<pre class="r"><code>error_data %&gt;% 
+  filter(
+    outlet %in% c(&quot;NYT&quot;, &quot;TechCrunch&quot;, &quot;Washington Post&quot;), 
+    m_gender %in% c(&quot;male&quot;, &quot;female&quot;), 
+    (where == &quot;manual_only&quot; | where == &quot;both&quot;)
+  ) %&gt;% 
+  group_by(outlet) %&gt;% 
+  count(m_gender, a_gender) %&gt;% 
+  mutate(a_gender = ifelse(is.na(a_gender), &quot;person not identified&quot;, a_gender)) %&gt;% 
+  group_by(outlet, m_gender) %&gt;% 
+  summarize(
+    total = sum(n), 
+    a_correct = sum(n[a_gender == m_gender]), 
+    a_incorrect_none = sum(n[a_gender == &quot;None&quot;]),
+    a_incorrect_opp_gender = sum(n[m_gender != a_gender &amp; a_gender %in% c(&quot;male&quot;, &quot;female&quot;)]),
+    a_incorrect_non_living = sum(n[m_gender != a_gender &amp; a_gender == &quot;non-living&quot;]),
+    a_person_not_identified = sum(n[m_gender != a_gender &amp; a_gender == &quot;person not identified&quot;])
+  ) %&gt;% 
+  mutate(
+    perc_a_correct = a_correct * 100 / total,
+    perc_a_incorrect_none = a_incorrect_none * 100 / total,
+    perc_a_incorrect_opp_gender = a_incorrect_opp_gender * 100 / total,
+    perc_a_incorrect_non_living = a_incorrect_non_living * 100 / total,
+    perc_a_person_not_identified = a_person_not_identified * 100 / total
+  ) %&gt;% 
+  ungroup() %&gt;% 
+  kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">outlet</th>
+<th align="left">m_gender</th>
+<th align="right">total</th>
+<th align="right">a_correct</th>
+<th align="right">a_incorrect_none</th>
+<th align="right">a_incorrect_opp_gender</th>
+<th align="right">a_incorrect_non_living</th>
+<th align="right">a_person_not_identified</th>
+<th align="right">perc_a_correct</th>
+<th align="right">perc_a_incorrect_none</th>
+<th align="right">perc_a_incorrect_opp_gender</th>
+<th align="right">perc_a_incorrect_non_living</th>
+<th align="right">perc_a_person_not_identified</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">NYT</td>
+<td align="left">female</td>
+<td align="right">97</td>
+<td align="right">90</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">92.78351</td>
+<td align="right">2.061856</td>
+<td align="right">2.061856</td>
+<td align="right">0.000000</td>
+<td align="right">3.092783</td>
+</tr>
+<tr class="even">
+<td align="left">NYT</td>
+<td align="left">male</td>
+<td align="right">254</td>
+<td align="right">227</td>
+<td align="right">9</td>
+<td align="right">10</td>
+<td align="right">0</td>
+<td align="right">8</td>
+<td align="right">89.37008</td>
+<td align="right">3.543307</td>
+<td align="right">3.937008</td>
+<td align="right">0.000000</td>
+<td align="right">3.149606</td>
+</tr>
+<tr class="odd">
+<td align="left">TechCrunch</td>
+<td align="left">female</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">100.00000</td>
+<td align="right">0.000000</td>
+<td align="right">0.000000</td>
+<td align="right">0.000000</td>
+<td align="right">0.000000</td>
+</tr>
+<tr class="even">
+<td align="left">TechCrunch</td>
+<td align="left">male</td>
+<td align="right">36</td>
+<td align="right">31</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">86.11111</td>
+<td align="right">5.555556</td>
+<td align="right">0.000000</td>
+<td align="right">0.000000</td>
+<td align="right">8.333333</td>
+</tr>
+<tr class="odd">
+<td align="left">Washington Post</td>
+<td align="left">female</td>
+<td align="right">14</td>
+<td align="right">12</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">85.71429</td>
+<td align="right">0.000000</td>
+<td align="right">7.142857</td>
+<td align="right">7.142857</td>
+<td align="right">0.000000</td>
+</tr>
+<tr class="even">
+<td align="left">Washington Post</td>
+<td align="left">male</td>
+<td align="right">59</td>
+<td align="right">51</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">86.44068</td>
+<td align="right">6.779661</td>
+<td align="right">5.084746</td>
+<td align="right">0.000000</td>
+<td align="right">1.694915</td>
+</tr>
+</tbody>
+</table>
+<p>This table gives us true recall for genders. We probably need more data for Washington Post.</p>
 
 
 

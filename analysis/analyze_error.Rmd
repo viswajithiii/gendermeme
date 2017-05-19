@@ -149,4 +149,34 @@ only those people that WERE identified as people, and among those, finding the r
 for gender. However, some male and female people fall out of the pipeline at the person-detection
 stage, so the above recall numbers are slightly inflated. Let's correct for this.
 
+```{r}
+error_data %>% 
+  filter(
+    outlet %in% c("NYT", "TechCrunch", "Washington Post"), 
+    m_gender %in% c("male", "female"), 
+    (where == "manual_only" | where == "both")
+  ) %>% 
+  group_by(outlet) %>% 
+  count(m_gender, a_gender) %>% 
+  mutate(a_gender = ifelse(is.na(a_gender), "person not identified", a_gender)) %>% 
+  group_by(outlet, m_gender) %>% 
+  summarize(
+    total = sum(n), 
+    a_correct = sum(n[a_gender == m_gender]), 
+    a_incorrect_none = sum(n[a_gender == "None"]),
+    a_incorrect_opp_gender = sum(n[m_gender != a_gender & a_gender %in% c("male", "female")]),
+    a_incorrect_non_living = sum(n[m_gender != a_gender & a_gender == "non-living"]),
+    a_person_not_identified = sum(n[m_gender != a_gender & a_gender == "person not identified"])
+  ) %>% 
+  mutate(
+    perc_a_correct = a_correct * 100 / total,
+    perc_a_incorrect_none = a_incorrect_none * 100 / total,
+    perc_a_incorrect_opp_gender = a_incorrect_opp_gender * 100 / total,
+    perc_a_incorrect_non_living = a_incorrect_non_living * 100 / total,
+    perc_a_person_not_identified = a_person_not_identified * 100 / total
+  ) %>% 
+  ungroup() %>% 
+  kable()
+```
 
+This table gives us true recall for genders. We probably need more data for Washington Post.
