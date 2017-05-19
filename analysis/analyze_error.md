@@ -314,3 +314,27 @@ Precision is not as good as recall. This is a little worrying: if recall was abo
 
 QUOTE DETECTION: PRECISION
 --------------------------
+
+``` r
+error_data %>% 
+  filter(where == "both") %>% 
+  mutate(
+    a_quotes_TF = a_quotes > 0,
+    m_quotes_TF = m_quotes > 0
+  ) %>% 
+  mutate(
+    a_quotes_TF = ifelse(is.na(a_quotes_TF), FALSE, TRUE),
+    m_quotes_TF = ifelse(is.na(m_quotes_TF), FALSE, TRUE)
+  ) %>% 
+  count(a_quotes_TF, m_quotes_TF) %>% 
+  kable()
+```
+
+| a\_quotes\_TF | m\_quotes\_TF |    n|
+|:--------------|:--------------|----:|
+| TRUE          | FALSE         |  249|
+| TRUE          | TRUE          |  242|
+
+The above results make no sense and are unacceptable. It doesn't make sense that there are no FALSE, TRUE rows, for example.
+
+Everything has to be looked at more deeply.
