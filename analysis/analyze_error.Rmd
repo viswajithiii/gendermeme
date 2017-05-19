@@ -1,7 +1,7 @@
 ---
 title: "Error Analysis: GenderMeme May 19 2017"
 author: "Poorna Kumar"
-date: "5/19/2017"
+date: 5-19-2017
 output: 
   html_document:
     toc: true
@@ -47,7 +47,11 @@ error_data <-
   filter(!(where == "manual_only" & str_detect(m_gender, "company"))) %>% 
   filter(!(str_detect(name, "(anonymous)|(unnamed)|(unknown)"))) %>% 
   mutate(outlet = map_chr(url, return_outlet))
+```
 
+The error rates for people-detection are below:
+
+```{r}
 error_data %>% 
   group_by(outlet) %>% 
   mutate(n_articles = n_distinct(art_id)) %>% 

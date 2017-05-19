@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Error Analysis: GenderMeme May 19 2017</h1>
 <h4 class="author"><em>Poorna Kumar</em></h4>
-<h4 class="date"><em>5/19/2017</em></h4>
+<h4 class="date"><em>5-19-2017</em></h4>
 
 </div>
 
@@ -175,9 +175,9 @@ error_data &lt;-
   filter(!(a_gender == &quot;non-living&quot; &amp; str_detect(m_gender, &quot;company&quot;))) %&gt;% 
   filter(!(where == &quot;manual_only&quot; &amp; str_detect(m_gender, &quot;company&quot;))) %&gt;% 
   filter(!(str_detect(name, &quot;(anonymous)|(unnamed)|(unknown)&quot;))) %&gt;% 
-  mutate(outlet = map_chr(url, return_outlet))
-
-error_data %&gt;% 
+  mutate(outlet = map_chr(url, return_outlet))</code></pre>
+<p>The error rates for people-detection are below:</p>
+<pre class="r"><code>error_data %&gt;% 
   group_by(outlet) %&gt;% 
   mutate(n_articles = n_distinct(art_id)) %&gt;% 
   count(n_articles, where) %&gt;% 
