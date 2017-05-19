@@ -92,3 +92,5 @@ ENV/
 *.swp
 
 *.DS_Store
+
+*.sqlite3
