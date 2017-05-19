@@ -830,7 +830,7 @@ def detect_relationships(mentions_dictionary, key_to_detect, sentences,
                     elif gov_idx == prev_token_idx + 1:
                         possessor_idxs.append(dep['dependent'])
 
-            print key_to_detect, possessor_idxs
+            # print key_to_detect, possessor_idxs
 
             if len(possessor_idxs) > 1:
                 print 'TWO POSSESSORS OF THIS PERSON!'
