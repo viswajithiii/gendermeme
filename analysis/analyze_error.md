@@ -6,6 +6,7 @@ Poorna Kumar
 -   [PRECISION AND RECALL FOR PERSON IDENTIFICATION](#precision-and-recall-for-person-identification)
 -   [RECALL FOR GENDER](#recall-for-gender)
 -   [PRECISION FOR GENDER](#precision-for-gender)
+-   [QUOTE DETECTION: PRECISION](#quote-detection-precision)
 
 ``` r
 library(tidyverse)
@@ -46,7 +47,7 @@ return_outlet <- function(url) {
 }
 
 error_data <- 
-  read_tsv('/Users/Poorna/Desktop/Box Sync/Gendermeme/gendermeme/annotated/manual/ann_dump_Fri_May_19_00_59_45_2017.tsv')
+  read_tsv('/Users/Poorna/Desktop/Box Sync/Gendermeme/gendermeme/annotated/manual/ann_dump_Fri_May_19_05_26_48_2017.tsv')
 ```
 
     ## Parsed with column specification:
@@ -60,7 +61,9 @@ error_data <-
     ##   m_count = col_integer(),
     ##   a_count = col_integer(),
     ##   m_quotes = col_integer(),
-    ##   a_quotes = col_integer()
+    ##   a_quotes = col_integer(),
+    ##   m_source = col_character(),
+    ##   a_source = col_character()
     ## )
 
 PRECISION AND RECALL FOR PERSON IDENTIFICATION
@@ -92,7 +95,7 @@ error_data %>%
 
 | outlet          |  n\_articles|  auto\_only|  both|  manual\_only|  precision|     recall|
 |:----------------|------------:|-----------:|-----:|-------------:|----------:|----------:|
-| NYT             |           49|          51|   340|            11|  0.8695652|  0.9686610|
+| NYT             |           49|          46|   344|            11|  0.8820513|  0.9690141|
 | TechCrunch      |           19|          23|    42|             3|  0.6461538|  0.9333333|
 | Washington Post |           10|          10|    78|             2|  0.8863636|  0.9750000|
 | Bloomberg       |            1|           3|    10|             2|  0.7692308|  0.8333333|
@@ -128,8 +131,8 @@ error_data %>%
 
 | m\_gender |  total|  a\_correct|  a\_incorrect\_none|  a\_incorrect\_opp\_gender|  a\_incorrect\_non\_living|  perc\_a\_correct|  perc\_a\_incorrect\_none|  perc\_a\_incorrect\_opp\_gender|  perc\_a\_incorrect\_non\_living|
 |:----------|------:|-----------:|-------------------:|--------------------------:|--------------------------:|-----------------:|-------------------------:|--------------------------------:|--------------------------------:|
-| female    |    119|         113|                   2|                          3|                          1|          94.95798|                  1.680672|                         2.521008|                        0.8403361|
-| male      |    358|         328|                  15|                         15|                          0|          91.62011|                  4.189944|                         4.189944|                        0.0000000|
+| female    |    120|         114|                   2|                          3|                          1|          95.00000|                  1.666667|                         2.500000|                        0.8333333|
+| male      |    361|         331|                  15|                         15|                          0|          91.68975|                  4.155125|                         4.155125|                        0.0000000|
 
 We find that a lot of men are being mis-tagged as women. Why is this?
 
@@ -142,23 +145,23 @@ error_data %>%
   kable()
 ```
 
-| art\_id | outlet          | name                   | where | m\_gender | a\_gender |  m\_count|  a\_count|  m\_quotes|  a\_quotes|
-|:--------|:----------------|:-----------------------|:------|:----------|:----------|---------:|---------:|----------:|----------:|
-| a022    | NYT             | Jamie Vardy            | both  | male      | female    |         2|         2|          0|          0|
-| a027    | NYT             | Marin Cilic            | both  | male      | female    |         1|         1|          0|          0|
-| a053    | NYT             | Xi Jinping             | both  | male      | female    |         1|         1|          0|          0|
-| a053    | NYT             | Donald Trump Jr.       | both  | male      | female    |         1|         2|          0|          0|
-| a056    | NYT             | Reagan                 | both  | male      | female    |         1|         1|          0|          0|
-| a043    | NYT             | Kim Yoo-na             | both  | male      | female    |         1|         1|         33|         41|
-| a069    | NYT             | Kim Sang-duk           | both  | male      | female    |         1|         1|          0|          0|
-| a069    | NYT             | Kim Dong-chul          | both  | male      | female    |         1|         1|          0|          0|
-| a069    | NYT             | Kim Jong-il            | both  | male      | female    |         1|         1|          0|          0|
-| a069    | NYT             | Kim Hak-song           | both  | male      | female    |         2|         2|          0|          0|
-| a077    | Washington Post | Gale Buchanan          | both  | male      | female    |         1|         1|          0|          0|
-| a078    | Washington Post | Mischa Popoff          | both  | male      | female    |         1|         1|         20|         23|
-| a080    | Washington Post | Jan Gaspers            | both  | male      | female    |         1|         1|          0|          0|
-| a091    | LA Times        | Lenore Albert-Sheridan | both  | male      | female    |         1|         1|          0|          0|
-| a092    | Bloomberg       | Alexis Kohler          | both  | male      | female    |         1|         1|          0|          0|
+| art\_id | outlet          | name                   | where | m\_gender | a\_gender |  m\_count|  a\_count|  m\_quotes|  a\_quotes| m\_source | a\_source |
+|:--------|:----------------|:-----------------------|:------|:----------|:----------|---------:|---------:|----------:|----------:|:----------|:----------|
+| a022    | NYT             | Jamie Vardy            | both  | male      | female    |         2|         2|         NA|          0| False     | False     |
+| a027    | NYT             | Marin Cilic            | both  | male      | female    |         1|         1|         NA|          0| False     | False     |
+| a053    | NYT             | Xi Jinping             | both  | male      | female    |         1|         1|         NA|          0| False     | False     |
+| a053    | NYT             | Donald Trump Jr.       | both  | male      | female    |         1|         2|         NA|          0| False     | False     |
+| a056    | NYT             | Reagan                 | both  | male      | female    |         1|         1|         NA|          0| True      | False     |
+| a043    | NYT             | Kim Yoo-na             | both  | male      | female    |         1|         1|         33|         41| True      | True      |
+| a069    | NYT             | Kim Sang-duk           | both  | male      | female    |         1|         1|         NA|          0| False     | False     |
+| a069    | NYT             | Kim Dong-chul          | both  | male      | female    |         1|         1|         NA|          0| False     | False     |
+| a069    | NYT             | Kim Jong-il            | both  | male      | female    |         1|         1|         NA|          0| False     | False     |
+| a069    | NYT             | Kim Hak-song           | both  | male      | female    |         2|         2|         NA|          0| False     | False     |
+| a077    | Washington Post | Gale Buchanan          | both  | male      | female    |         1|         1|         NA|          0| False     | False     |
+| a078    | Washington Post | Mischa Popoff          | both  | male      | female    |         1|         1|         20|         23| True      | True      |
+| a080    | Washington Post | Jan Gaspers            | both  | male      | female    |         1|         1|         NA|          0| True      | False     |
+| a091    | LA Times        | Lenore Albert-Sheridan | both  | male      | female    |         1|         1|         NA|          0| False     | False     |
+| a092    | Bloomberg       | Alexis Kohler          | both  | male      | female    |         1|         1|         NA|          0| False     | False     |
 
 Let's also look at men who are tagged as "None":
 
@@ -169,23 +172,23 @@ error_data %>%
   kable()
 ```
 
-| art\_id | outlet          | name               | where | m\_gender | a\_gender |  m\_count|  a\_count|  m\_quotes|  a\_quotes|
-|:--------|:----------------|:-------------------|:------|:----------|:----------|---------:|---------:|----------:|----------:|
-| a016    | TechCrunch      | Jean-Claude Biver  | both  | male      | None      |         1|         1|         88|          0|
-| a034    | NYT             | Trump              | both  | male      | None      |         1|         1|          0|          0|
-| a039    | TechCrunch      | Urs Hlzle          | both  | male      | None      |         2|         2|          9|          0|
-| a053    | NYT             | H. R. McMaster     | both  | male      | None      |         1|         1|          0|          0|
-| a056    | NYT             | Trump              | both  | male      | None      |         1|         1|          0|          0|
-| a056    | NYT             | Tiff Macklem       | both  | male      | None      |         1|         1|         20|         21|
-| a058    | NYT             | Trump              | both  | male      | None      |         1|         1|          0|          0|
-| a064    | NYT             | Trump              | both  | male      | None      |         2|         2|          0|          0|
-| a066    | NYT             | J. Timothy DiPiero | both  | male      | None      |         1|         1|         19|          0|
-| a068    | NYT             | Sediqullah Khan    | both  | male      | None      |         2|         1|         49|          0|
-| a068    | NYT             | Rahatullah         | both  | male      | None      |         1|         2|          9|          0|
-| a078    | Washington Post | Chenglin Liu       | both  | male      | None      |         1|         1|         21|         11|
-| a080    | Washington Post | S. Frederick Starr | both  | male      | None      |         1|         1|          0|          3|
-| a080    | Washington Post | Narendra Modi      | both  | male      | None      |         1|         1|          0|          0|
-| a084    | Washington Post | Trump              | both  | male      | None      |         1|         1|          0|          0|
+| art\_id | outlet          | name               | where | m\_gender | a\_gender |  m\_count|  a\_count|  m\_quotes|  a\_quotes| m\_source | a\_source |
+|:--------|:----------------|:-------------------|:------|:----------|:----------|---------:|---------:|----------:|----------:|:----------|:----------|
+| a016    | TechCrunch      | Jean-Claude Biver  | both  | male      | None      |         1|         1|         88|          0| True      | False     |
+| a034    | NYT             | Trump              | both  | male      | None      |         1|         1|         NA|          0| False     | False     |
+| a039    | TechCrunch      | Urs Hlzle          | both  | male      | None      |         2|         2|          9|          0| True      | True      |
+| a053    | NYT             | H. R. McMaster     | both  | male      | None      |         1|         1|         NA|          0| False     | False     |
+| a056    | NYT             | Trump              | both  | male      | None      |         1|         1|         NA|          0| True      | False     |
+| a056    | NYT             | Tiff Macklem       | both  | male      | None      |         1|         1|         20|         21| True      | True      |
+| a058    | NYT             | Trump              | both  | male      | None      |         1|         1|         NA|          0| False     | False     |
+| a064    | NYT             | Trump              | both  | male      | None      |         2|         2|         NA|          0| False     | False     |
+| a066    | NYT             | J. Timothy DiPiero | both  | male      | None      |         1|         1|         19|          0| True      | False     |
+| a068    | NYT             | Sediqullah Khan    | both  | male      | None      |         2|         1|         49|          0| True      | False     |
+| a068    | NYT             | Rahatullah         | both  | male      | None      |         1|         2|          9|          0| True      | False     |
+| a078    | Washington Post | Chenglin Liu       | both  | male      | None      |         1|         1|         21|         11| True      | True      |
+| a080    | Washington Post | S. Frederick Starr | both  | male      | None      |         1|         1|         NA|          3| True      | True      |
+| a080    | Washington Post | Narendra Modi      | both  | male      | None      |         1|         1|         NA|          0| False     | False     |
+| a084    | Washington Post | Trump              | both  | male      | None      |         1|         1|         NA|          0| False     | False     |
 
 We find that, quite frequently, "Trump" is being tagged as male by us and as "None" by the computer. We suspect that this is because "Trump" appears in contexts like "Trump administration", only once in the article, etc. A rule might be able to fix this issue.
 
@@ -217,8 +220,8 @@ error_data %>%
 
 | outlet          | m\_gender |  total|  a\_correct|  a\_incorrect\_none|  a\_incorrect\_opp\_gender|  a\_incorrect\_non\_living|  perc\_a\_correct|  perc\_a\_incorrect\_none|  perc\_a\_incorrect\_opp\_gender|  perc\_a\_incorrect\_non\_living|
 |:----------------|:----------|------:|-----------:|-------------------:|--------------------------:|--------------------------:|-----------------:|-------------------------:|--------------------------------:|--------------------------------:|
-| NYT             | female    |     94|          90|                   2|                          2|                          0|          95.74468|                  2.127660|                         2.127660|                         0.000000|
-| NYT             | male      |    246|         227|                   9|                         10|                          0|          92.27642|                  3.658537|                         4.065041|                         0.000000|
+| NYT             | female    |     95|          91|                   2|                          2|                          0|          95.78947|                  2.105263|                         2.105263|                         0.000000|
+| NYT             | male      |    249|         230|                   9|                         10|                          0|          92.36948|                  3.614458|                         4.016064|                         0.000000|
 | TechCrunch      | female    |      5|           5|                   0|                          0|                          0|         100.00000|                  0.000000|                         0.000000|                         0.000000|
 | TechCrunch      | male      |     33|          31|                   2|                          0|                          0|          93.93939|                  6.060606|                         0.000000|                         0.000000|
 | Washington Post | female    |     14|          12|                   0|                          1|                          1|          85.71429|                  0.000000|                         7.142857|                         7.142857|
@@ -258,8 +261,8 @@ error_data %>%
 
 | outlet          | m\_gender |  total|  a\_correct|  a\_incorrect\_none|  a\_incorrect\_opp\_gender|  a\_incorrect\_non\_living|  a\_person\_not\_identified|  perc\_a\_correct|  perc\_a\_incorrect\_none|  perc\_a\_incorrect\_opp\_gender|  perc\_a\_incorrect\_non\_living|  perc\_a\_person\_not\_identified|
 |:----------------|:----------|------:|-----------:|-------------------:|--------------------------:|--------------------------:|---------------------------:|-----------------:|-------------------------:|--------------------------------:|--------------------------------:|---------------------------------:|
-| NYT             | female    |     97|          90|                   2|                          2|                          0|                           3|          92.78351|                  2.061856|                         2.061856|                         0.000000|                          3.092783|
-| NYT             | male      |    254|         227|                   9|                         10|                          0|                           8|          89.37008|                  3.543307|                         3.937008|                         0.000000|                          3.149606|
+| NYT             | female    |     98|          91|                   2|                          2|                          0|                           3|          92.85714|                  2.040816|                         2.040816|                         0.000000|                          3.061224|
+| NYT             | male      |    257|         230|                   9|                         10|                          0|                           8|          89.49416|                  3.501946|                         3.891051|                         0.000000|                          3.112840|
 | TechCrunch      | female    |      5|           5|                   0|                          0|                          0|                           0|         100.00000|                  0.000000|                         0.000000|                         0.000000|                          0.000000|
 | TechCrunch      | male      |     36|          31|                   2|                          0|                          0|                           3|          86.11111|                  5.555556|                         0.000000|                         0.000000|                          8.333333|
 | Washington Post | female    |     14|          12|                   0|                          1|                          1|                           0|          85.71429|                  0.000000|                         7.142857|                         7.142857|                          0.000000|
@@ -300,11 +303,14 @@ error_data %>%
 
 | outlet          | a\_gender |  total|  correct|  true\_gender\_opposite|  not\_a\_person|  precision|  true\_gender\_opp\_perc|  not\_a\_person\_perc|
 |:----------------|:----------|------:|--------:|-----------------------:|---------------:|----------:|------------------------:|---------------------:|
-| NYT             | female    |    111|       90|                      10|              11|   81.08108|                9.0090090|              9.909910|
-| NYT             | male      |    252|      227|                       2|              23|   90.07937|                0.7936508|              9.126984|
+| NYT             | female    |    111|       91|                      10|              10|   81.98198|                9.0090090|              9.009009|
+| NYT             | male      |    252|      230|                       2|              20|   91.26984|                0.7936508|              7.936508|
 | TechCrunch      | female    |      7|        5|                       0|               2|   71.42857|                0.0000000|             28.571429|
 | TechCrunch      | male      |     44|       31|                       0|              12|   70.45455|                0.0000000|             27.272727|
 | Washington Post | female    |     17|       12|                       3|               1|   70.58824|               17.6470588|              5.882353|
 | Washington Post | male      |     57|       51|                       1|               3|   89.47368|                1.7543860|              5.263158|
 
 Precision is not as good as recall. This is a little worrying: if recall was about the same for each gender, but precision were really high, we'd still have a good tool. If recall is high, but precision is low, we're not in good shape.
+
+QUOTE DETECTION: PRECISION
+--------------------------
