@@ -1,0 +1,655 @@
+art_id	url	name	where	m_gender	a_gender	m_count	a_count	m_quotes	a_quotes
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Rebekah Mercer	both	female	female	3	3	0	0	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Charles G. Koch	manual_only	male						
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Robert Mercer	both	male	male	8	7	0	0	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Alexander Nix	both	male	male	12	13	63	71	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Brent Seaborn	both	male	male	1	1	35	73	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Alexander Polonsky	both	male	male	1	1	26	15	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Mark Laity	both	male	male	1	1	8	9	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	David Magerman	both	male	male	1	1	27	30	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Rick Tyler	both	male	male	2	2	24	27	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	David H. Koch	both	male	male	1	1	0	0	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Brad Parscale	both	male	male	1	1	0	0	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Donald J. Trump	both	male	male	15	24	0	0	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Matt Oczkowski	both	male	male	1	1	17	21	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Alexander Tayler	both	male	male	3	3	27	34	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Stephen K. Bannon	both	male	male	11	11	0	0	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	A Joint Chiefs spokesman (anonymous source)	manual_only	male						
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Ted Cruz	both	male	male	4	8	0	0	
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Charles G.	auto_only		male		1			
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Breitbart	auto_only		None		2			
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Cambridge Analytica	auto_only		non-living		1			
+a001	https://www.nytimes.com/2017/03/06/us/politics/cambridge-analytica.html	Bob	auto_only		male		3			
+a003	https://www.nytimes.com/2017/03/07/technology/blue-origin-jeff-bezoss-moon-shot-gets-first-paying-customer.html	Elon Musk	manual_only	male						
+a003	https://www.nytimes.com/2017/03/07/technology/blue-origin-jeff-bezoss-moon-shot-gets-first-paying-customer.html	Jeff Bezos	both	male	male	11	11	48	56	
+a003	https://www.nytimes.com/2017/03/07/technology/blue-origin-jeff-bezoss-moon-shot-gets-first-paying-customer.html	Henry Hertzfeld	both	male	male	1	1	25	30	
+a003	https://www.nytimes.com/2017/03/07/technology/blue-origin-jeff-bezoss-moon-shot-gets-first-paying-customer.html	John Glenn	both	male	male	1	1	0	0	
+a003	https://www.nytimes.com/2017/03/07/technology/blue-origin-jeff-bezoss-moon-shot-gets-first-paying-customer.html	Rodolphe Belmer	both	male	male	1	1	30	33	
+a003	https://www.nytimes.com/2017/03/07/technology/blue-origin-jeff-bezoss-moon-shot-gets-first-paying-customer.html	Carissa Bryce Christensen	both	female	female	2	2	40	44	
+a003	https://www.nytimes.com/2017/03/07/technology/blue-origin-jeff-bezoss-moon-shot-gets-first-paying-customer.html	Musk	auto_only		male		1			
+a004	https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html	Dean Boyd	both	male	male	1	1	13	14	
+a004	https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html	Edward J. Snowden	both	male	male	2	2	0	0	
+a004	https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html	Beau Woods	both	male	male	1	1	41	14	
+a004	https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html	Chelsea Manning	both	female	female	1	1	0	0	
+a004	https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html	Ben Wizner	both	male	male	2	2	36	42	
+a004	https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html	James Lewis	both	male	male	3	3	19	20	
+a004	https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html	Robert M. Chesney	both	male	male	2	2	29	35	
+a004	https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html	Python	auto_only		None		1			
+a004	https://www.nytimes.com/2017/03/07/world/europe/wikileaks-cia-hacking.html	WikiLeaks	auto_only		non-living		3			
+a005	https://www.nytimes.com/2017/03/07/business/caterpillar-tax-fraud.html	Trump	both	male	male	1	1	0	0	
+a005	https://www.nytimes.com/2017/03/07/business/caterpillar-tax-fraud.html	Corrie Heck Scott	both	female	female	1	1	0	0	
+a005	https://www.nytimes.com/2017/03/07/business/caterpillar-tax-fraud.html	Caroline Nolan	both	female	female	1	1	9	11	
+a005	https://www.nytimes.com/2017/03/07/business/caterpillar-tax-fraud.html	Leslie A. Robinson	both	female	female	8	9	69	80	
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	James W. Cook	both	male	male	1	1	31	35	
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	John M. Williams	both	male	male	2	2	88	39	
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	Richard Woodley	both	male	male	1	1	21	23	
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	Dudley Wood	both	male	male	1	1	32	0	
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	Josh Rice	both	male	male	7	1	0	9	
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	unnamed source	manual_only							
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	Helen Weston	both	female	female	1	1	27	33	
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	Ella Eyre	both	female	female	1	1	0	0	
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	Arsne Wenger	both	male	male	1	1	0	0	
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	Josephine Wright	both	female	female	1	2	28	35	
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	Arthur Jones	both	male	male	2	2	82	87	
+a008	https://www.nytimes.com/2017/03/07/sports/rugby-swing-low-sweet-chariot.html	Chris Oti	both	male	male	1	2	0	0	
+a009	https://www.nytimes.com/2017/03/07/technology/wikileaks-silicon-valley-spy-agencies.html	Oren Falkowitz	both	male	male	3	3	66	45	
+a009	https://www.nytimes.com/2017/03/07/technology/wikileaks-silicon-valley-spy-agencies.html	Edward J. Snowden	both	male	male	3	3	0	0	
+a009	https://www.nytimes.com/2017/03/07/technology/wikileaks-silicon-valley-spy-agencies.html	Denelle Dixon	both	female	female	2	2	61	65	
+a009	https://www.nytimes.com/2017/03/07/technology/wikileaks-silicon-valley-spy-agencies.html	Barack Obama	both	male	male	0	1	0	0	
+a009	https://www.nytimes.com/2017/03/07/technology/wikileaks-silicon-valley-spy-agencies.html	David Gutelius	both	male	male	1	1	46	0	
+a009	https://www.nytimes.com/2017/03/07/technology/wikileaks-silicon-valley-spy-agencies.html	Matthew D. Green	both	male	male	1	1	25	28	
+a009	https://www.nytimes.com/2017/03/07/technology/wikileaks-silicon-valley-spy-agencies.html	Timothy D. Cook	both	male	male	1	1	20	0	
+a009	https://www.nytimes.com/2017/03/07/technology/wikileaks-silicon-valley-spy-agencies.html	Julian Assange	auto_only		male		1			
+a009	https://www.nytimes.com/2017/03/07/technology/wikileaks-silicon-valley-spy-agencies.html	WikiLeaks	auto_only		non-living		2			
+a009	https://www.nytimes.com/2017/03/07/technology/wikileaks-silicon-valley-spy-agencies.html	Obama	auto_only		male		1			
+a010	https://www.nytimes.com/2017/01/27/technology/millennial-social-media-usage.html	Sean Casey	both	male	male	1	3	43	65	
+a010	https://www.nytimes.com/2017/01/27/technology/millennial-social-media-usage.html	Instagram	auto_only		None		1			
+a012	https://techcrunch.com/2017/03/14/sift-raises-1-5-million-to-unlock-your-credit-cards/	Sophia Collier	both	female	female	1	1	0	0	
+a012	https://techcrunch.com/2017/03/14/sift-raises-1-5-million-to-unlock-your-credit-cards/	Abhinav Dubey	both	male	male	2	2	139	149	
+a013	https://techcrunch.com/2017/03/14/zenefits-founder-parker-conrad-takes-another-crack-at-hr-onboarding/	Parker Conrad	both	male	male	11	11	301	333	
+a013	https://techcrunch.com/2017/03/14/zenefits-founder-parker-conrad-takes-another-crack-at-hr-onboarding/	Rippling	auto_only		male		1			
+a013	https://techcrunch.com/2017/03/14/zenefits-founder-parker-conrad-takes-another-crack-at-hr-onboarding/	Zenefits	auto_only		None		1			
+a013	https://techcrunch.com/2017/03/14/zenefits-founder-parker-conrad-takes-another-crack-at-hr-onboarding/	Mark McGuire	auto_only		male		1			
+a014	https://techcrunch.com/2017/03/14/teams-microsofts-slack-rival-opens-to-all-office-365-users/	Mira Lane	both	female	female	3	3	99	92	
+a014	https://techcrunch.com/2017/03/14/teams-microsofts-slack-rival-opens-to-all-office-365-users/	Deloitte	auto_only		None		1			
+a014	https://techcrunch.com/2017/03/14/teams-microsofts-slack-rival-opens-to-all-office-365-users/	J. Walter Thompson	auto_only		None		1			
+a014	https://techcrunch.com/2017/03/14/teams-microsofts-slack-rival-opens-to-all-office-365-users/	J.B. Hunt	auto_only		None		1			
+a014	https://techcrunch.com/2017/03/14/teams-microsofts-slack-rival-opens-to-all-office-365-users/	Zendesk Hootsuite	auto_only		None		2			
+a015	https://techcrunch.com/2017/03/14/goodlord/	Richard White	both	male	male	1	1	56	43	
+a015	https://techcrunch.com/2017/03/14/goodlord/	Meyer Malka	both	male	male	1	1	45	47	
+a015	https://techcrunch.com/2017/03/14/goodlord/	LocalGlobe	auto_only		None		1			
+a016	https://techcrunch.com/2017/03/14/tag-heuer-android-wear/	Jean-Claude Biver	both	male	None	1	1	88	0	
+a016	https://techcrunch.com/2017/03/14/tag-heuer-android-wear/	Siri	auto_only		female		1			
+a016	https://techcrunch.com/2017/03/14/tag-heuer-android-wear/	Oakley	auto_only		male		1			
+a017	https://techcrunch.com/2017/03/14/roomba-connected-home/	Colin Angle	both	male	male	3	1	261	193	
+a017	https://techcrunch.com/2017/03/14/roomba-connected-home/	Roomba	auto_only		None		1			
+a017	https://techcrunch.com/2017/03/14/roomba-connected-home/	Alexa	auto_only		female		2			
+a018	https://techcrunch.com/2017/03/08/tutoring-startup-toot-launches-into-twin-policy-storms-around-education-and-immigration/	Sophia Parsa	both	female	female	13	13	181	135	
+a018	https://techcrunch.com/2017/03/08/tutoring-startup-toot-launches-into-twin-policy-storms-around-education-and-immigration/	Chuck Pacheco	both	male	male	1	1	0	0	
+a018	https://techcrunch.com/2017/03/08/tutoring-startup-toot-launches-into-twin-policy-storms-around-education-and-immigration/	Randy Horowitz	both	male	male	1	1	0	0	
+a018	https://techcrunch.com/2017/03/08/tutoring-startup-toot-launches-into-twin-policy-storms-around-education-and-immigration/	Donald Trump	both	male	male	1	1	0	0	
+a018	https://techcrunch.com/2017/03/08/tutoring-startup-toot-launches-into-twin-policy-storms-around-education-and-immigration/	Shakib Zabihian	both	male	male	13	15	137	145	
+a018	https://techcrunch.com/2017/03/08/tutoring-startup-toot-launches-into-twin-policy-storms-around-education-and-immigration/	Tobey Maguire	both	male	male	1	1	0	0	
+a018	https://techcrunch.com/2017/03/08/tutoring-startup-toot-launches-into-twin-policy-storms-around-education-and-immigration/	Betsy DeVoso	manual_only	female						
+a018	https://techcrunch.com/2017/03/08/tutoring-startup-toot-launches-into-twin-policy-storms-around-education-and-immigration/	Paras	auto_only		male		1			
+a018	https://techcrunch.com/2017/03/08/tutoring-startup-toot-launches-into-twin-policy-storms-around-education-and-immigration/	Betsy DeVos	auto_only		female		1			
+a018	https://techcrunch.com/2017/03/08/tutoring-startup-toot-launches-into-twin-policy-storms-around-education-and-immigration/	Getty	auto_only		male		1			
+a019	https://techcrunch.com/2017/03/14/producepay-raises-77-million-in-debt-and-equity-to-revolutionize-farm-financing/	Pablo Borquez Schwarzbeck	both	male	male	10	7	88	41	
+a019	https://techcrunch.com/2017/03/14/producepay-raises-77-million-in-debt-and-equity-to-revolutionize-farm-financing/	Ali Hamed	both	male	male	2	3	84	97	
+a020	https://techcrunch.com/2017/03/06/how-hazel-technologies-keeps-fresh-fruit-and-vegetables-from-spoiling/	Aidan Mouat	both	male	male	2	2	41	0	
+a020	https://techcrunch.com/2017/03/06/how-hazel-technologies-keeps-fresh-fruit-and-vegetables-from-spoiling/	Niko Hrdy	both	male	male	2	2	39	45	
+a021	https://www.nytimes.com/2017/03/15/world/asia/beauty-beast-gay-character-malaysia.html	Bill Condon	both	male	male	1	1	3	0	
+a021	https://www.nytimes.com/2017/03/15/world/asia/beauty-beast-gay-character-malaysia.html	Dan Stevens	both	male	male	1	1	0	0	
+a021	https://www.nytimes.com/2017/03/15/world/asia/beauty-beast-gay-character-malaysia.html	Abdul Halim Abdul Hamid	both	male	male	2	2	69	80	
+a021	https://www.nytimes.com/2017/03/15/world/asia/beauty-beast-gay-character-malaysia.html	Emma Watson	both	female	female	1	1	0	0	
+a021	https://www.nytimes.com/2017/03/15/world/asia/beauty-beast-gay-character-malaysia.html	Gaston	auto_only		male		1			
+a022	https://www.nytimes.com/2017/03/14/sports/soccer/leicester-city-fc-sevilla-champions-league.html	Craig Shakespeare	both	male	male	2	2	0	4	
+a022	https://www.nytimes.com/2017/03/14/sports/soccer/leicester-city-fc-sevilla-champions-league.html	Samir Nasri	both	male	male	1	1	0	0	
+a022	https://www.nytimes.com/2017/03/14/sports/soccer/leicester-city-fc-sevilla-champions-league.html	Wes Morgan	both	male	male	1	1	0	0	
+a022	https://www.nytimes.com/2017/03/14/sports/soccer/leicester-city-fc-sevilla-champions-league.html	Marc Albrighton	both	male	male	2	1	0	0	
+a022	https://www.nytimes.com/2017/03/14/sports/soccer/leicester-city-fc-sevilla-champions-league.html	Claudio Ranieri	both	male	male	4	4	0	0	
+a022	https://www.nytimes.com/2017/03/14/sports/soccer/leicester-city-fc-sevilla-champions-league.html	Jamie Vardy	both	male	female	2	2	0	0	
+a022	https://www.nytimes.com/2017/03/14/sports/soccer/leicester-city-fc-sevilla-champions-league.html	Chelsea	auto_only		female		1			
+a023	https://www.nytimes.com/2017/03/14/business/dealbook/bank-england-charlotte-hogg-resign.html	Nemat Shafik	both	female	female	2	2	0	0	
+a023	https://www.nytimes.com/2017/03/14/business/dealbook/bank-england-charlotte-hogg-resign.html	Quintin Hogg	both	male	male	1	1	0	0	
+a023	https://www.nytimes.com/2017/03/14/business/dealbook/bank-england-charlotte-hogg-resign.html	Mark J. Carney	both	male	male	5	5	0	1	
+a023	https://www.nytimes.com/2017/03/14/business/dealbook/bank-england-charlotte-hogg-resign.html	Douglas Hogg	both	male	male	1	1	0	0	
+a023	https://www.nytimes.com/2017/03/14/business/dealbook/bank-england-charlotte-hogg-resign.html	John Mann	both	male	male	1	1	2	0	
+a023	https://www.nytimes.com/2017/03/14/business/dealbook/bank-england-charlotte-hogg-resign.html	John Major	both	male	male	1	1	0	0	
+a023	https://www.nytimes.com/2017/03/14/business/dealbook/bank-england-charlotte-hogg-resign.html	Charlotte Hogg	both	female	female	10	10	0	2	
+a023	https://www.nytimes.com/2017/03/14/business/dealbook/bank-england-charlotte-hogg-resign.html	Sarah Hogg	both	female	female	1	1	0	0	
+a023	https://www.nytimes.com/2017/03/14/business/dealbook/bank-england-charlotte-hogg-resign.html	Santander	auto_only		None		1			
+a024	https://www.nytimes.com/2017/03/13/travel/airbnb-alternative-home-share-rentals.html	Stefan Grant	both	male	male	1	1	0	0	
+a024	https://www.nytimes.com/2017/03/13/travel/airbnb-alternative-home-share-rentals.html	Douglas Quinby	both	male	male	1	1	27	33	
+a024	https://www.nytimes.com/2017/03/13/travel/airbnb-alternative-home-share-rentals.html	Parker Stanberry	both	male	male	1	1	15	0	
+a024	https://www.nytimes.com/2017/03/13/travel/airbnb-alternative-home-share-rentals.html	Matthieu Jost	both	male	male	1	1	0	0	
+a024	https://www.nytimes.com/2017/03/13/travel/airbnb-alternative-home-share-rentals.html	Jeff Manheimer	both	male	male	1	1	19	10	
+a024	https://www.nytimes.com/2017/03/13/travel/airbnb-alternative-home-share-rentals.html	Evan Frank	both	male	male	2	2	76	87	
+a024	https://www.nytimes.com/2017/03/13/travel/airbnb-alternative-home-share-rentals.html	Ronnia Cherry	both	female	female	1	1	0	0	
+a024	https://www.nytimes.com/2017/03/13/travel/airbnb-alternative-home-share-rentals.html	HomeAway	auto_only		None		1			
+a024	https://www.nytimes.com/2017/03/13/travel/airbnb-alternative-home-share-rentals.html	Airbnb	auto_only		None		1			
+a024	https://www.nytimes.com/2017/03/13/travel/airbnb-alternative-home-share-rentals.html	GuesttoGuest	auto_only		None		1			
+a024	https://www.nytimes.com/2017/03/13/travel/airbnb-alternative-home-share-rentals.html	Martha	auto_only		female		1			
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Humaira Iqbal	both	female	female	2	2	65	0	
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Farhat Hashmi	both	female	female	3	3	0	0	
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Huma Najmul Hassan	both	female	female	1	1	0	0	
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Kulsoom Umar	both	female	female	1	1	18	0	
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Faiza Mushtaq	both	female	female	1	1	52	22	
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Sara Asif	both	female	female	3	3	23	12	
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Muhammad	both	male	male	1	1	0	0	
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Safiya Khan	both	female	female	1	1	0	0	
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Tashfeen Malik	both	female	None	1	1	0	0	
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Mahjabeen Umar	both	female	female	1	1	9	0	
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Little Ummati	auto_only		female		1			
+a025	https://www.nytimes.com/2017/03/12/world/asia/citys-affluent-women-bring-islam-into-their-lives-and-lifestyles.html	Al-Huda	auto_only		None		1			
+a026	https://www.nytimes.com/2017/03/10/science/nasa-cassini-saturn-moon-pan.html	Ben	manual_only	male						
+a026	https://www.nytimes.com/2017/03/10/science/nasa-cassini-saturn-moon-pan.html	Matthew Flynn	both	male	male	2	2	25	29	
+a026	https://www.nytimes.com/2017/03/10/science/nasa-cassini-saturn-moon-pan.html	Luke	manual_only	male						
+a026	https://www.nytimes.com/2017/03/10/science/nasa-cassini-saturn-moon-pan.html	David M. Crandell	both	male	male	3	3	47	52	
+a026	https://www.nytimes.com/2017/03/10/science/nasa-cassini-saturn-moon-pan.html	Dan Lasko	both	male	male	10	10	44	49	
+a026	https://www.nytimes.com/2017/03/10/science/nasa-cassini-saturn-moon-pan.html	Eric Feinstein	both	male	male	2	2	0	0	
+a026	https://www.nytimes.com/2017/03/10/science/nasa-cassini-saturn-moon-pan.html	Todd Goldstein	both	male	male	4	4	0	0	
+a026	https://www.nytimes.com/2017/03/10/science/nasa-cassini-saturn-moon-pan.html	Ben Luke	auto_only		male		2			
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Maria Sharapova	both	female	female	17	20	0	0	
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Angelique Kerber	both	female	female	4	3	36	42	
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Bernard Giudicelli	both	male	male	2	3	49	57	
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Guy Forget	both	male	male	1	1	0	0	
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Steve Simon	both	male	male	2	2	77	99	
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Karolina Pliskova	both	female	female	1	1	78	58	
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Jo-Wilfried Tsonga	both	male	male	2	2	20	24	
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Svetlana Kuznetsova	both	female	female	2	2	67	84	
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Andy Murray	both	male	male	3	3	118	142	
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Serena Williams	both	female	female	1	1	0	0	
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Marin Cilic	both	male	female	1	1	0	0	
+a027	https://www.nytimes.com/2017/03/09/sports/tennis/maria-sharapova-wild-cards.html	Roland Garros	auto_only		male		1			
+a028	https://www.nytimes.com/2017/03/09/sports/chris-bertish-paddleboard-atlantic-ocean.html	Johnny Clegg	both	male	male	1	1	0	0	
+a028	https://www.nytimes.com/2017/03/09/sports/chris-bertish-paddleboard-atlantic-ocean.html	Phil Morrison	both	male	male	1	1	0	0	
+a028	https://www.nytimes.com/2017/03/09/sports/chris-bertish-paddleboard-atlantic-ocean.html	Nicolas Jarossay	both	male	male	1	1	0	0	
+a028	https://www.nytimes.com/2017/03/09/sports/chris-bertish-paddleboard-atlantic-ocean.html	Chris Bertish	both	male	male	9	10	166	147	
+a028	https://www.nytimes.com/2017/03/09/sports/chris-bertish-paddleboard-atlantic-ocean.html	Juluka	auto_only		None		1			
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Marilyn B. Young	both	female	female	4	5	182	77	
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Aaron Blatt	both	male	male	1	1	0	0	
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Walter LaFeber	both	male	male	1	1	18	21	
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Lauren Young	both	female	female	1	1	0	0	
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Julius Rosenberg	both	male	male	1	1	0	0	
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Mollie Persoff	both	female	female	1	1	0	0	
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Leah Glasser	both	female	female	1	1	0	0	
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Ethel Rosenberg	both	female	female	1	1	0	0	
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Michael J. Young	both	male	male	2	1	0	0	
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Carole Atkins	both	female	female	1	1	0	0	
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Ernest P. Young	both	male	male	1	1	0	0	
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Michael	auto_only		male		1			
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Marilyn Blatt	auto_only		female		1			
+a029	https://www.nytimes.com/2017/03/09/books/marilyn-b-young-dead-antiwar-historian.html	Ann Arbor	auto_only		female		1			
+a030	https://www.nytimes.com/2017/03/10/science/pink-lake-westgate-melbourne-australia.html	Mark Norman	both	male	male	5	5	75	56	
+a030	https://www.nytimes.com/2017/03/10/science/pink-lake-westgate-melbourne-australia.html	James	auto_only		male		1			
+a030	https://www.nytimes.com/2017/03/10/science/pink-lake-westgate-melbourne-australia.html	Lake Hillier	auto_only		male		1			
+a030	https://www.nytimes.com/2017/03/10/science/pink-lake-westgate-melbourne-australia.html	Westgate Park	auto_only		None		1			
+a032	https://www.nytimes.com/2017/03/01/us/georgia-racist-couple-sentenced.html	Jose I. Torres	both	male	male	7	8	0	0	
+a032	https://www.nytimes.com/2017/03/01/us/georgia-racist-couple-sentenced.html	William McClain	both	male	male	1	1	7	8	
+a032	https://www.nytimes.com/2017/03/01/us/georgia-racist-couple-sentenced.html	Kayla Rae Norton	both	female	female	9	9	21	25	
+a032	https://www.nytimes.com/2017/03/01/us/georgia-racist-couple-sentenced.html	Brian Fortner	both	male	male	3	3	54	59	
+a032	https://www.nytimes.com/2017/03/01/us/georgia-racist-couple-sentenced.html	Hyesha Bryant	both	female	None	1	1	40	0	
+a032	https://www.nytimes.com/2017/03/01/us/georgia-racist-couple-sentenced.html	Norman Barnett	both	male	male	2	2	6	7	
+a033	https://www.nytimes.com/2017/03/01/movies/oscars-academy-pwc-accountants.html	Faye Dunaway	both	female	female	2	2	0	0	
+a033	https://www.nytimes.com/2017/03/01/movies/oscars-academy-pwc-accountants.html	Emma Stone	both	female	female	1	1	0	0	
+a033	https://www.nytimes.com/2017/03/01/movies/oscars-academy-pwc-accountants.html	Brian Cullinan	both	male	male	4	4	11	14	
+a033	https://www.nytimes.com/2017/03/01/movies/oscars-academy-pwc-accountants.html	Cheryl Boone Isaacs	both	female	female	1	1	0	0	
+a033	https://www.nytimes.com/2017/03/01/movies/oscars-academy-pwc-accountants.html	Martha L. Ruiz	both	female	male	2	1	0	0	
+a033	https://www.nytimes.com/2017/03/01/movies/oscars-academy-pwc-accountants.html	Warren Beatty	both	male	male	4	4	0	3	
+a033	https://www.nytimes.com/2017/03/01/movies/oscars-academy-pwc-accountants.html	Ruiz	auto_only		female		1			
+a034	https://www.nytimes.com/2017/03/15/technology/yahoo-hack-indictment.html	Jack Bennett	both	male	male	1	1	0	0	
+a034	https://www.nytimes.com/2017/03/15/technology/yahoo-hack-indictment.html	Mary B. McCord	both	female	female	1	1	33	0	
+a034	https://www.nytimes.com/2017/03/15/technology/yahoo-hack-indictment.html	Trump	both	male	None	1	1	0	0	
+a034	https://www.nytimes.com/2017/03/15/technology/yahoo-hack-indictment.html	Dmitry Aleksandrovich Dokuchaev	both	male	male	1	1	0	0	
+a034	https://www.nytimes.com/2017/03/15/technology/yahoo-hack-indictment.html	Alexsey Belan	both	male	male	3	3	0	0	
+a034	https://www.nytimes.com/2017/03/15/technology/yahoo-hack-indictment.html	Karim Baratov	both	male	male	2	2	0	0	
+a034	https://www.nytimes.com/2017/03/15/technology/yahoo-hack-indictment.html	Ronald S. Bell	both	male	male	1	1	0	0	
+a034	https://www.nytimes.com/2017/03/15/technology/yahoo-hack-indictment.html	Marissa Mayer	both	female	female	1	1	0	0	
+a034	https://www.nytimes.com/2017/03/15/technology/yahoo-hack-indictment.html	Igor Anatolyevich Sushchin	both	male	male	1	1	0	0	
+a036	https://techcrunch.com/2017/03/06/okta-stormpath/	Alex Salakar	manual_only	male						
+a036	https://techcrunch.com/2017/03/06/okta-stormpath/	Frederic Kerrest	manual_only	male						
+a036	https://techcrunch.com/2017/03/06/okta-stormpath/	Les Hazelwood	both	male	male	1	1	0	0	
+a036	https://techcrunch.com/2017/03/06/okta-stormpath/	Todd McKinnon	both	male	male	2	2	62	68	
+a036	https://techcrunch.com/2017/03/06/okta-stormpath/	Pitney Bowes	auto_only		None		1			
+a036	https://techcrunch.com/2017/03/06/okta-stormpath/	Stormpath	auto_only		None		5			
+a036	https://techcrunch.com/2017/03/06/okta-stormpath/	Salazar Hazelwood	auto_only		male		2			
+a036	https://techcrunch.com/2017/03/06/okta-stormpath/	Okta	auto_only		non-living		4			
+a036	https://techcrunch.com/2017/03/06/okta-stormpath/	Oktaessentially	auto_only		non-living		1			
+a036	https://techcrunch.com/2017/03/06/okta-stormpath/	COOFrederic Kerrest	auto_only		male		4			
+a037	https://techcrunch.com/2017/03/05/ibm-adds-new-api-to-quantum-computing-cloud/	Jerry Chow	both	male	male	4	4	48	50	
+a038	https://techcrunch.com/2017/03/03/the-associated-press-plan-to-put-hyperlocal-data-in-the-hands-of-reporters/	Troy Thibodeaux	both	male	male	3	2	77	30	
+a038	https://techcrunch.com/2017/03/03/the-associated-press-plan-to-put-hyperlocal-data-in-the-hands-of-reporters/	Asa	auto_only		male		1			
+a039	https://techcrunch.com/2017/03/09/google-launches-committed-use-discounts-for-its-cloud-platform/	Urs Hlzle	both	male	None	2	2	9	0	
+a040	https://techcrunch.com/2017/03/08/kabbage-nabs-500m-for-small-business-loans/	Anthony Nocera	both	male	male	1	1	36	41	
+a040	https://techcrunch.com/2017/03/08/kabbage-nabs-500m-for-small-business-loans/	Kevin Phillips	both	male	male	4	4	19	23	
+a040	https://techcrunch.com/2017/03/08/kabbage-nabs-500m-for-small-business-loans/	Kabbage	auto_only		non-living		8			
+a041	https://www.nytimes.com/2017/03/15/science/great-barrier-reef-coral-climate-change-dieoff.html	Donald J. Trump	both	male	male	0	1	0	0	
+a041	https://www.nytimes.com/2017/03/15/science/great-barrier-reef-coral-climate-change-dieoff.html	C. Mark Eakin	both	male	male	2	2	25	26	
+a041	https://www.nytimes.com/2017/03/15/science/great-barrier-reef-coral-climate-change-dieoff.html	Terry P. Hughes	both	male	male	7	7	95	79	
+a041	https://www.nytimes.com/2017/03/15/science/great-barrier-reef-coral-climate-change-dieoff.html	Imogen Zethoven	both	female	female	1	1	30	33	
+a041	https://www.nytimes.com/2017/03/15/science/great-barrier-reef-coral-climate-change-dieoff.html	Kim M. Cobb	both	female	female	2	2	33	36	
+a041	https://www.nytimes.com/2017/03/15/science/great-barrier-reef-coral-climate-change-dieoff.html	El Nio	auto_only		male		1			
+a042	https://www.nytimes.com/2017/03/15/business/audi-vw-diesel-emissions.html	Matthias Muller	manual_only	male						
+a042	https://www.nytimes.com/2017/03/15/business/audi-vw-diesel-emissions.html	Ulrich Weiss	both	male	male	3	3	0	0	
+a042	https://www.nytimes.com/2017/03/15/business/audi-vw-diesel-emissions.html	Martin Winterkorn	both	male	male	1	1	0	0	
+a042	https://www.nytimes.com/2017/03/15/business/audi-vw-diesel-emissions.html	Unnamed sources	manual_only							
+a042	https://www.nytimes.com/2017/03/15/business/audi-vw-diesel-emissions.html	Rupert Stadler	both	male	male	6	6	5	7	
+a042	https://www.nytimes.com/2017/03/15/business/audi-vw-diesel-emissions.html	Matthias Mller	auto_only		male		2			
+a044	https://www.nytimes.com/2017/04/04/us/escalators-standing-or-walking.html	Sam Schwartz	both	male	male	1	1	33	42	
+a044	https://www.nytimes.com/2017/04/04/us/escalators-standing-or-walking.html	Paul Wiedefeld	both	male	male	2	2	0	0	
+a044	https://www.nytimes.com/2017/04/04/us/escalators-standing-or-walking.html	Shivam Desai	both	male	male	1	1	28	31	
+a044	https://www.nytimes.com/2017/04/04/us/escalators-standing-or-walking.html	Curtis W. Reisinger	both	male	male	1	1	33	37	
+a044	https://www.nytimes.com/2017/04/04/us/escalators-standing-or-walking.html	Jeanine L. Skorinko	both	female	female	1	1	21	13	
+a044	https://www.nytimes.com/2017/04/04/us/escalators-standing-or-walking.html	Lukas Dobrovsky	both	male	male	1	1	28	0	
+a044	https://www.nytimes.com/2017/04/04/us/escalators-standing-or-walking.html	Otis	auto_only		male		2			
+a045	https://www.nytimes.com/2017/03/27/well/live/positive-thinking-may-improve-health-and-extend-life.html	Avni Bavishi	both	female	female	1	1	0	0	
+a045	https://www.nytimes.com/2017/03/27/well/live/positive-thinking-may-improve-health-and-extend-life.html	Wendy Schlessel Harpham	both	female	female	3	3	29	33	
+a045	https://www.nytimes.com/2017/03/27/well/live/positive-thinking-may-improve-health-and-extend-life.html	Judith T. Moskowitz	both	female	female	4	4	51	22	
+a045	https://www.nytimes.com/2017/03/27/well/live/positive-thinking-may-improve-health-and-extend-life.html	Gregg De Meza	both	male	male	1	1	64	78	
+a045	https://www.nytimes.com/2017/03/27/well/live/positive-thinking-may-improve-health-and-extend-life.html	Becca Levy	both	female	female	2	2	0	0	
+a045	https://www.nytimes.com/2017/03/27/well/live/positive-thinking-may-improve-health-and-extend-life.html	non-Hodgkin	auto_only		None		1			
+a046	https://www.nytimes.com/2017/04/05/world/asia/philippines-and-communist-rebels-agree-to-a-temporary-cease-fire.html	Fidel Agcaoili	both	male	male	2	2	0	0	
+a046	https://www.nytimes.com/2017/04/05/world/asia/philippines-and-communist-rebels-agree-to-a-temporary-cease-fire.html	Rodrigo Duterte	both	male	male	5	5	26	38	
+a046	https://www.nytimes.com/2017/04/05/world/asia/philippines-and-communist-rebels-agree-to-a-temporary-cease-fire.html	Jesus Dureza	both	male	male	2	2	56	62	
+a046	https://www.nytimes.com/2017/04/05/world/asia/philippines-and-communist-rebels-agree-to-a-temporary-cease-fire.html	Jose Maria Sison	both	male	male	2	3	0	0	
+a047	https://www.nytimes.com/2017/04/05/us/high-school-journalists-principal-quits.html	Maddie Baden	both	female	female	1	1	0	0	
+a047	https://www.nytimes.com/2017/04/05/us/high-school-journalists-principal-quits.html	Amy Robertson	both	female	female	10	10	0	7	
+a047	https://www.nytimes.com/2017/04/05/us/high-school-journalists-principal-quits.html	Tom Rosenstiel	both	male	male	1	1	12	18	
+a047	https://www.nytimes.com/2017/04/05/us/high-school-journalists-principal-quits.html	Emily Smith	both	female	female	6	6	43	54	
+a047	https://www.nytimes.com/2017/04/05/us/high-school-journalists-principal-quits.html	Destry Brown	both	male	male	2	2	44	48	
+a047	https://www.nytimes.com/2017/04/05/us/high-school-journalists-principal-quits.html	Frank LoMonte	both	male	male	1	2	55	60	
+a048	https://techcrunch.com/2017/04/05/uber-finds-one-allegedly-stolen-waymo-file-on-an-employees-personal-device/	Uber	manual_only	company						
+a048	https://techcrunch.com/2017/04/05/uber-finds-one-allegedly-stolen-waymo-file-on-an-employees-personal-device/	Anthony Levandowski	both	male	male	7	7	0	0	
+a048	https://techcrunch.com/2017/04/05/uber-finds-one-allegedly-stolen-waymo-file-on-an-employees-personal-device/	Sameer Kshirsagar	both	male	male	3	3	0	0	
+a048	https://techcrunch.com/2017/04/05/uber-finds-one-allegedly-stolen-waymo-file-on-an-employees-personal-device/	Arturo Gonzalez	both	male	male	3	3	43	45	
+a048	https://techcrunch.com/2017/04/05/uber-finds-one-allegedly-stolen-waymo-file-on-an-employees-personal-device/	Radu Raduta	both	male	male	1	1	0	0	
+a048	https://techcrunch.com/2017/04/05/uber-finds-one-allegedly-stolen-waymo-file-on-an-employees-personal-device/	Charles K. Verhoeven	both	male	male	1	1	0	0	
+a048	https://techcrunch.com/2017/04/05/uber-finds-one-allegedly-stolen-waymo-file-on-an-employees-personal-device/	Waymo	both	company	non-living	0	10	0	0	
+a048	https://techcrunch.com/2017/04/05/uber-finds-one-allegedly-stolen-waymo-file-on-an-employees-personal-device/	William Alsup	both	male	male	1	1	0	0	
+a049	https://techcrunch.com/2017/04/05/spacex-spent-less-than-half-the-cost-of-a-new-first-stage-on-falcon-9-relaunch/	SpaceX	manual_only	company						
+a049	https://techcrunch.com/2017/04/05/spacex-spent-less-than-half-the-cost-of-a-new-first-stage-on-falcon-9-relaunch/	Elon Musk	both	male	male	2	1	0	0	
+a049	https://techcrunch.com/2017/04/05/spacex-spent-less-than-half-the-cost-of-a-new-first-stage-on-falcon-9-relaunch/	Gwynne Shotwell	both	female	female	3	3	0	4	
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	IBM Watson	manual_only	company						
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Slack	both	company	None	0	1	0	0	
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Nestle	manual_only	company						
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Samsung	manual_only	company						
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Jager McConnell	both	male	male	9	9	147	124	
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Microsoft	manual_only	company						
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Datafox	both	company	None	0	1	0	0	
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Everstring	manual_only	company						
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Crunchbase	both	company	male	0	3	0	0	
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Engagio	manual_only	company						
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Affinity	manual_only	company						
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Rajeev Batra	both	male	male	1	1	64	69	
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Deloitte	both	company	None	0	1	0	0	
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Volkswagen	manual_only	company						
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Datanyze	manual_only	company						
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Infer	manual_only	company						
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Target	manual_only	company						
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Hoover	auto_only		male		1			
+a050	https://techcrunch.com/2017/04/06/crunchbase-18-million/	Mayfield	auto_only		male		1			
+a051	https://techcrunch.com/2017/04/06/hyperloop-one-completes-vegas-test-track-tube-reveals-11-proposed-u-s-routes/	Hyperloop One	manual_only	company						
+a051	https://techcrunch.com/2017/04/06/hyperloop-one-completes-vegas-test-track-tube-reveals-11-proposed-u-s-routes/	Nick Earle	both	male	male	6	6	211	119	
+a051	https://techcrunch.com/2017/04/06/hyperloop-one-completes-vegas-test-track-tube-reveals-11-proposed-u-s-routes/	Rob Lloyd	manual_only	male						
+a051	https://techcrunch.com/2017/04/06/hyperloop-one-completes-vegas-test-track-tube-reveals-11-proposed-u-s-routes/	Rob	auto_only		male		1			
+a051	https://techcrunch.com/2017/04/06/hyperloop-one-completes-vegas-test-track-tube-reveals-11-proposed-u-s-routes/	Reno	auto_only		male		1			
+a052	https://techcrunch.com/2017/04/05/twitter-finally-launches-a-lite-app/	Twitter	manual_only	company						
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Mrs. Trump	manual_only	female						
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Trump	both	male	male	0	9	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Xi Jinping	both	male	female	1	1	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Kellyanne Conway	both	female	female	1	1	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Mike Pence	both	male	male	1	1	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	George W. Bush	both	male	male	1	1	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Eric Trump	both	male	male	1	1	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Barron Trump	both	male	male	1	1	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	William J. Callahan	both	male	male	1	1	0	2	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Donald Trump Jr.	both	male	female	1	2	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	James F. Tomsheck	both	male	male	1	1	41	45	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Reince Priebus	manual_only	male						
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	James P. O'Neill	both	male	male	1	1	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Barack Obama	both	male	male	0	3	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	H. R. McMaster	both	male	None	1	1	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	W. Ralph Basham	both	male	male	2	2	27	31	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Catherine Milhoan	both	female	female	1	1	33	35	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Joseph R. Biden Jr.	both	male	male	1	1	0	0	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Douglas A. Smith	both	male	male	1	1	27	36	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Jason Chaffetz	both	male	male	2	2	5	6	
+a053	https://www.nytimes.com/2017/04/06/us/politics/secret-service-trump-first-family-protection.html	Elijah Cummings	both	male	male	1	1	12	0	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Clarence Thomas	both	male	male	1	1	0	0	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Trump	both	male	male	3	3	0	0	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Robert H. Bork	both	male	male	1	1	0	0	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Orrin G. Hatch	both	male	male	1	2	19	9	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Neil M. Gorsuch	both	male	male	8	8	0	0	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Merrick B. Garland	both	male	male	3	3	0	0	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Patrick J. Leahy	both	male	male	1	1	14	16	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Chuck Schumer	both	male	male	1	1	13	0	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	George W. Bush	both	male	male	1	1	0	0	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Barack Obama	both	male	male	1	1	0	0	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Mitch McConnell	both	male	male	3	3	47	55	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Richard J. Durbin	both	male	male	1	1	22	25	
+a054	https://www.nytimes.com/2017/04/06/us/politics/neil-gorsuch-supreme-court-senate.html	Antonin Scalia	both	male	male	1	1	0	0	
+a055	https://www.nytimes.com/2017/04/12/business/cathay-pacific-rupert-hogg-ivan-chu-ceo.html	Ivan Chu	both	male	male	4	5	0	0	
+a055	https://www.nytimes.com/2017/04/12/business/cathay-pacific-rupert-hogg-ivan-chu-ceo.html	Corrine Png	both	female	female	3	3	0	38	
+a055	https://www.nytimes.com/2017/04/12/business/cathay-pacific-rupert-hogg-ivan-chu-ceo.html	Rupert Hogg	both	male	male	2	2	0	0	
+a055	https://www.nytimes.com/2017/04/12/business/cathay-pacific-rupert-hogg-ivan-chu-ceo.html	John R. Slosar	both	male	male	2	2	0	26	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	George Bush	both	male	male	1	1	0	0	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Trump	both	male	None	1	1	0	0	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Reagan	both	male	female	1	1	0	0	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Abraham Heifets	both	male	male	5	5	19	23	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Justin Trudeau	both	male	male	1	1	0	0	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Geoffrey Hinton	both	male	male	6	6	3	4	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Ajay Agrawal	both	male	male	3	3	0	0	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Brendan Frey	both	male	male	2	2	31	35	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Yoshua Bengio	both	male	male	1	1	0	0	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Richard Sutton	both	male	male	2	2	12	14	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Timothy Draper	both	male	male	2	2	0	0	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Tiff Macklem	both	male	None	1	1	20	21	
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Atomwise	auto_only		None		1			
+a056	https://www.nytimes.com/2017/04/09/technology/canada-artificial-intelligence.html	Deep Genomics	auto_only		non-living		1			
+a057	https://www.nytimes.com/2017/04/07/arts/eleven-house-republicans-sign-letter-supporting-arts-endowment.html	Ken Calvert	both	male	male	3	3	0	0	
+a057	https://www.nytimes.com/2017/04/07/arts/eleven-house-republicans-sign-letter-supporting-arts-endowment.html	Betty McCollum	both	female	female	2	2	0	0	
+a057	https://www.nytimes.com/2017/04/07/arts/eleven-house-republicans-sign-letter-supporting-arts-endowment.html	Trump	both	male	male	2	2	0	0	
+a057	https://www.nytimes.com/2017/04/07/arts/eleven-house-republicans-sign-letter-supporting-arts-endowment.html	Louise Slaughter	both	female	female	1	1	61	0	
+a058	https://www.nytimes.com/2017/04/07/business/uber-drunk-driving-prevention.html	Trump	both	male	None	1	1	0	0	
+a058	https://www.nytimes.com/2017/04/07/business/uber-drunk-driving-prevention.html	Travis Kalanick	both	male	male	4	4	0	0	
+a058	https://www.nytimes.com/2017/04/07/business/uber-drunk-driving-prevention.html	David S. Kirk	both	male	male	1	1	0	0	
+a058	https://www.nytimes.com/2017/04/07/business/uber-drunk-driving-prevention.html	Noli Brazil	manual_only	male						
+a058	https://www.nytimes.com/2017/04/07/business/uber-drunk-driving-prevention.html	Jessica Lynn Peck	both	female	female	4	4	74	81	
+a058	https://www.nytimes.com/2017/04/07/business/uber-drunk-driving-prevention.html	Brazil	auto_only		male		2			
+a059	https://www.nytimes.com/2017/04/06/fashion/louis-vuitton-strike-france.html	Jean-Marc Damelincourt	both	male	male	3	3	62	68	
+a059	https://www.nytimes.com/2017/04/06/fashion/louis-vuitton-strike-france.html	Travail	auto_only		male		1			
+a059	https://www.nytimes.com/2017/04/06/fashion/louis-vuitton-strike-france.html	Louis Vuitton	auto_only		non-living		6			
+a043	https://www.nytimes.com/2016/05/18/world/asia/south-korea-dog-meat-trade.html	Andrew Plumbly	both	male	male	1	1	7	8	
+a043	https://www.nytimes.com/2016/05/18/world/asia/south-korea-dog-meat-trade.html	Kim Yoo-na	both	male	female	1	1	33	41	
+a043	https://www.nytimes.com/2016/05/18/world/asia/south-korea-dog-meat-trade.html	Gong In-young	both	male	male	10	11	74	81	
+a043	https://www.nytimes.com/2016/05/18/world/asia/south-korea-dog-meat-trade.html	Wendy Higgins	both	female	female	1	1	60	64	
+a043	https://www.nytimes.com/2016/05/18/world/asia/south-korea-dog-meat-trade.html	Snow White	auto_only		male		1			
+a043	https://www.nytimes.com/2016/05/18/world/asia/south-korea-dog-meat-trade.html	Spitz	auto_only		None		1			
+a043	https://www.nytimes.com/2016/05/18/world/asia/south-korea-dog-meat-trade.html	Tosa	auto_only		None		1			
+a002	https://www.nytimes.com/2017/03/06/us/politics/supreme-court-transgender-rights-case.html	Kerri Kupec	both	female	female	1	1	44	47	
+a002	https://www.nytimes.com/2017/03/06/us/politics/supreme-court-transgender-rights-case.html	S. Kyle Duncan	both	male	male	1	2	29	30	
+a002	https://www.nytimes.com/2017/03/06/us/politics/supreme-court-transgender-rights-case.html	Trump	both	male	male	5	5	0	0	
+a002	https://www.nytimes.com/2017/03/06/us/politics/supreme-court-transgender-rights-case.html	Joshua A. Block	both	male	male	2	2	53	55	
+a002	https://www.nytimes.com/2017/03/06/us/politics/supreme-court-transgender-rights-case.html	Sarah Warbelow	both	female	female	1	1	26	28	
+a002	https://www.nytimes.com/2017/03/06/us/politics/supreme-court-transgender-rights-case.html	Gavin Grimm	both	male	male	8	8	0	0	
+a002	https://www.nytimes.com/2017/03/06/us/politics/supreme-court-transgender-rights-case.html	Obama	both	male	male	2	2	0	0	
+a006	https://www.nytimes.com/2017/03/06/science/donald-trump-data-rescue-science.html	Maxwell Ogden	both	male	male	4	4	40	49	
+a006	https://www.nytimes.com/2017/03/06/science/donald-trump-data-rescue-science.html	Laurie Allen	both	female	female	1	1	40	44	
+a006	https://www.nytimes.com/2017/03/06/science/donald-trump-data-rescue-science.html	James R. Jacobs	both	male	male	1	1	31	0	
+a006	https://www.nytimes.com/2017/03/06/science/donald-trump-data-rescue-science.html	Patrice McDermott	both	female	female	2	2	18	20	
+a006	https://www.nytimes.com/2017/03/06/science/donald-trump-data-rescue-science.html	Barbara Thiers	both	female	female	1	1	23	26	
+a006	https://www.nytimes.com/2017/03/06/science/donald-trump-data-rescue-science.html	Anne Jefferson	both	female	female	1	1	22	24	
+a006	https://www.nytimes.com/2017/03/06/science/donald-trump-data-rescue-science.html	Andrew Bergman	both	male	male	2	2	34	40	
+a006	https://www.nytimes.com/2017/03/06/science/donald-trump-data-rescue-science.html	James A. Jacobs	both	male	male	1	1	31	0	
+a006	https://www.nytimes.com/2017/03/06/science/donald-trump-data-rescue-science.html	Obama	auto_only		male		1			
+a011	https://techcrunch.com/2017/03/14/bill-maris-next-gig-after-gv-is-a-100-million-health-and-biotech-fund/	Bill Maris	both	male	male	9	9	0	11	
+a060	https://www.nytimes.com/2017/04/06/science/cannibalism-human-body-calories.html	Susan Roberts	both	female	female	1	1	34	37	
+a060	https://www.nytimes.com/2017/04/06/science/cannibalism-human-body-calories.html	James Cole	both	male	male	9	10	69	20	
+a060	https://www.nytimes.com/2017/04/06/science/cannibalism-human-body-calories.html	David Levitsky	both	male	male	1	1	26	29	
+a060	https://www.nytimes.com/2017/04/06/science/cannibalism-human-body-calories.html	Silvia Bello	both	female	female	1	1	0	0	
+a060	https://www.nytimes.com/2017/04/06/science/cannibalism-human-body-calories.html	Gough	auto_only		None		1			
+a061	https://www.nytimes.com/2017/04/06/world/europe/britain-vacation-school-disney.html	Jon Platt	both	male	male	8	8	12	3	
+a061	https://www.nytimes.com/2017/04/06/world/europe/britain-vacation-school-disney.html	Toby Young	both	male	male	1	1	61	0	
+a061	https://www.nytimes.com/2017/04/06/world/europe/britain-vacation-school-disney.html	Brenda Hale	both	female	female	2	2	0	27	
+a061	https://www.nytimes.com/2017/04/06/world/europe/britain-vacation-school-disney.html	John Pugh	both	male	male	1	1	30	34	
+a061	https://www.nytimes.com/2017/04/06/world/europe/britain-vacation-school-disney.html	Theresa May	both	female	female	1	1	0	0	
+a062	https://www.nytimes.com/2017/04/02/business/dealbook/facebook-pushes-outside-law-firms-to-become-more-diverse.html	Jean Lee	both	female	female	2	2	46	51	
+a062	https://www.nytimes.com/2017/04/02/business/dealbook/facebook-pushes-outside-law-firms-to-become-more-diverse.html	Colin Stretch	both	male	male	2	1	52	55	
+a062	https://www.nytimes.com/2017/04/02/business/dealbook/facebook-pushes-outside-law-firms-to-become-more-diverse.html	Eric Grossman	both	male	male	1	1	55	59	
+a062	https://www.nytimes.com/2017/04/02/business/dealbook/facebook-pushes-outside-law-firms-to-become-more-diverse.html	Craig Silliman	both	male	male	1	1	18	19	
+a062	https://www.nytimes.com/2017/04/02/business/dealbook/facebook-pushes-outside-law-firms-to-become-more-diverse.html	Kim Rivera	both	female	female	2	2	62	68	
+a062	https://www.nytimes.com/2017/04/02/business/dealbook/facebook-pushes-outside-law-firms-to-become-more-diverse.html	Ricardo Anzaldua	both	male	male	2	2	62	67	
+a062	https://www.nytimes.com/2017/04/02/business/dealbook/facebook-pushes-outside-law-firms-to-become-more-diverse.html	Zakiyyah Salim-Williams	both	female	female	1	1	19	20	
+a063	https://www.nytimes.com/2017/05/09/business/dealbook/pandora-music-shakeup-sale.html	Keith Meister	both	male	male	1	1	0	0	
+a063	https://www.nytimes.com/2017/05/09/business/dealbook/pandora-music-shakeup-sale.html	Tim Westergren	both	male	male	1	1	0	0	
+a063	https://www.nytimes.com/2017/05/09/business/dealbook/pandora-music-shakeup-sale.html	James Feuille	both	male	male	1	1	0	0	
+a063	https://www.nytimes.com/2017/05/09/business/dealbook/pandora-music-shakeup-sale.html	Spotify	auto_only		None		3			
+a063	https://www.nytimes.com/2017/05/09/business/dealbook/pandora-music-shakeup-sale.html	Pandora	auto_only		female		6			
+a064	https://www.nytimes.com/2017/05/10/us/politics/john-h-thompson-quits.html	Jos Serrano	both	male	male	1	1	33	35	
+a064	https://www.nytimes.com/2017/05/10/us/politics/john-h-thompson-quits.html	Terri Ann Lowenthal	both	female	female	1	1	19	20	
+a064	https://www.nytimes.com/2017/05/10/us/politics/john-h-thompson-quits.html	Trump	both	male	None	2	2	0	0	
+a064	https://www.nytimes.com/2017/05/10/us/politics/john-h-thompson-quits.html	John H. Thompson	both	male	male	11	11	0	0	
+a064	https://www.nytimes.com/2017/05/10/us/politics/john-h-thompson-quits.html	Robert M. Groves	both	male	male	1	1	47	53	
+a064	https://www.nytimes.com/2017/05/10/us/politics/john-h-thompson-quits.html	John Culberson	both	male	male	1	1	17	18	
+a064	https://www.nytimes.com/2017/05/10/us/politics/john-h-thompson-quits.html	Wilbur Ross	both	male	male	1	1	19	0	
+a064	https://www.nytimes.com/2017/05/10/us/politics/john-h-thompson-quits.html	Robert Goldenkoff	both	male	male	1	1	26	27	
+a064	https://www.nytimes.com/2017/05/10/us/politics/john-h-thompson-quits.html	Obama	both	male	male	1	1	0	0	
+a065	https://www.nytimes.com/2017/05/09/us/politics/health-care-women-senate.html	Kelly Ayotte	both	female	female	1	1	0	0	
+a065	https://www.nytimes.com/2017/05/09/us/politics/health-care-women-senate.html	Lisa Murkowski	both	female	female	1	1	0	0	
+a065	https://www.nytimes.com/2017/05/09/us/politics/health-care-women-senate.html	Shelley Moore Capito	both	female	female	1	1	0	0	
+a065	https://www.nytimes.com/2017/05/09/us/politics/health-care-women-senate.html	Patty Murray	both	female	female	1	1	46	50	
+a065	https://www.nytimes.com/2017/05/09/us/politics/health-care-women-senate.html	Dianne Feinstein	both	female	female	1	1	0	0	
+a065	https://www.nytimes.com/2017/05/09/us/politics/health-care-women-senate.html	Mitch McConnell	both	male	male	3	3	17	19	
+a065	https://www.nytimes.com/2017/05/09/us/politics/health-care-women-senate.html	Maggie Hassan	both	female	female	1	1	0	0	
+a065	https://www.nytimes.com/2017/05/09/us/politics/health-care-women-senate.html	Debbie Walsh	both	female	female	1	1	48	51	
+a065	https://www.nytimes.com/2017/05/09/us/politics/health-care-women-senate.html	Joni Ernst	both	female	female	4	4	8	13	
+a065	https://www.nytimes.com/2017/05/09/us/politics/health-care-women-senate.html	Susan Collins	both	female	female	3	3	13	14	
+a065	https://www.nytimes.com/2017/05/09/us/politics/health-care-women-senate.html	Pat Roberts	both	male	male	1	1	4	0	
+a066	https://www.nytimes.com/2017/05/10/business/media/reporter-arrested-tom-price.html	Tom Price	both	male	male	6	3	0	0	
+a066	https://www.nytimes.com/2017/05/10/business/media/reporter-arrested-tom-price.html	Kelyanne Conway	manual_only	female						
+a066	https://www.nytimes.com/2017/05/10/business/media/reporter-arrested-tom-price.html	American Civil Liberties Union of West Virginia	manual_only	organization/company						
+a066	https://www.nytimes.com/2017/05/10/business/media/reporter-arrested-tom-price.html	unknown person	manual_only	male						
+a066	https://www.nytimes.com/2017/05/10/business/media/reporter-arrested-tom-price.html	J. Timothy DiPiero	both	male	None	1	1	19	0	
+a066	https://www.nytimes.com/2017/05/10/business/media/reporter-arrested-tom-price.html	Dan Heyman	both	male	male	15	15	38	93	
+a066	https://www.nytimes.com/2017/05/10/business/media/reporter-arrested-tom-price.html	Tim Johnson	auto_only		male		2			
+a066	https://www.nytimes.com/2017/05/10/business/media/reporter-arrested-tom-price.html	Alleigh Marr	auto_only		female		1			
+a066	https://www.nytimes.com/2017/05/10/business/media/reporter-arrested-tom-price.html	Trump	auto_only		male		1			
+a066	https://www.nytimes.com/2017/05/10/business/media/reporter-arrested-tom-price.html	Kellyanne Conway	auto_only		female		1			
+a066	https://www.nytimes.com/2017/05/10/business/media/reporter-arrested-tom-price.html	Lawrence Messina	auto_only		male		1			
+a067	https://www.nytimes.com/2017/05/10/arts/music/juilliard-names-damian-woetzel-as-its-new-president.html	Bruce Kovner	both	male	male	2	2	59	62	
+a067	https://www.nytimes.com/2017/05/10/arts/music/juilliard-names-damian-woetzel-as-its-new-president.html	Yo-Yo Ma	both	male	male	2	2	5	0	
+a067	https://www.nytimes.com/2017/05/10/arts/music/juilliard-names-damian-woetzel-as-its-new-president.html	Joseph W. Polisi	both	male	male	1	1	0	0	
+a067	https://www.nytimes.com/2017/05/10/arts/music/juilliard-names-damian-woetzel-as-its-new-president.html	Damian Woetzel	both	male	male	8	10	94	55	
+a067	https://www.nytimes.com/2017/05/10/arts/music/juilliard-names-damian-woetzel-as-its-new-president.html	Obama	both	male	male	1	1	0	0	
+a068	https://www.nytimes.com/2017/05/09/world/asia/afghanistan-cricket-fans-leagues-pakistan.html	Mohammed Shahzad	both	male	male	1	1	0	0	
+a068	https://www.nytimes.com/2017/05/09/world/asia/afghanistan-cricket-fans-leagues-pakistan.html	Rashid Khan	both	male	male	2	5	0	55	
+a068	https://www.nytimes.com/2017/05/09/world/asia/afghanistan-cricket-fans-leagues-pakistan.html	Shafiqullah Shafaq	manual_only	male						
+a068	https://www.nytimes.com/2017/05/09/world/asia/afghanistan-cricket-fans-leagues-pakistan.html	Shukrullah Atif Mashal	both	male	male	4	4	21	25	
+a068	https://www.nytimes.com/2017/05/09/world/asia/afghanistan-cricket-fans-leagues-pakistan.html	Bismillah	both	male	male	1	5	58	55	
+a068	https://www.nytimes.com/2017/05/09/world/asia/afghanistan-cricket-fans-leagues-pakistan.html	Sediqullah Khan	both	male	None	2	1	49	0	
+a068	https://www.nytimes.com/2017/05/09/world/asia/afghanistan-cricket-fans-leagues-pakistan.html	Mohammed Ibrahim	both	male	male	5	5	0	15	
+a068	https://www.nytimes.com/2017/05/09/world/asia/afghanistan-cricket-fans-leagues-pakistan.html	Mohammed Nabi	both	male	male	1	2	0	0	
+a068	https://www.nytimes.com/2017/05/09/world/asia/afghanistan-cricket-fans-leagues-pakistan.html	Rahatullah	both	male	None	1	2	9	0	
+a068	https://www.nytimes.com/2017/05/09/world/asia/afghanistan-cricket-fans-leagues-pakistan.html	Shafaq	auto_only		male		5			
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Keith Luse	both	male	male	2	2	72	60	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Kim Sang-duk	both	male	female	1	1	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Kim Jong-un	both	male	male	3	3	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Simon Cockerell	both	male	male	2	2	46	52	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Kim Dong-chul	both	male	female	1	1	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Laura Ling	both	female	female	1	1	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Kenneth Bae	both	male	male	1	1	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Otto F. Warmbier	both	male	male	3	3	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Euna Lee	both	female	female	1	1	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Kim Jong-il	both	male	female	1	1	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Matthew Todd Miller	both	male	male	1	1	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	James R. Clapper Jr.	both	male	male	1	1	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Obama	both	male	male	0	1	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Evans J. R. Revere	both	male	male	1	1	17	19	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Kim Hak-song	both	male	female	2	2	0	0	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Robert R. King	both	male	male	1	1	35	40	
+a069	https://www.nytimes.com/2017/05/09/world/asia/americans-visit-north-korea-despite-warnings.html	Tony Kim	auto_only		male		1			
+a070	https://www.nytimes.com/2017/05/15/arts/music/metropolitan-opera-attendance-slightly-better-still-bad.html	Rene Fleming	both	female	male	1	1	0	0	
+a070	https://www.nytimes.com/2017/05/15/arts/music/metropolitan-opera-attendance-slightly-better-still-bad.html	Eric Owens	both	male	male	1	1	0	0	
+a070	https://www.nytimes.com/2017/05/15/arts/music/metropolitan-opera-attendance-slightly-better-still-bad.html	Peter Gelb	both	male	male	5	5	48	60	
+a070	https://www.nytimes.com/2017/05/15/arts/music/metropolitan-opera-attendance-slightly-better-still-bad.html	Bartlett Sher	both	male	male	1	1	0	0	
+a070	https://www.nytimes.com/2017/05/15/arts/music/metropolitan-opera-attendance-slightly-better-still-bad.html	Strauss	both	male	male	1	1	0	0	
+a070	https://www.nytimes.com/2017/05/15/arts/music/metropolitan-opera-attendance-slightly-better-still-bad.html	James Levine	both	male	male	1	1	0	0	
+a070	https://www.nytimes.com/2017/05/15/arts/music/metropolitan-opera-attendance-slightly-better-still-bad.html	Yannick Nzet-Sguin	both	male	male	1	1	0	0	
+a070	https://www.nytimes.com/2017/05/15/arts/music/metropolitan-opera-attendance-slightly-better-still-bad.html	Calixto Bieito	both	male	male	1	1	0	0	
+a070	https://www.nytimes.com/2017/05/15/arts/music/metropolitan-opera-attendance-slightly-better-still-bad.html	Verdi	both	male	male	1	1	0	0	
+a070	https://www.nytimes.com/2017/05/15/arts/music/metropolitan-opera-attendance-slightly-better-still-bad.html	Bess	auto_only		female		1			
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	Emma Scott	both	female	female	2	2	60	38	
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	Jana Savage	both	female (?)	female	2	2	2	3	
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	May	manual_only	female animal						
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	Hal Herzog	both	male	male	1	1	17	20	
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	Mike McCarthy	both	male	male	3	3	24	21	
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	Ric Browde	both	male	male	1	1	40	5	
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	Laura Miller	both	female	female	3	3	0	0	
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	Phil Broussard	both	male	male	5	5	6	7	
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	American Society for the Prevention of Cruelty to Animals	manual_only	company						
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	Anika Moje	both	female  	female	1	1	23	26	
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	Einstein	auto_only		male		1			
+a076	https://www.washingtonpost.com/news/animalia/wp/2017/05/13/from-death-row-to-adoption-saving-animals-by-car-van-bus-and-even-plane/	Eugene	auto_only		male		3			
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Joseph Jen	both	male	male	1	1	0	0	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Sam Clovis	both	male	male	16	16	98	67	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Bill Clinton	both	male	male	1	1	0	0	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Ann Bartuska	both	female	female	1	1	0	0	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Gale Buchanan	both	male	female	1	1	0	0	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Catherine Woteki	both	female	female	3	3	16	17	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	George W. Bush	both	male	male	2	2	0	0	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Barack Obama	both	male	male	2	2	0	0	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Ricardo Salvador	both	male	male	1	2	47	51	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Rick Wollman	both	male	male	1	1	0	57	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Sonny Perdue	both	male	male	1	1	6	0	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Rajiv Shah	both	male	male	1	1	0	0	
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Agri-Pulse	auto_only		None		1			
+a077	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/13/trumps-expected-choice-for-the-leading-usda-science-job-isnt-a-trained-scientist/	Trump	auto_only		None		8			
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Chenglin Liu	both	male	None	1	1	21	11	
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Ceres	manual_only	company						
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Li Hongtao	both	unknown	male	1	1	17	18	
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	John Bobbe	both	male	male	2	2	53	64	
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Agriculture Department	manual_only	company						
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Ceres official	manual_only	unknown						
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Research Institute of Organic Agriculture	manual_only	company						
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Mischa Popoff	both	male	female	1	1	20	23	
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Albrecht Benzing	both	unknown	None	0	1	10	11	
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Laiwu Manhing Vegetables Fruits Corp.	manual_only	company						
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Miles McEvoy	both	male	male	1	1	13	0	
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Global Natural	manual_only	company						
+a078	https://www.washingtonpost.com/business/economy/the-labels-said-organic-but-these-massive-imports-of-corn-and-soybeans-werent/2017/05/12/6d165984-2b76-11e7-a616-d7c8a68c1a66_story.html	Ecocert	both	company	None	3	2	0	0	
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Avi Rubin	both	male	male	4	4	44	49	
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Megafon	manual_only	company						
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	anonymous source	manual_only	unknown						
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Renault	manual_only	company						
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Deutsche Bahn	manual_only	company						
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Paul Lipman	both	male	male	2	2	49	52	
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	NSA	manual_only	company						
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Jonathan Ashworth	both	male	male	1	1	9	10	
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Mark Galeotti	both	male	male	2	2	17	19	
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	IDC	manual_only	company						
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Telefonica	manual_only	company						
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Jakub Kroustek	both	male	male	1	1	14	15	
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Amber Rudd	both	female	female	3	3	62	67	
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	FedEx	manual_only	company						
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Microsoft	manual_only	company						
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	National Health Service	manual_only	company						
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	John D. Halamka	both	male	male	1	1	20	0	
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Telefnica	auto_only		None		1			
+a079	https://www.washingtonpost.com/business/economy/nations-race-to-contain-widespread-hacking/2017/05/13/f6e5e992-3803-11e7-b412-62beef8121f7_story.html	Kaspersky Lab	auto_only		None		1			
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Tom Miller	both	male	male	1	2	45	61	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Jan Gaspers	both	male	female	1	1	0	0	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Trump	both	male	male	1	3	0	0	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	S. Frederick Starr	both	male	None	1	1	0	3	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Paul Haenle	both	male	male	1	1	9	9	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Rodrigo Duterte	both	male	male	1	1	0	0	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Hillary Clinton	both	female	female	1	2	0	0	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Matthew Pottinger	both	male	male	1	1	0	0	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Matthew P. Goodman	both	male	male	2	2	80	93	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Vladimir Putin	both	male	male	1	2	0	0	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Aung San Suu Kyi	both	female	male	1	1	0	0	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Narendra Modi	both	male	None	1	1	0	0	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Xi Jinping	both	male	male	6	3	0	0	
+a080	https://www.washingtonpost.com/world/asia_pacific/as-us-retreats-in-the-asia-pacific-china-fills-the-void-with-an-ambitious-global-plan/2017/05/11/54771c0c-3593-11e7-ab03-aa29f656f13e_story.html	Obama	both	male	male	1	1	0	0	
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	Louis Sullivan	both	male	male	1	1	3	0	
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	Patricia Higgins	both	female	female	2	2	19	24	
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	Trump	both	male	male	12	11	30	8	
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	George Acs	both	male	male	4	1	28	0	
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	Dee Matello	both	female	non-living	24	7	299	174	
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	Billy Joel	both	male	male	1	1	0	0	
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	unknown	manual_only	female						
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	Robert Testani	both	male	male	1	1	9	8	
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	Barack Obama	both	male	male	2	2	0	0	
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	George H. W. Bush	manual_only	male						
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	George H.W. Bush	auto_only		male		1			
+a081	https://www.washingtonpost.com/classic-apps/the-painful-truth-about-teeth/2017/05/13/bf5ae92a-2f5f-11e7-9dec-764dc781686f_story.html	Perdue	auto_only		None		1			
+a082	https://www.washingtonpost.com/lifestyle/travel/what-all-the-recent-united-airlines-headlines-may-mean-for-travelers/2017/04/27/faf0e5ee-26df-11e7-b503-9d616bd5a305_story.html	United Airlines	manual_only	company						
+a082	https://www.washingtonpost.com/lifestyle/travel/what-all-the-recent-united-airlines-headlines-may-mean-for-travelers/2017/04/27/faf0e5ee-26df-11e7-b503-9d616bd5a305_story.html	Delta Airlines	manual_only	company						
+a082	https://www.washingtonpost.com/lifestyle/travel/what-all-the-recent-united-airlines-headlines-may-mean-for-travelers/2017/04/27/faf0e5ee-26df-11e7-b503-9d616bd5a305_story.html	David Corsun	both	male	male	2	2	38	45	
+a082	https://www.washingtonpost.com/lifestyle/travel/what-all-the-recent-united-airlines-headlines-may-mean-for-travelers/2017/04/27/faf0e5ee-26df-11e7-b503-9d616bd5a305_story.html	Peter Vlitas	both	male	male	1	1	31	13	
+a082	https://www.washingtonpost.com/lifestyle/travel/what-all-the-recent-united-airlines-headlines-may-mean-for-travelers/2017/04/27/faf0e5ee-26df-11e7-b503-9d616bd5a305_story.html	American	manual_only	company						
+a082	https://www.washingtonpost.com/lifestyle/travel/what-all-the-recent-united-airlines-headlines-may-mean-for-travelers/2017/04/27/faf0e5ee-26df-11e7-b503-9d616bd5a305_story.html	Janet Bednarek	both	female	female	1	1	32	37	
+a082	https://www.washingtonpost.com/lifestyle/travel/what-all-the-recent-united-airlines-headlines-may-mean-for-travelers/2017/04/27/faf0e5ee-26df-11e7-b503-9d616bd5a305_story.html	David Dao	both	male	male	6	5	0	0	
+a082	https://www.washingtonpost.com/lifestyle/travel/what-all-the-recent-united-airlines-headlines-may-mean-for-travelers/2017/04/27/faf0e5ee-26df-11e7-b503-9d616bd5a305_story.html	Hani Mahmassani	both	male	male	1	1	19	10	
+a082	https://www.washingtonpost.com/lifestyle/travel/what-all-the-recent-united-airlines-headlines-may-mean-for-travelers/2017/04/27/faf0e5ee-26df-11e7-b503-9d616bd5a305_story.html	Tricia Kalinowski	both	female	female	1	1	21	0	
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Graham Warwick	both	male	male	1	1	0	30	
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Uber	manual_only	company						
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Larry Page	both	male	male	1	1	0	0	
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Zunum Aero	both	company	male	0	1	0	40	
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	JetBlue Technology Ventures	manual_only	company						
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	DARPA	manual_only	company						
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Bonny Simi	both	female	female	3	2	0	55	
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Ashish Kumar	both	male	male	6	6	0	0	
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Boeing HorizonX	manual_only	company						
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Andrew J. Hawkins	both	male	male	2	2	0	19	
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Airbus	manual_only	company						
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Wright Electric	manual_only	company						
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Tesla	auto_only		female		1			
+a083	https://www.washingtonpost.com/news/innovations/wp/2017/04/08/why-tiny-electric-planes-and-25-tickets-could-be-the-future-of-air-travel/	Courtesy Zunum Aero	auto_only		None		1			
+a084	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/09/earth-could-break-through-a-major-climate-threshold-in-the-next-15-years-scientists-warn	Trump	both	male	None	1	1	0	0	
+a084	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/09/earth-could-break-through-a-major-climate-threshold-in-the-next-15-years-scientists-warn	Kevin Trenberth	both	male	male	3	3	28	3	
+a084	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/09/earth-could-break-through-a-major-climate-threshold-in-the-next-15-years-scientists-warn	Benjamin Henley	both	male	male	4	4	50	55	
+a084	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/09/earth-could-break-through-a-major-climate-threshold-in-the-next-15-years-scientists-warn	Andrew King	both	male	male	1	1	0	0	
+a084	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/09/earth-could-break-through-a-major-climate-threshold-in-the-next-15-years-scientists-warn	Gerald Meehl	both	male	male	4	4	86	94	
+a084	https://www.washingtonpost.com/news/energy-environment/wp/2017/05/09/earth-could-break-through-a-major-climate-threshold-in-the-next-15-years-scientists-warn	John Fasullo	both	male	male	2	3	1	1	
+a085	https://www.washingtonpost.com/news/innovations/wp/2017/05/03/in-the-future-virtual-assistants-will-not-only-take-orders-theyll-have-ideas-of-their-own/	Intuition Robotics	manual_only	company						
+a085	https://www.washingtonpost.com/news/innovations/wp/2017/05/03/in-the-future-virtual-assistants-will-not-only-take-orders-theyll-have-ideas-of-their-own/	Justine Cassell	both	female	female	4	4	70	78	
+a085	https://www.washingtonpost.com/news/innovations/wp/2017/05/03/in-the-future-virtual-assistants-will-not-only-take-orders-theyll-have-ideas-of-their-own/	William Mark	both	male	male	4	4	124	119	
+a085	https://www.washingtonpost.com/news/innovations/wp/2017/05/03/in-the-future-virtual-assistants-will-not-only-take-orders-theyll-have-ideas-of-their-own/	ElliQ	both	robot	None	0	2	0	0	
+a085	https://www.washingtonpost.com/news/innovations/wp/2017/05/03/in-the-future-virtual-assistants-will-not-only-take-orders-theyll-have-ideas-of-their-own/	Dor Skuler	both	male	male	4	4	48	53	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Darry Sragow	both	male	male	1	1	7	0	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Lenore Albert-Sheridan	both	male	female	1	1	0	0	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Arnold Schwarzenegger	both	male	male	1	1	0	0	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Joey Aszterbaum	both	male	male	3	3	60	72	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Jason McDaniel	both	male	male	2	2	21	23	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Joe Biden	both	male	male	1	1	0	0	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Hillary Clinton	both	female	female	1	1	0	0	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Don Nielsen	both	male	male	1	1	30	35	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Nancy Pelosi	both	female	female	1	1	0	0	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Donald Trump	both	male	male	2	1	0	0	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	John Burton	both	male	male	1	1	0	0	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Joe Pesci	both	male	male	1	1	0	0	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Eric Bauman	both	male	male	17	17	123	122	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Bernie Sanders	both	male	male	6	5	0	0	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Kimberly Ellis	both	female	female	16	17	112	130	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Christine Pelosi	both	female	female	1	1	62	0	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Holly Mitchell	both	female	female	2	2	26	29	
+a091	http://www.latimes.com/politics/la-pol-ca-democratic-party-chair-20170516-story.html	Trump	auto_only		None		1			
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Sarah Burton	both	female	female	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Cara Delevingne	both	female	female	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Nadge Vanhee-Cybulski	both	female	female	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Alexander McQueen	both	male	male	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Nicki Minaj	both	female	female	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Karl Lagerfeld	both	male	male	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Rihanna	both	female	female	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Kendall Jenner	both	female	female	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Gigi Hadid	both	female	female	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Kim Kardashian	manual_only	female						
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Giambattista Valli	both	male	male	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Riccardo Tisci	both	male	male	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Haider Ackermann	both	male	male	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Nick Jonas	both	male	male	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Joe Jonas	both	male	male	1	1	0	0	
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Fenty	auto_only		None		1			
+a007	https://www.nytimes.com/2017/03/07/fashion/paris-fashion-week-chanel-alexander-mcqueen.html	Kim	auto_only		female		1			
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Jean-Marie Le Pen	manual_only	male						
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Francois Mitterand	manual_only	male						
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Francois Hollande	both	male	male	4	2	0	0	
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Philippe Etienne	both	male	male	1	1	0	0	
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Marine Le Pen	manual_only	female						
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Emmanuel Macron	both	male	male	18	18	112	42	
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Alexis Kohler	both	male	female	1	1	0	0	
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Patrick Weil	both	male	male	2	2	84	39	
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Jacques Chirac	both	male	male	1	1	0	0	
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Brigitte Macron	both	female	female	1	1	0	0	
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Nicholas Sarkozy	manual_only	male						
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Le Pen	auto_only		female		4			
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Nicolas Ghesquiere	auto_only		male		1			
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Elysee	auto_only		non-living		1			
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Francois Mitterrand	auto_only		male		1			
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Jean-Marie Pen	auto_only		None		1			
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Louis Vuitton	auto_only		male		1			
+a092	https://www.bloomberg.com/politics/articles/2017-05-13/macron-takes-charge-of-divided-france-as-youngest-ever-president	Nicolas Sarkozy	auto_only		male		1			
+a031	https://www.nytimes.com/2017/03/10/science/nasa-cassini-saturn-moon-pan.html	Carolyn C. Porco	both	female	female	4	4	68	59	
+a031	https://www.nytimes.com/2017/03/10/science/nasa-cassini-saturn-moon-pan.html	Peter Thomas	both	male	male	1	1	9	10	
+a031	https://www.nytimes.com/2017/03/10/science/nasa-cassini-saturn-moon-pan.html	Mark R. Showalter	both	male	male	3	3	34	39	
