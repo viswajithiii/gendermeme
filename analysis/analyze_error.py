@@ -217,8 +217,9 @@ def dump_error(corenlp_fn, manual_path, output):
                     to_print['m_gender'] = m_gender
 
                 with open(output, 'a') as output_f:
-                    for key in KEYS:
+                    for key in KEYS[:-1]:
                         output_f.write('{}\t'.format(to_print.get(key, '')))
+                    output_f.write('{}'.format(to_print.get(KEYS[-1], '')))
                     output_f.write('\n')
 
             for name in people_mentioned:
@@ -235,9 +236,11 @@ def dump_error(corenlp_fn, manual_path, output):
                 to_print = {'art_id': art_id, 'url': art_data['url'],
                             'name': name, 'where': 'auto_only',
                             'a_gender': a_gender, 'a_count': a_count}
+
                 with open(output, 'a') as output_f:
-                    for key in KEYS:
+                    for key in KEYS[:-1]:
                         output_f.write('{}\t'.format(to_print.get(key, '')))
+                    output_f.write('{}'.format(to_print.get(KEYS[-1], '')))
                     output_f.write('\n')
 
 
