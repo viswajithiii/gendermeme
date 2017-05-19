@@ -1,0 +1,39 @@
+return_outlet <- function(url) {
+  if (str_detect(url, "techcrunch\\.c")) {
+    return("TechCrunch")
+  }
+  if (str_detect(url, "washingtonpost\\.c")) {
+    return("Washington Post")
+  }
+  if (str_detect(url, "nytimes\\.com")) {
+    return("NYT")
+  } 
+  if (str_detect(url, "latimes\\.c")) {
+    return("LA Times")
+  }
+  if (str_detect(url, "bloomberg\\.c")) {
+    return("Bloomberg")
+  }
+}
+
+library(tidyverse)
+error_data <- 
+  read_tsv('/Users/Poorna/Desktop/Box Sync/Gendermeme/gendermeme/annotated/manual/ann_dump_Thu_May_18_23_47_36_2017.tsv')
+
+error_data <-
+  error_data %>% 
+  filter(!(a_gender == "non-living" & where == "auto_only")) %>%
+  filter(!(a_gender == "non-living" & str_detect(m_gender, "company"))) %>% 
+  filter(!(where == "manual_only" & str_detect(m_gender, "company"))) %>% 
+  filter(!(str_detect(name, "(anonymous)|(unnamed)|(unknown)"))) %>% 
+  mutate(outlet = map_chr(url, return_outlet))
+
+error_data %>% 
+  group_by(outlet) %>% 
+  mutate(n_articles = n_distinct(art_id)) %>% 
+  count(n_articles, where) %>% 
+  spread(key = where, value = n) %>% 
+  ungroup() %>% 
+  mutate(precision = both / (auto_only + both), recall = both / (both + manual_only)) %>% 
+  arrange(desc(n_articles))
+
