@@ -588,12 +588,12 @@ def get_people_mentioned_new(sentences, corefs):
     '''
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
+    print 'COREFS'
+    pprint(corefs)
     print 'Mention key to id'
     pprint(mention_key_to_id)
     print 'Id to info'
     pprint(id_to_info)
-    print 'COREFS'
-    pprint(corefs)
     pprint(sentences[0])
     print 'DISJOINT SET OF MENTIONS:'
     pprint(disjoint_sets_of_mentions)
@@ -829,6 +829,8 @@ def detect_relationships(mentions_dictionary, key_to_detect, sentences,
                     # Since prev_token_idx is 0-based
                     elif gov_idx == prev_token_idx + 1:
                         possessor_idxs.append(dep['dependent'])
+
+            print key_to_detect, possessor_idxs
 
             if len(possessor_idxs) > 1:
                 print 'TWO POSSESSORS OF THIS PERSON!'
@@ -1097,7 +1099,7 @@ def is_mention_subset(small_mention_text, large_mention_text):
         return True
     elif len(large_mention_tokens) > 2:
         if small_mention_tokens == \
-                (large_mention_tokens[0] + large_mention_tokens[-1]):
+                [large_mention_tokens[0], large_mention_tokens[-1]]:
             return True
     return False
 
