@@ -155,7 +155,7 @@ return_outlet &lt;- function(url) {
 }
 
 error_data &lt;- 
-  read_tsv('/Users/Poorna/Desktop/Box Sync/Gendermeme/gendermeme/annotated/manual/ann_dump_Thu_May_18_23_47_36_2017.tsv')</code></pre>
+  read_tsv('/Users/Poorna/Desktop/Box Sync/Gendermeme/gendermeme/annotated/manual/ann_dump_Fri_May_19_00_59_45_2017.tsv')</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   art_id = col_character(),
@@ -246,6 +246,477 @@ error_data &lt;-
 </tr>
 </tbody>
 </table>
+<p>We now examine the error rates for gender detection.</p>
+<p>First, let us look at those cases where a person was identified by automatically as well as manually. We restrict our attention to people who were identified as either <code>male</code> or <code>female</code>.</p>
+<pre class="r"><code>error_data %&gt;% 
+  filter(where == &quot;both&quot;, m_gender %in% c(&quot;male&quot;, &quot;female&quot;)) %&gt;% 
+  count(m_gender, a_gender) %&gt;% 
+  group_by(m_gender) %&gt;% 
+  summarize(
+    total = sum(n), 
+    a_correct = sum(n[a_gender == m_gender]), 
+    a_incorrect_none = sum(n[a_gender == &quot;None&quot;]),
+    a_incorrect_opp_gender = sum(n[m_gender != a_gender &amp; a_gender %in% c(&quot;male&quot;, &quot;female&quot;)]),
+    a_incorrect_non_living = sum(n[m_gender != a_gender &amp; a_gender == &quot;non-living&quot;])
+  ) %&gt;% 
+  mutate(
+    perc_a_correct = a_correct * 100 / total,
+    perc_a_incorrect_none = a_incorrect_none * 100 / total,
+    perc_a_incorrect_opp_gender = a_incorrect_opp_gender * 100 / total,
+    perc_a_incorrect_non_living = a_incorrect_non_living * 100 / total
+  ) %&gt;% 
+  kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">m_gender</th>
+<th align="right">total</th>
+<th align="right">a_correct</th>
+<th align="right">a_incorrect_none</th>
+<th align="right">a_incorrect_opp_gender</th>
+<th align="right">a_incorrect_non_living</th>
+<th align="right">perc_a_correct</th>
+<th align="right">perc_a_incorrect_none</th>
+<th align="right">perc_a_incorrect_opp_gender</th>
+<th align="right">perc_a_incorrect_non_living</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">female</td>
+<td align="right">119</td>
+<td align="right">113</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">94.95798</td>
+<td align="right">1.680672</td>
+<td align="right">2.521008</td>
+<td align="right">0.8403361</td>
+</tr>
+<tr class="even">
+<td align="left">male</td>
+<td align="right">358</td>
+<td align="right">328</td>
+<td align="right">15</td>
+<td align="right">15</td>
+<td align="right">0</td>
+<td align="right">91.62011</td>
+<td align="right">4.189944</td>
+<td align="right">4.189944</td>
+<td align="right">0.0000000</td>
+</tr>
+</tbody>
+</table>
+<p>We find that a lot of men are being mis-tagged as women. Why is this?</p>
+<p>Let’s have a look at men who are tagged as women.</p>
+<pre class="r"><code>error_data %&gt;% 
+  filter(where == &quot;both&quot;, m_gender == &quot;male&quot;, a_gender == &quot;female&quot;) %&gt;% 
+  select(art_id, outlet, everything(), -url) %&gt;% 
+  kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">art_id</th>
+<th align="left">outlet</th>
+<th align="left">name</th>
+<th align="left">where</th>
+<th align="left">m_gender</th>
+<th align="left">a_gender</th>
+<th align="right">m_count</th>
+<th align="right">a_count</th>
+<th align="right">m_quotes</th>
+<th align="right">a_quotes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">a022</td>
+<td align="left">NYT</td>
+<td align="left">Jamie Vardy</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a027</td>
+<td align="left">NYT</td>
+<td align="left">Marin Cilic</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">a053</td>
+<td align="left">NYT</td>
+<td align="left">Xi Jinping</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a053</td>
+<td align="left">NYT</td>
+<td align="left">Donald Trump Jr.</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">a056</td>
+<td align="left">NYT</td>
+<td align="left">Reagan</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a043</td>
+<td align="left">NYT</td>
+<td align="left">Kim Yoo-na</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">33</td>
+<td align="right">41</td>
+</tr>
+<tr class="odd">
+<td align="left">a069</td>
+<td align="left">NYT</td>
+<td align="left">Kim Sang-duk</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a069</td>
+<td align="left">NYT</td>
+<td align="left">Kim Dong-chul</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">a069</td>
+<td align="left">NYT</td>
+<td align="left">Kim Jong-il</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a069</td>
+<td align="left">NYT</td>
+<td align="left">Kim Hak-song</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">a077</td>
+<td align="left">Washington Post</td>
+<td align="left">Gale Buchanan</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a078</td>
+<td align="left">Washington Post</td>
+<td align="left">Mischa Popoff</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">20</td>
+<td align="right">23</td>
+</tr>
+<tr class="odd">
+<td align="left">a080</td>
+<td align="left">Washington Post</td>
+<td align="left">Jan Gaspers</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a091</td>
+<td align="left">LA Times</td>
+<td align="left">Lenore Albert-Sheridan</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">a092</td>
+<td align="left">Bloomberg</td>
+<td align="left">Alexis Kohler</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>Let’s also look at men who are tagged as “None”:</p>
+<pre class="r"><code>error_data %&gt;% 
+  filter(where == &quot;both&quot;, m_gender == &quot;male&quot;, a_gender == &quot;None&quot;) %&gt;% 
+  select(art_id, outlet, everything(), -url) %&gt;% 
+  kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">art_id</th>
+<th align="left">outlet</th>
+<th align="left">name</th>
+<th align="left">where</th>
+<th align="left">m_gender</th>
+<th align="left">a_gender</th>
+<th align="right">m_count</th>
+<th align="right">a_count</th>
+<th align="right">m_quotes</th>
+<th align="right">a_quotes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">a016</td>
+<td align="left">TechCrunch</td>
+<td align="left">Jean-Claude Biver</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">88</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a034</td>
+<td align="left">NYT</td>
+<td align="left">Trump</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">a039</td>
+<td align="left">TechCrunch</td>
+<td align="left">Urs Hlzle</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">9</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a053</td>
+<td align="left">NYT</td>
+<td align="left">H. R. McMaster</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">a056</td>
+<td align="left">NYT</td>
+<td align="left">Trump</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a056</td>
+<td align="left">NYT</td>
+<td align="left">Tiff Macklem</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">20</td>
+<td align="right">21</td>
+</tr>
+<tr class="odd">
+<td align="left">a058</td>
+<td align="left">NYT</td>
+<td align="left">Trump</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a064</td>
+<td align="left">NYT</td>
+<td align="left">Trump</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">a066</td>
+<td align="left">NYT</td>
+<td align="left">J. Timothy DiPiero</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">19</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a068</td>
+<td align="left">NYT</td>
+<td align="left">Sediqullah Khan</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">49</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">a068</td>
+<td align="left">NYT</td>
+<td align="left">Rahatullah</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">9</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">a078</td>
+<td align="left">Washington Post</td>
+<td align="left">Chenglin Liu</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">21</td>
+<td align="right">11</td>
+</tr>
+<tr class="odd">
+<td align="left">a080</td>
+<td align="left">Washington Post</td>
+<td align="left">S. Frederick Starr</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">a080</td>
+<td align="left">Washington Post</td>
+<td align="left">Narendra Modi</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">a084</td>
+<td align="left">Washington Post</td>
+<td align="left">Trump</td>
+<td align="left">both</td>
+<td align="left">male</td>
+<td align="left">None</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>We find that, quite frequently, “Trump” is being tagged as male by us and as “None” by the computer. We suspect that this is because “Trump” appears in contexts like “Trump administration”, only once in the article, etc. A rule might be able to fix this issue.</p>
+<p>Let us look at the aggregate</p>
 
 
 

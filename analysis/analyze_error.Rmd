@@ -38,7 +38,7 @@ return_outlet <- function(url) {
 }
 
 error_data <- 
-  read_tsv('/Users/Poorna/Desktop/Box Sync/Gendermeme/gendermeme/annotated/manual/ann_dump_Thu_May_18_23_47_36_2017.tsv')
+  read_tsv('/Users/Poorna/Desktop/Box Sync/Gendermeme/gendermeme/annotated/manual/ann_dump_Fri_May_19_00_59_45_2017.tsv')
 
 error_data <-
   error_data %>% 
@@ -62,3 +62,60 @@ error_data %>%
   arrange(desc(n_articles)) %>% 
   kable()
 ```
+
+We now examine the error rates for gender detection.
+
+First, let us look at those cases where a person was identified by automatically
+as well as manually. We restrict our attention to people who were identified as
+either `male` or `female`.
+
+```{r}
+error_data %>% 
+  filter(where == "both", m_gender %in% c("male", "female")) %>% 
+  count(m_gender, a_gender) %>% 
+  group_by(m_gender) %>% 
+  summarize(
+    total = sum(n), 
+    a_correct = sum(n[a_gender == m_gender]), 
+    a_incorrect_none = sum(n[a_gender == "None"]),
+    a_incorrect_opp_gender = sum(n[m_gender != a_gender & a_gender %in% c("male", "female")]),
+    a_incorrect_non_living = sum(n[m_gender != a_gender & a_gender == "non-living"])
+  ) %>% 
+  mutate(
+    perc_a_correct = a_correct * 100 / total,
+    perc_a_incorrect_none = a_incorrect_none * 100 / total,
+    perc_a_incorrect_opp_gender = a_incorrect_opp_gender * 100 / total,
+    perc_a_incorrect_non_living = a_incorrect_non_living * 100 / total
+  ) %>% 
+  kable()
+```
+
+
+We find that a lot of men are being mis-tagged as women. Why is this?
+
+Let's have a look at men who are tagged as women.
+
+```{r}
+error_data %>% 
+  filter(where == "both", m_gender == "male", a_gender == "female") %>% 
+  select(art_id, outlet, everything(), -url) %>% 
+  kable()
+```
+
+Let's also look at men who are tagged as "None":
+
+```{r}
+error_data %>% 
+  filter(where == "both", m_gender == "male", a_gender == "None") %>% 
+  select(art_id, outlet, everything(), -url) %>% 
+  kable()
+
+```
+
+
+We find that, quite frequently, "Trump" is being tagged as male by us and as "None"
+by the computer. We suspect that this is because "Trump" appears in contexts like
+"Trump administration", only once in the article, etc. A rule might be able to 
+fix this issue.
+
+Let us look at the aggregate 
