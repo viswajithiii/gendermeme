@@ -118,4 +118,35 @@ by the computer. We suspect that this is because "Trump" appears in contexts lik
 "Trump administration", only once in the article, etc. A rule might be able to 
 fix this issue.
 
-Let us look at the aggregate 
+Let us look at the gender-related accuracy once again:
+
+```{r}
+error_data %>% 
+  filter(outlet %in% c("NYT", "Washington Post", "TechCrunch")) %>% 
+  filter(where == "both", m_gender %in% c("male", "female")) %>% 
+  group_by(outlet) %>% 
+  count(m_gender, a_gender) %>% 
+  group_by(outlet, m_gender) %>% 
+  summarize(
+    total = sum(n), 
+    a_correct = sum(n[a_gender == m_gender]), 
+    a_incorrect_none = sum(n[a_gender == "None"]),
+    a_incorrect_opp_gender = sum(n[m_gender != a_gender & a_gender %in% c("male", "female")]),
+    a_incorrect_non_living = sum(n[m_gender != a_gender & a_gender == "non-living"])
+  ) %>% 
+  mutate(
+    perc_a_correct = a_correct * 100 / total,
+    perc_a_incorrect_none = a_incorrect_none * 100 / total,
+    perc_a_incorrect_opp_gender = a_incorrect_opp_gender * 100 / total,
+    perc_a_incorrect_non_living = a_incorrect_non_living * 100 / total
+  ) %>% 
+  ungroup() %>% 
+  kable()
+```
+
+Note that this is a slightly strange, and over-optimistic, metric. We are isolating 
+only those people that WERE identified as people, and among those, finding the recall
+for gender. However, some male and female people fall out of the pipeline at the person-detection
+stage, so the above recall numbers are slightly inflated. Let's correct for this.
+
+

@@ -716,7 +716,126 @@ error_data &lt;-
 </tbody>
 </table>
 <p>We find that, quite frequently, “Trump” is being tagged as male by us and as “None” by the computer. We suspect that this is because “Trump” appears in contexts like “Trump administration”, only once in the article, etc. A rule might be able to fix this issue.</p>
-<p>Let us look at the aggregate</p>
+<p>Let us look at the gender-related accuracy once again:</p>
+<pre class="r"><code>error_data %&gt;% 
+  filter(outlet %in% c(&quot;NYT&quot;, &quot;Washington Post&quot;, &quot;TechCrunch&quot;)) %&gt;% 
+  filter(where == &quot;both&quot;, m_gender %in% c(&quot;male&quot;, &quot;female&quot;)) %&gt;% 
+  group_by(outlet) %&gt;% 
+  count(m_gender, a_gender) %&gt;% 
+  group_by(outlet, m_gender) %&gt;% 
+  summarize(
+    total = sum(n), 
+    a_correct = sum(n[a_gender == m_gender]), 
+    a_incorrect_none = sum(n[a_gender == &quot;None&quot;]),
+    a_incorrect_opp_gender = sum(n[m_gender != a_gender &amp; a_gender %in% c(&quot;male&quot;, &quot;female&quot;)]),
+    a_incorrect_non_living = sum(n[m_gender != a_gender &amp; a_gender == &quot;non-living&quot;])
+  ) %&gt;% 
+  mutate(
+    perc_a_correct = a_correct * 100 / total,
+    perc_a_incorrect_none = a_incorrect_none * 100 / total,
+    perc_a_incorrect_opp_gender = a_incorrect_opp_gender * 100 / total,
+    perc_a_incorrect_non_living = a_incorrect_non_living * 100 / total
+  ) %&gt;% 
+  ungroup() %&gt;% 
+  kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">outlet</th>
+<th align="left">m_gender</th>
+<th align="right">total</th>
+<th align="right">a_correct</th>
+<th align="right">a_incorrect_none</th>
+<th align="right">a_incorrect_opp_gender</th>
+<th align="right">a_incorrect_non_living</th>
+<th align="right">perc_a_correct</th>
+<th align="right">perc_a_incorrect_none</th>
+<th align="right">perc_a_incorrect_opp_gender</th>
+<th align="right">perc_a_incorrect_non_living</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">NYT</td>
+<td align="left">female</td>
+<td align="right">94</td>
+<td align="right">90</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">95.74468</td>
+<td align="right">2.127660</td>
+<td align="right">2.127660</td>
+<td align="right">0.000000</td>
+</tr>
+<tr class="even">
+<td align="left">NYT</td>
+<td align="left">male</td>
+<td align="right">246</td>
+<td align="right">227</td>
+<td align="right">9</td>
+<td align="right">10</td>
+<td align="right">0</td>
+<td align="right">92.27642</td>
+<td align="right">3.658537</td>
+<td align="right">4.065041</td>
+<td align="right">0.000000</td>
+</tr>
+<tr class="odd">
+<td align="left">TechCrunch</td>
+<td align="left">female</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">100.00000</td>
+<td align="right">0.000000</td>
+<td align="right">0.000000</td>
+<td align="right">0.000000</td>
+</tr>
+<tr class="even">
+<td align="left">TechCrunch</td>
+<td align="left">male</td>
+<td align="right">33</td>
+<td align="right">31</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">93.93939</td>
+<td align="right">6.060606</td>
+<td align="right">0.000000</td>
+<td align="right">0.000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Washington Post</td>
+<td align="left">female</td>
+<td align="right">14</td>
+<td align="right">12</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">85.71429</td>
+<td align="right">0.000000</td>
+<td align="right">7.142857</td>
+<td align="right">7.142857</td>
+</tr>
+<tr class="even">
+<td align="left">Washington Post</td>
+<td align="left">male</td>
+<td align="right">58</td>
+<td align="right">51</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">87.93103</td>
+<td align="right">6.896552</td>
+<td align="right">5.172414</td>
+<td align="right">0.000000</td>
+</tr>
+</tbody>
+</table>
+<p>Note that this is a slightly strange, and over-optimistic, metric. We are isolating only those people that WERE identified as people, and among those, finding the recall for gender. However, some male and female people fall out of the pipeline at the person-detection stage, so the above recall numbers are slightly inflated. Let’s correct for this.</p>
 
 
 
