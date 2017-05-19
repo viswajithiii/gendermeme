@@ -29,6 +29,8 @@ def get_article_info(article_text, ann=None, verbose=False):
 
     people_mentioned = {}
     quotes = {}
+    verbs = {}
+    sources = {}
     for _id, info_dict in id_to_info.iteritems():
         method_name_map = {
             None: None,
@@ -36,19 +38,19 @@ def get_article_info(article_text, ann=None, verbose=False):
             'coref': 'COREF',
             'name_only': 'NAME_ONLY'
         }
-        method = method_name_map[info_dict['gender_method']]
+        method = method_name_map.get(info_dict['gender_method'])
         people_mentioned[info_dict['name']] = \
             (info_dict['count'], (info_dict['gender'],
                                   method))
         quotes[info_dict['name']] = info_dict['quotes']
+        verbs[info_dict['name']] = info_dict['associated_verbs']
+        sources[info_dict['name']] = info_dict['is_source'][1]
 
     # return people_mentioned, quotes, None, None, None
 
     # people_mentioned = get_people_mentioned(sentences, corefs,
     #                                         include_gender=True)
     # quotes = get_quotes(people_mentioned, sentences, corefs)
-    verbs = get_associated_verbs(people_mentioned, sentences, corefs)
-    sources = identify_sources(people_mentioned, people_to_quotes=quotes,
-                               people_to_verbs=verbs)
+    # verbs = get_associated_verbs(people_mentioned, sentences, corefs)
     adjectives = get_associated_adjectives(people_mentioned, sentences, corefs)
     return people_mentioned, quotes, verbs, sources, adjectives

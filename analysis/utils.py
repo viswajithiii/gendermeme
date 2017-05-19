@@ -585,6 +585,14 @@ def get_people_mentioned_new(sentences, corefs):
     add_quotes(sentences, corefs, mentions_dictionary, mention_key_to_id,
                id_to_info)
 
+    add_associated_verbs(sentences, corefs, mentions_dictionary,
+                         mention_key_to_id, id_to_info)
+
+    tag_sources(id_to_info)
+
+    mark_companies_as_non_living(sentences, corefs, mentions_dictionary,
+                                 mention_key_to_id, id_to_info)
+
     '''
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
@@ -1103,6 +1111,134 @@ def is_mention_subset(small_mention_text, large_mention_text):
                 [large_mention_tokens[0], large_mention_tokens[-1]]:
             return True
     return False
+
+
+def tag_sources(id_to_info):
+
+    SPEAKING_LEMMAS = {'say', 'tell', 'speak', 'ask', 'mention', 'suggest',
+                       'claim', 'question', 'tweet', 'write'}
+
+    for _id, info_dict in id_to_info.iteritems():
+        reasons = []
+        num_quotes = len(info_dict.get('quotes', []))
+        if num_quotes > 0:
+            reasons.append('Quoted saying {} words'.format(num_quotes))
+
+        speaking_verbs = info_dict['associated_verbs'].intersection(
+            SPEAKING_LEMMAS)
+        if len(speaking_verbs) > 0:
+            reasons.append('Subject of {}'.format(', '.join(speaking_verbs)))
+        info_dict['is_source'] = (len(reasons) > 0, reasons)
+
+
+def add_associated_verbs(sentences, corefs, mentions_dictionary,
+                         mention_key_to_id, id_to_info):
+    for entity_id in id_to_info:
+        id_to_info[entity_id]['associated_verbs'] = set()
+
+    word_loc_to_entity_id = _get_word_loc_to_entity_id(
+        corefs, mentions_dictionary, mention_key_to_id)
+
+    for i, sentence in enumerate(sentences):
+
+        curr_sent_idx = i + 1  # Since CoreNLP uses 1-based indexing
+        tokens = sentence['tokens']
+        deps = sentence['collapsed-ccprocessed-dependencies']
+
+        for dep in deps:
+            curr_word_loc = (curr_sent_idx, dep['dependent'])
+            if curr_word_loc not in word_loc_to_entity_id:
+                continue
+
+            curr_entity_id = word_loc_to_entity_id[curr_word_loc]
+
+            if dep['dep'] in ['nsubj', 'nsubjpass']:
+                gov_token = tokens[dep['governor'] - 1]
+                if gov_token['pos'].startswith('VB'):
+                    id_to_info[curr_entity_id]['associated_verbs'].add(
+                        gov_token['lemma'])
+
+
+def mark_companies_as_non_living(sentences, corefs, mentions_dictionary,
+                                 mention_key_to_id, id_to_info):
+
+    COMPOUND_INDICATORS = ['executive', 'employee', 'attorney', 'chairman',
+                           'executives', 'employees', 'attorneys',
+                           'CEO', 'CTO', 'CXO', 'COO', 'founder',
+                           'co-founder']
+    POSS_INDICATORS = ['CEO', 'CTO', 'CXO']
+
+    word_loc_to_entity_id = _get_word_loc_to_entity_id(
+        corefs, mentions_dictionary, mention_key_to_id)
+
+    for i, sentence in enumerate(sentences):
+
+        curr_sent_idx = i + 1  # Since CoreNLP uses 1-based indexing
+        deps = sentence['collapsed-ccprocessed-dependencies']
+
+        for dep in deps:
+            curr_word_loc = (curr_sent_idx, dep['dependent'])
+            if curr_word_loc not in word_loc_to_entity_id:
+                continue
+
+            curr_entity_id = word_loc_to_entity_id[curr_word_loc]
+
+            if dep['dep'] == 'compound':
+                governor = dep['governorGloss']
+                if governor in COMPOUND_INDICATORS:
+                    id_to_info[curr_entity_id]['gender'] = 'non-living'
+                    id_to_info[curr_entity_id]['gender_method'] = \
+                        'compound with {}'.format(governor)
+
+            if 'poss' in dep['dep']:
+                governor = dep['governorGloss']
+                if governor in POSS_INDICATORS:
+                    id_to_info[curr_entity_id]['gender'] = 'non-living'
+                    id_to_info[curr_entity_id]['gender_method'] = \
+                        'Possesses {}'.format(governor)
+
+
+def _get_word_loc_to_entity_id(corefs, mentions_dictionary,
+                               mention_key_to_id):
+
+    # This dictionary is going to be useful for the task of
+    # getting associations using dependency parsing.
+    # Basically, we go from individual words, which are identified by
+    # a (sent_idx, token_idx) tuple, both 1-based, to the entity id.
+    # This will be useful when looking at the dependency parse.
+    coref_mention_id_to_entity_id = {}
+    for mention_key, mention_dict in mentions_dictionary.iteritems():
+        coref_mention_ids = mention_dict.get('coref_mention_ids', [])
+        for coref_mention_id in coref_mention_ids:
+            coref_mention_id_to_entity_id[coref_mention_id] = \
+                    mention_key_to_id[mention_key]
+
+    word_loc_to_entity_id = {}
+
+    for (sent_idx, start_idx, end_idx), _id in mention_key_to_id.iteritems():
+        for curr_idx in range(start_idx, end_idx + 1):
+            word_loc_to_entity_id[(sent_idx, curr_idx)] = _id
+
+    for coref_id, coref_chain in corefs.iteritems():
+
+        entity_in_chain = None
+        for coref_mention_dict in coref_chain:
+            _id = coref_mention_dict['id']
+            if _id in coref_mention_id_to_entity_id:
+                entity_in_chain = coref_mention_id_to_entity_id[_id]
+                break
+
+        if entity_in_chain is not None:
+
+            for coref_mention_dict in coref_chain:
+                num_words = len(coref_mention_dict['text'].split())
+                if coref_mention_dict['type'] == 'PRONOMINAL' \
+                        and num_words == 1:
+                    sent_idx = coref_mention_dict['sentNum']
+                    start_idx = coref_mention_dict['startIndex']
+                    word_loc_to_entity_id[(sent_idx, start_idx)] = \
+                        entity_in_chain
+    return word_loc_to_entity_id
 
 
 def add_quotes(sentences, corefs, mentions_dictionary,

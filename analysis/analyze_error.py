@@ -36,8 +36,9 @@ def load_manual_ann(manual_path, art_id, annotator):
         name = sp_line[0]
         gender = sp_line[1]
         mentions_count = sp_line[2]
+        is_source = sp_line[3] == 'yes'
         num_quoted = sp_line[4]
-        info_dict[name] = (gender, mentions_count, num_quoted)
+        info_dict[name] = (gender, mentions_count, num_quoted, is_source)
 
     return info_dict
 
@@ -163,7 +164,7 @@ def dump_error(corenlp_fn, manual_path, output):
 
     KEYS = ['art_id', 'url', 'name', 'where', 'm_gender',
             'a_gender', 'm_count', 'a_count',
-            'm_quotes', 'a_quotes']
+            'm_quotes', 'a_quotes', 'm_source', 'a_source']
 
     with open(output, 'w') as output_f:
         output_f.write('{}\n'.format('\t'.join(KEYS)))
@@ -193,28 +194,31 @@ def dump_error(corenlp_fn, manual_path, output):
             for name in manual_ann:
                 to_print = {'art_id': art_id, 'url': art_data['url'],
                             'name': name}
-                m_gender, m_count, m_quotes = manual_ann[name]
+                m_gender, m_count, m_quotes, m_source = manual_ann[name]
+                to_print['m_count'] = m_count
+                to_print['m_source'] = m_source
+                to_print['m_quotes'] = m_quotes
+                to_print['m_gender'] = m_gender.lower()
                 if name in people_mentioned:
                     to_print['where'] = 'both'
                     a_count, (a_gender, _) = people_mentioned[name]
                     a_quotes = len(quotes[name])
                     m_count = 0 if len(m_count) == 0 else int(m_count)
                     m_quotes = 0 if len(m_quotes) == 0 else int(m_quotes)
-                    to_print['m_gender'] = m_gender.lower()
                     if type(a_gender) is str:
                         to_print['a_gender'] = a_gender.lower()
                     elif type(a_gender) is tuple:
                         to_print['a_gender'] = a_gender[0].lower()
                     else:
                         to_print['a_gender'] = None
-                    to_print['m_count'] = m_count
                     to_print['a_count'] = a_count
-                    to_print['m_quotes'] = m_quotes
                     to_print['a_quotes'] = a_quotes
-
+                    # sources[name] is a list of reasons why
+                    # name is a source; it's empty if
+                    # name is not a source.
+                    to_print['a_source'] = len(sources[name]) > 0
                 else:
                     to_print['where'] = 'manual_only'
-                    to_print['m_gender'] = m_gender
 
                 with open(output, 'a') as output_f:
                     for key in KEYS[:-1]:
@@ -236,6 +240,7 @@ def dump_error(corenlp_fn, manual_path, output):
                 to_print = {'art_id': art_id, 'url': art_data['url'],
                             'name': name, 'where': 'auto_only',
                             'a_gender': a_gender, 'a_count': a_count}
+                to_print['a_source'] = len(sources[name]) > 0
 
                 with open(output, 'a') as output_f:
                     for key in KEYS[:-1]:
