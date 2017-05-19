@@ -17,6 +17,8 @@ def index(request):
             count, (gender, method) = mention_info
             if gender is None:
                 gender = "Couldn't guess"
+            elif type(gender) is tuple:
+                gender = 'Unsure; most likely {}'.format(gender[0].lower())
             else:
                 gender = gender.title()
 
