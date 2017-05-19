@@ -3,7 +3,7 @@ title: "Error Analysis: GenderMeme May 19 2017"
 author: "Poorna Kumar"
 date: 5-19-2017
 output: 
-  html_document:
+  github_document:
     toc: true
     toc_depth: 6
 ---
