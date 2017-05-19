@@ -122,6 +122,13 @@ $(document).ready(function () {
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#precision-and-recall-for-person-identification">PRECISION AND RECALL FOR PERSON IDENTIFICATION</a></li>
+<li><a href="#recall-for-gender">RECALL FOR GENDER</a></li>
+<li><a href="#precision-for-gender">PRECISION FOR GENDER</a></li>
+</ul>
+</div>
 
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## Loading tidyverse: ggplot2
@@ -169,6 +176,8 @@ error_data &lt;-
 ##   m_quotes = col_integer(),
 ##   a_quotes = col_integer()
 ## )</code></pre>
+<div id="precision-and-recall-for-person-identification" class="section level2">
+<h2>PRECISION AND RECALL FOR PERSON IDENTIFICATION</h2>
 <pre class="r"><code>error_data &lt;-
   error_data %&gt;% 
   filter(!(a_gender == &quot;non-living&quot; &amp; where == &quot;auto_only&quot;)) %&gt;%
@@ -247,6 +256,9 @@ error_data &lt;-
 </tbody>
 </table>
 <p>We now examine the error rates for gender detection.</p>
+</div>
+<div id="recall-for-gender" class="section level2">
+<h2>RECALL FOR GENDER</h2>
 <p>First, let us look at those cases where a person was identified by automatically as well as manually. We restrict our attention to people who were identified as either <code>male</code> or <code>female</code>.</p>
 <pre class="r"><code>error_data %&gt;% 
   filter(where == &quot;both&quot;, m_gender %in% c(&quot;male&quot;, &quot;female&quot;)) %&gt;% 
@@ -975,6 +987,10 @@ error_data &lt;-
 </tbody>
 </table>
 <p>This table gives us true recall for genders. We probably need more data for Washington Post.</p>
+</div>
+<div id="precision-for-gender" class="section level2">
+<h2>PRECISION FOR GENDER</h2>
+</div>
 
 
 

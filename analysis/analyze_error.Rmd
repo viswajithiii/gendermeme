@@ -39,7 +39,11 @@ return_outlet <- function(url) {
 
 error_data <- 
   read_tsv('/Users/Poorna/Desktop/Box Sync/Gendermeme/gendermeme/annotated/manual/ann_dump_Fri_May_19_00_59_45_2017.tsv')
+```
 
+## PRECISION AND RECALL FOR PERSON IDENTIFICATION
+
+```{r}
 error_data <-
   error_data %>% 
   filter(!(a_gender == "non-living" & where == "auto_only")) %>%
@@ -64,6 +68,8 @@ error_data %>%
 ```
 
 We now examine the error rates for gender detection.
+
+## RECALL FOR GENDER
 
 First, let us look at those cases where a person was identified by automatically
 as well as manually. We restrict our attention to people who were identified as
@@ -180,3 +186,5 @@ error_data %>%
 ```
 
 This table gives us true recall for genders. We probably need more data for Washington Post.
+
+## PRECISION FOR GENDER
