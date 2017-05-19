@@ -990,6 +990,114 @@ error_data &lt;-
 </div>
 <div id="precision-for-gender" class="section level2">
 <h2>PRECISION FOR GENDER</h2>
+<p>Let’s see what our precision is for genders. That is, when we say someone is male, how often are they really male? Or when we say someone is female, how often are they really female? This should (hopefully) be easy to find.</p>
+<pre class="r"><code>error_data %&gt;% 
+  filter(
+    (where == &quot;auto_only&quot; | where == &quot;both&quot;),
+    outlet %in% c(&quot;NYT&quot;, &quot;Washington Post&quot;, &quot;TechCrunch&quot;),
+    a_gender %in% c(&quot;male&quot;, &quot;female&quot;)
+  ) %&gt;% 
+  group_by(outlet) %&gt;% 
+  count(a_gender, m_gender) %&gt;% 
+  mutate(m_gender = ifelse(is.na(m_gender), &quot;not a person&quot;, m_gender)) %&gt;% 
+  group_by(outlet, a_gender) %&gt;% 
+  summarize(
+    total = sum(n),
+    correct = sum(n[a_gender == m_gender]),
+    true_gender_opposite = sum(n[m_gender != a_gender &amp; m_gender %in% c(&quot;male&quot;, &quot;female&quot;)]),
+    not_a_person = sum(n[m_gender == &quot;not a person&quot;])
+  ) %&gt;% 
+  mutate(
+    precision = correct * 100 / total,
+    true_gender_opp_perc = true_gender_opposite * 100 / total,
+    not_a_person_perc = not_a_person * 100 / total
+  ) %&gt;% 
+  ungroup() %&gt;% 
+  kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">outlet</th>
+<th align="left">a_gender</th>
+<th align="right">total</th>
+<th align="right">correct</th>
+<th align="right">true_gender_opposite</th>
+<th align="right">not_a_person</th>
+<th align="right">precision</th>
+<th align="right">true_gender_opp_perc</th>
+<th align="right">not_a_person_perc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">NYT</td>
+<td align="left">female</td>
+<td align="right">111</td>
+<td align="right">90</td>
+<td align="right">10</td>
+<td align="right">11</td>
+<td align="right">81.08108</td>
+<td align="right">9.0090090</td>
+<td align="right">9.909910</td>
+</tr>
+<tr class="even">
+<td align="left">NYT</td>
+<td align="left">male</td>
+<td align="right">252</td>
+<td align="right">227</td>
+<td align="right">2</td>
+<td align="right">23</td>
+<td align="right">90.07937</td>
+<td align="right">0.7936508</td>
+<td align="right">9.126984</td>
+</tr>
+<tr class="odd">
+<td align="left">TechCrunch</td>
+<td align="left">female</td>
+<td align="right">7</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">71.42857</td>
+<td align="right">0.0000000</td>
+<td align="right">28.571429</td>
+</tr>
+<tr class="even">
+<td align="left">TechCrunch</td>
+<td align="left">male</td>
+<td align="right">44</td>
+<td align="right">31</td>
+<td align="right">0</td>
+<td align="right">12</td>
+<td align="right">70.45455</td>
+<td align="right">0.0000000</td>
+<td align="right">27.272727</td>
+</tr>
+<tr class="odd">
+<td align="left">Washington Post</td>
+<td align="left">female</td>
+<td align="right">17</td>
+<td align="right">12</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">70.58824</td>
+<td align="right">17.6470588</td>
+<td align="right">5.882353</td>
+</tr>
+<tr class="even">
+<td align="left">Washington Post</td>
+<td align="left">male</td>
+<td align="right">57</td>
+<td align="right">51</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">89.47368</td>
+<td align="right">1.7543860</td>
+<td align="right">5.263158</td>
+</tr>
+</tbody>
+</table>
+<p>Precision is not as good as recall. This is a little worrying: if recall was about the same for each gender, but precision were really high, we’d still have a good tool. If recall is high, but precision is low, we’re not in good shape.</p>
 </div>
 
 

@@ -188,3 +188,38 @@ error_data %>%
 This table gives us true recall for genders. We probably need more data for Washington Post.
 
 ## PRECISION FOR GENDER
+
+Let's see what our precision is for genders. That is, when we say someone is male,
+how often are they really male? Or when we say someone is female, how often are they 
+really female? This should (hopefully) be easy to find.
+
+```{r}
+error_data %>% 
+  filter(
+    (where == "auto_only" | where == "both"),
+    outlet %in% c("NYT", "Washington Post", "TechCrunch"),
+    a_gender %in% c("male", "female")
+  ) %>% 
+  group_by(outlet) %>% 
+  count(a_gender, m_gender) %>% 
+  mutate(m_gender = ifelse(is.na(m_gender), "not a person", m_gender)) %>% 
+  group_by(outlet, a_gender) %>% 
+  summarize(
+    total = sum(n),
+    correct = sum(n[a_gender == m_gender]),
+    true_gender_opposite = sum(n[m_gender != a_gender & m_gender %in% c("male", "female")]),
+    not_a_person = sum(n[m_gender == "not a person"])
+  ) %>% 
+  mutate(
+    precision = correct * 100 / total,
+    true_gender_opp_perc = true_gender_opposite * 100 / total,
+    not_a_person_perc = not_a_person * 100 / total
+  ) %>% 
+  ungroup() %>% 
+  kable()
+
+```
+
+Precision is not as good as recall. This is a little worrying: if recall was about 
+the same for each gender, but precision were really high, we'd still have a good 
+tool. If recall is high, but precision is low, we're not in good shape.
