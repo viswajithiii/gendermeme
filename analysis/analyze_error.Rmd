@@ -38,7 +38,7 @@ return_outlet <- function(url) {
 }
 
 error_data <- 
-  read_tsv('/Users/Poorna/Desktop/Box Sync/Gendermeme/gendermeme/annotated/manual/ann_dump_Fri_May_19_00_59_45_2017.tsv')
+  read_tsv('/Users/Poorna/Desktop/Box Sync/Gendermeme/gendermeme/annotated/manual/ann_dump_Fri_May_19_05_26_48_2017.tsv')
 ```
 
 ## PRECISION AND RECALL FOR PERSON IDENTIFICATION
@@ -217,9 +217,30 @@ error_data %>%
   ) %>% 
   ungroup() %>% 
   kable()
-
 ```
 
 Precision is not as good as recall. This is a little worrying: if recall was about 
 the same for each gender, but precision were really high, we'd still have a good 
 tool. If recall is high, but precision is low, we're not in good shape.
+
+## QUOTE DETECTION: PRECISION
+
+```{r}
+error_data %>% 
+  filter(where == "both") %>% 
+  mutate(
+    a_quotes_TF = a_quotes > 0,
+    m_quotes_TF = m_quotes > 0
+  ) %>% 
+  mutate(
+    a_quotes_TF = ifelse(is.na(a_quotes_TF), FALSE, TRUE),
+    m_quotes_TF = ifelse(is.na(m_quotes_TF), FALSE, TRUE)
+  ) %>% 
+  count(a_quotes_TF, m_quotes_TF) %>% 
+  kable()
+```
+
+The above results make no sense and are unacceptable. It doesn't make sense that
+there are no FALSE, TRUE rows, for example. 
+
+Everything has to be looked at more deeply.
