@@ -17,6 +17,8 @@ def index(request):
             count, (gender, method) = mention_info
             if gender is None:
                 gender = "Couldn't guess"
+            elif type(gender) is tuple:
+                gender = 'Unsure; most likely {}'.format(gender[0].lower())
             else:
                 gender = gender.title()
 
@@ -41,6 +43,8 @@ def index(request):
         sources = article_info[3]
         sources_info = []
         for person, reasons in sources.iteritems():
+            if len(reasons) == 0:
+                continue
             sources_info.append((person, '. '.join(reasons) + '.'))
 
         sources_info.sort(key=lambda x: mentions[x[0]][0], reverse=True)
