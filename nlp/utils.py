@@ -25,6 +25,9 @@ def annotate_corenlp(text, annotators=['pos'], output_format='json', port=9000):
         text = text.translate(UNICODE_ASCII_MAP).encode(
             'ascii', 'ignore')
 
+    # To replace double quotes with single quotes
+    text = text.replace("''", '"')
+
     nlp = StanfordCoreNLP('http://localhost:{}'.format(port))
     return nlp.annotate(text, properties={
         'annotators': ','.join(annotators),
