@@ -1,3 +1,6 @@
+library(tidyverse)
+library(stringr)
+
 return_outlet <- function(url) {
   if (str_detect(url, "techcrunch\\.c")) {
     return("TechCrunch")
@@ -14,11 +17,16 @@ return_outlet <- function(url) {
   if (str_detect(url, "bloomberg\\.c")) {
     return("Bloomberg")
   }
+  if (str_detect(url, "sacbee\\.c")) {
+    return("Sacramento Bee")
+  }
 }
 
-library(tidyverse)
+OLD <- '/Users/viswa/Desktop/Code/MG/gendermeme/annotated/manual/ann_dump_Fri_May_19_05_26_48_2017.tsv'
+NEW <- '/Users/viswa/Desktop/Code/MG/gendermeme/annotated/manual/ann_dump_Sun_Jul_16_12_44_28_2017.tsv'
+SR <- '/Users/viswa/Desktop/Code/MG/gendermeme/annotated/manual/ann_dump_sr.tsv'
 error_data <- 
-  read_tsv('/Users/Poorna/Desktop/Box Sync/Gendermeme/gendermeme/annotated/manual/ann_dump_Thu_May_18_23_47_36_2017.tsv')
+  read_tsv(SR)
 
 error_data <-
   error_data %>% 
@@ -37,3 +45,9 @@ error_data %>%
   mutate(precision = both / (auto_only + both), recall = both / (both + manual_only)) %>% 
   arrange(desc(n_articles))
 
+error_data %>%
+  filter(where == "both") %>%
+  unite(source_match, m_source, a_source) %>%
+  count(source_match) %>%
+  View()
+  

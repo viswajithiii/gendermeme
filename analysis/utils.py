@@ -37,6 +37,12 @@ CONF_KEYS = {
 }
 
 
+# In the dependencies part of the annotation, which of
+# the dependency objects do we use? Up to corenlp 3.6.0,
+# we were using collapsed-ccprocessed-dependencies
+DEPENDENCIES_KEY = 'enhancedPlusPlusDependencies'
+
+
 def get_gender(name, verbose=False):
     """
     Get the gender from a name.
@@ -319,7 +325,7 @@ def get_associated_adjectives(people, sentences, corefs):
 
         curr_sent_idx = i + 1  # Since CoreNLP uses 1-based indexing
         tokens = sentence['tokens']
-        deps = sentence['collapsed-ccprocessed-dependencies']
+        deps = sentence[DEPENDENCIES_KEY]
 
         for dep in deps:
             curr_dep_loc = (curr_sent_idx, dep['dependent'])
@@ -377,7 +383,7 @@ def get_associated_verbs(people, sentences, corefs):
 
         curr_sent_idx = i + 1  # Since CoreNLP uses 1-based indexing
         tokens = sentence['tokens']
-        deps = sentence['collapsed-ccprocessed-dependencies']
+        deps = sentence[DEPENDENCIES_KEY]
 
         for dep in deps:
             curr_loc = (curr_sent_idx, dep['dependent'])
@@ -414,7 +420,7 @@ def which_people_are_companies(people, sentences, corefs):
     for i, sentence in enumerate(sentences):
 
         curr_sent_idx = i + 1  # Since CoreNLP uses 1-based indexing
-        deps = sentence['collapsed-ccprocessed-dependencies']
+        deps = sentence[DEPENDENCIES_KEY]
 
         for dep in deps:
             curr_loc = (curr_sent_idx, dep['dependent'])
@@ -593,6 +599,7 @@ def get_people_mentioned_new(sentences, corefs):
     mark_companies_as_non_living(sentences, corefs, mentions_dictionary,
                                  mention_key_to_id, id_to_info)
 
+
     '''
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
@@ -767,7 +774,7 @@ def detect_relationships(mentions_dictionary, key_to_detect, sentences,
 
     sent_idx, start_pos, end_pos = key_to_detect
     curr_sentence = sentences[sent_idx - 1]
-    dep_parse = curr_sentence['collapsed-ccprocessed-dependencies']
+    dep_parse = curr_sentence[DEPENDENCIES_KEY]
 
     other_mentions_in_sentence = [key for key in mentions_dictionary if
                                   key[0] == sent_idx]
@@ -1058,7 +1065,8 @@ def merge_mentions(mentions_dictionary):
         id_to_info[_id] = {'name': longest_mention,
                            'gender': set_gender,
                            'gender_method': set_gender_method,
-                           'count': len(set_of_mentions)}
+                           'count': len(set_of_mentions),
+                           'mentions': set_of_mentions}
 
     return disjoint_sets_of_mentions, id_to_info, mention_key_to_id
 
@@ -1143,7 +1151,7 @@ def add_associated_verbs(sentences, corefs, mentions_dictionary,
 
         curr_sent_idx = i + 1  # Since CoreNLP uses 1-based indexing
         tokens = sentence['tokens']
-        deps = sentence['collapsed-ccprocessed-dependencies']
+        deps = sentence[DEPENDENCIES_KEY]
 
         for dep in deps:
             curr_word_loc = (curr_sent_idx, dep['dependent'])
@@ -1174,7 +1182,7 @@ def mark_companies_as_non_living(sentences, corefs, mentions_dictionary,
     for i, sentence in enumerate(sentences):
 
         curr_sent_idx = i + 1  # Since CoreNLP uses 1-based indexing
-        deps = sentence['collapsed-ccprocessed-dependencies']
+        deps = sentence[DEPENDENCIES_KEY]
 
         for dep in deps:
             curr_word_loc = (curr_sent_idx, dep['dependent'])
