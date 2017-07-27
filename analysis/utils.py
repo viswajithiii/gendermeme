@@ -599,6 +599,7 @@ def get_people_mentioned_new(sentences, corefs):
     mark_companies_as_non_living(sentences, corefs, mentions_dictionary,
                                  mention_key_to_id, id_to_info)
 
+
     '''
     print 'MENTIONS DICTIONARY:'
     pprint(mentions_dictionary)
@@ -1064,7 +1065,8 @@ def merge_mentions(mentions_dictionary):
         id_to_info[_id] = {'name': longest_mention,
                            'gender': set_gender,
                            'gender_method': set_gender_method,
-                           'count': len(set_of_mentions)}
+                           'count': len(set_of_mentions),
+                           'mentions': set_of_mentions}
 
     return disjoint_sets_of_mentions, id_to_info, mention_key_to_id
 
