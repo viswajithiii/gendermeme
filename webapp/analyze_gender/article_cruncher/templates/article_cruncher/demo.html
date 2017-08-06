@@ -1,28 +1,6 @@
-<!doctype html>
+{% extends "base.html" %}
 
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-
-    <title>GenderMeme</title>
-    <meta name="description" content="GenderMeme">
-    <meta name="author" content="Viswajith Venugopal">
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-  <!--[if lt IE 9]>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
-  <![endif]-->
-</head>
-
-<body>
+{% block content %}
     <div class="container">
 
         <div class="row">
@@ -36,9 +14,7 @@
                 {% csrf_token %}
                 <label for="Text to analyze">Enter your text to analyze here:</label>
                 <textarea name="articletext" class="form-control" rows="15">{{ article_text }}</textarea>
-                <div class="row col-md-offset-0" style="margin-top:5px">
-                <button type="submit" class="btn btn-primary .btn-lg">Submit</button>
-                </div>
+                <button type="submit" style="margin-top:5px" class="btn btn-primary .btn-lg">Submit</button>
                 </form>
             </div>
         </div>
@@ -91,6 +67,4 @@
             </div>
         </div>
     <div>
-</body>
-</html>
-
+{% endblock %}

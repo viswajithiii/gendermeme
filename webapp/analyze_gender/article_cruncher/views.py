@@ -5,6 +5,14 @@ from analysis.analysis import get_article_info
 
 
 def index(request):
+
+    return render(request, 'article_cruncher/home.html', locals())
+
+def demo(request):
+
+    if request.method == 'GET':
+        article_text = 'Ann Smith and her husband Jim went to the movies. "It was okay," he said.'
+
     if request.method == 'POST':
         print request.POST
         article_text = request.POST['articletext']
@@ -49,4 +57,4 @@ def index(request):
 
         sources_info.sort(key=lambda x: mentions[x[0]][0], reverse=True)
 
-    return render(request, 'article_cruncher/index.html', locals())
+    return render(request, 'article_cruncher/demo.html', locals())

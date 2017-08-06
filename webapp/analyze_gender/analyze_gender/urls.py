@@ -18,6 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^', include('article_cruncher.urls')),
-    url(r'^cruncher/', include('article_cruncher.urls')),
     url(r'^admin/', admin.site.urls),
 ]
