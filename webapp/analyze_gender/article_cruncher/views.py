@@ -12,7 +12,7 @@ def index(request):
 def demo(request):
 
     if request.method == 'GET':
-        article_text = 'Ann Smith and her husband Jim went to the movies. "It was okay," he said.'
+        article_text = 'Ann Smith and her husband Jim went to the movies. "It was okay," Mr. Smith said.'
 
     if request.method == 'POST':
         print request.POST
