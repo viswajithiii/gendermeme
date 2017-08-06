@@ -18,8 +18,6 @@ def demo(request):
         print request.POST
         article_text = request.POST['articletext']
         article_info = get_article_info(article_text, make_json=False)
-        from pprint import pprint
-        pprint(article_info)
 
         people_mentioned_info = []
         sources_info = []
@@ -51,11 +49,21 @@ def demo(request):
                 (_id, name, count, gender, method, adjectives))
 
             is_speaker, reasons = info_dict['is_speaker']
+            subject_of_reason = None
+            for reason in reasons['Reasons']:
+                if reason.startswith('Subject of'):
+                    subject_of_reason = reason
             if is_speaker:
-                sources_info.append(
-                    (_id, name, '; '.join(reasons['Reasons']) + '.'))
+                sources_info.append({
+                    'id': _id,
+                    'name': name,
+                    'num_words': len(info_dict['quotes']),
+                    'words': ''.join([token['before'] + token['originalText'] for
+                                       token in info_dict['quotes']]),
+                    'subject_of_reason': subject_of_reason
+                })
 
         people_mentioned_info.sort(key=lambda x: x[0])
-        sources_info.sort(key=lambda x: x[0])
+        sources_info.sort(key=lambda x: x['id'])
 
     return render(request, 'article_cruncher/demo.html', locals())

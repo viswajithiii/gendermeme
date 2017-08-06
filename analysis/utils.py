@@ -595,7 +595,7 @@ def get_people_mentioned_new(sentences, corefs):
                          mention_key_to_id, id_to_info)
 
     add_associated_adjectives(sentences, corefs, mentions_dictionary,
-                         mention_key_to_id, id_to_info)
+                              mention_key_to_id, id_to_info)
 
     tag_sources(id_to_info)
 

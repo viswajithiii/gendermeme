@@ -12,6 +12,7 @@
         <div class="row">
             <div class="col-md-9">
                 <p class="lead">Enter any piece of text (either some simple sentences, or an entire news article) below, and hit Submit. We will run our tool on it to identify the people mentioned, infer their genders, and figure out which of the people have a voice in it.</p>
+                <p> Please note that it can take 10-20 seconds or longer to process longer articles.</p>
             </div>
         </div>
         <div class="row">
@@ -59,19 +60,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for s_info in sources_info %}
+                    {% for elem in sources_info %}
                     <tr>
-                        {% for elem in s_info %}
-                        <td>{{ elem }}</td>
-                        {% endfor %}
+                        <td>{{ elem.id }}</td>
+                        <td>{{ elem.name }}</td>
+                        <td> {% if elem.num_words > 0 %}Quoted saying <a role="button" data-toggle="popover" title="Quotes" data-content="'{{ elem.words }}'"> {{ elem.num_words }} words</a>. {% endif %} {% if elem.subject_of_reason %} {{ elem.subject_of_reason }}. {% endif %} </td>
                     </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-
-
+                <script type="text/javascript">
+                $(function () {
+                  $('[data-toggle="popover"]').popover()
+                })
+                </script>
                 {% endif %}
             </div>
         </div>
-    <div>
+    </div>
 {% endblock %}
