@@ -8,6 +8,7 @@ def index(request):
 
     return render(request, 'article_cruncher/home.html', locals())
 
+
 def demo(request):
 
     if request.method == 'GET':
@@ -16,13 +17,15 @@ def demo(request):
     if request.method == 'POST':
         print request.POST
         article_text = request.POST['articletext']
-        article_info = get_article_info(article_text)
-        mentions = article_info[0]
-        adj_info = article_info[4]
+        article_info = get_article_info(article_text, make_json=False)
+        from pprint import pprint
+        pprint(article_info)
 
         people_mentioned_info = []
-        for person, mention_info in mentions.iteritems():
-            count, (gender, method) = mention_info
+        sources_info = []
+
+        for _id, info_dict in article_info.iteritems():
+            gender = info_dict['gender']
             if gender is None:
                 gender = "Couldn't guess"
             elif type(gender) is tuple:
@@ -30,6 +33,7 @@ def demo(request):
             else:
                 gender = gender.title()
 
+            method = info_dict['gender_method']
             if method is None:
                 method = "N/A"
             else:
@@ -39,22 +43,19 @@ def demo(request):
                     method = "Using coreference with gendered pronoun"
                 elif method == "HONORIFIC":
                     method = "Using Mr./Ms."
-            people_mentioned_info.append((person, count, gender, method,
-                                          ', '.join(a[0] for a in
-                                                    adj_info[person])))
 
-        people_mentioned_info.sort(key=lambda x: x[1], reverse=True)
+            name = info_dict['name']
+            count = info_dict['num_times_mentioned']
+            adjectives = ', '.join(info_dict['associated_adjs'])
+            people_mentioned_info.append(
+                (_id, name, count, gender, method, adjectives))
 
-        num_quotes = {k: len(v) for k, v in article_info[1].iteritems()}
-        associated_verbs = article_info[2]
+            is_speaker, reasons = info_dict['is_speaker']
+            if is_speaker:
+                sources_info.append(
+                    (_id, name, '; '.join(reasons['Reasons']) + '.'))
 
-        sources = article_info[3]
-        sources_info = []
-        for person, reasons in sources.iteritems():
-            if len(reasons) == 0:
-                continue
-            sources_info.append((person, '. '.join(reasons) + '.'))
-
-        sources_info.sort(key=lambda x: mentions[x[0]][0], reverse=True)
+        people_mentioned_info.sort(key=lambda x: x[0])
+        sources_info.sort(key=lambda x: x[0])
 
     return render(request, 'article_cruncher/demo.html', locals())

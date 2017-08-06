@@ -594,11 +594,13 @@ def get_people_mentioned_new(sentences, corefs):
     add_associated_verbs(sentences, corefs, mentions_dictionary,
                          mention_key_to_id, id_to_info)
 
+    add_associated_adjectives(sentences, corefs, mentions_dictionary,
+                         mention_key_to_id, id_to_info)
+
     tag_sources(id_to_info)
 
     mark_companies_as_non_living(sentences, corefs, mentions_dictionary,
                                  mention_key_to_id, id_to_info)
-
 
     '''
     print 'MENTIONS DICTIONARY:'
@@ -1137,6 +1139,52 @@ def tag_sources(id_to_info):
         if len(speaking_verbs) > 0:
             reasons.append('Subject of {}'.format(', '.join(speaking_verbs)))
         info_dict['is_source'] = (len(reasons) > 0, reasons)
+
+
+def add_associated_adjectives(sentences, corefs, mentions_dictionary,
+                              mention_key_to_id, id_to_info):
+    for entity_id in id_to_info:
+        id_to_info[entity_id]['associated_adjs'] = set()
+
+    word_loc_to_entity_id = _get_word_loc_to_entity_id(
+        corefs, mentions_dictionary, mention_key_to_id)
+
+    for i, sentence in enumerate(sentences):
+
+        curr_sent_idx = i + 1  # Since CoreNLP uses 1-based indexing
+        tokens = sentence['tokens']
+        deps = sentence[DEPENDENCIES_KEY]
+
+        for dep in deps:
+            curr_word_loc = (curr_sent_idx, dep['dependent'])
+            if curr_word_loc in word_loc_to_entity_id:
+
+                curr_entity_id = word_loc_to_entity_id[curr_word_loc]
+
+                # This captures things like "She is clever"
+                # which has a subject relationship from she to clever
+                # since 'is' is a copular verb.
+                if dep['dep'] in ['nsubj', 'nsubjpass']:
+                    gov_token = tokens[dep['governor'] - 1]
+                    if gov_token['pos'] == 'JJ':
+                        id_to_info[curr_entity_id]['associated_adjs'].add(
+                            gov_token['originalText'])
+            # TODO: Is this else necessary?
+            # It basically ensures that if the dependent corresponds to one
+            # of our persons, then we ignore the governor.
+            # Helps in some weird cases: given a phrase
+            # 'many other Republicans, like XYZ', it coreferences
+            # XYZ and many other Republicans, and so we start seeing links
+            # from many to other as a link characterizing XYZ.
+            else:
+                curr_gov_loc = (curr_sent_idx, dep['governor'])
+                if curr_gov_loc in word_loc_to_entity_id:
+                    curr_entity_id = word_loc_to_entity_id[curr_gov_loc]
+                    dep_token = tokens[dep['dependent'] - 1]
+
+                    if dep_token['pos'] == 'JJ':
+                        id_to_info[curr_entity_id]['associated_adjs'].add(
+                            dep_token['originalText'])
 
 
 def add_associated_verbs(sentences, corefs, mentions_dictionary,
