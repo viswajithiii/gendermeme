@@ -64,7 +64,7 @@
                     <tr>
                         <td>{{ elem.id }}</td>
                         <td>{{ elem.name }}</td>
-                        <td> {% if elem.num_words > 0 %}Quoted saying <a role="button" data-toggle="popover" title="Quotes" data-content="'{{ elem.words }}'"> {{ elem.num_words }} words</a>. {% endif %} {% if elem.subject_of_reason %} {{ elem.subject_of_reason }}. {% endif %} </td>
+                        <td> {% if elem.num_words > 0 %}Quoted saying <a role="button" data-toggle="popover" title="Quotes" data-content="'{{ elem.words }}'"> {{ elem.num_words }} tokens</a>. {% endif %} {% if elem.subject_of_reason %} {{ elem.subject_of_reason }}. {% endif %} </td>
                     </tr>
                     {% endfor %}
                     </tbody>
